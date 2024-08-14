@@ -6219,8 +6219,16 @@
 		(uuid "fee33b5c-ed55-4b67-9433-4a9513051dc9")
 	)
 	(no_connect
+		(at 55.626 187.706)
+		(uuid "08152877-c806-496e-aa0a-1b606bd90864")
+	)
+	(no_connect
 		(at 77.47 181.61)
 		(uuid "0eab983e-0634-4f7f-b251-f00292faa530")
+	)
+	(no_connect
+		(at 20.066 187.706)
+		(uuid "19e09dd6-16a4-42c1-a1c2-a592b83648f5")
 	)
 	(no_connect
 		(at 217.678 144.78)
@@ -6239,12 +6247,28 @@
 		(uuid "4f5b1555-133d-435c-811b-63a3c0e434bc")
 	)
 	(no_connect
+		(at 32.766 187.706)
+		(uuid "4f919156-e208-482e-b70c-bf43e956f49d")
+	)
+	(no_connect
 		(at 217.678 142.24)
 		(uuid "6b487ee9-6a40-40f8-b464-77d896c7ae0d")
 	)
 	(no_connect
+		(at 42.926 187.706)
+		(uuid "7622b3cc-707d-4866-82bd-28fed3617f7c")
+	)
+	(no_connect
+		(at 32.766 190.246)
+		(uuid "7b8165f1-e10d-4182-8abf-98716cb255c7")
+	)
+	(no_connect
 		(at 77.47 184.15)
 		(uuid "92896ab5-2484-4ad4-8c50-c28761e1804c")
+	)
+	(no_connect
+		(at 42.926 190.246)
+		(uuid "9f398b13-4ea2-4a1e-bcc4-0aed6349a609")
 	)
 	(no_connect
 		(at 266.446 45.466)
@@ -6255,8 +6279,16 @@
 		(uuid "ce85974d-22f7-477b-aaee-3ba28392044f")
 	)
 	(no_connect
+		(at 55.626 190.246)
+		(uuid "eb469c76-eb6d-45eb-b58c-698f69ab425a")
+	)
+	(no_connect
 		(at 64.77 184.15)
 		(uuid "efefa76a-3488-48d2-b85b-75be9b3ffcbd")
+	)
+	(no_connect
+		(at 20.066 190.246)
+		(uuid "f445dada-0aea-46a8-a922-4c2a8d91b932")
 	)
 	(wire
 		(pts
@@ -6347,6 +6379,16 @@
 			(type default)
 		)
 		(uuid "0a31e202-56a7-4bb4-b2ad-61dbd78e0926")
+	)
+	(wire
+		(pts
+			(xy 16.764 185.166) (xy 16.764 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0a7345ef-bdba-47a5-9955-0602d8dffb7c")
 	)
 	(wire
 		(pts
@@ -7100,6 +7142,16 @@
 	)
 	(wire
 		(pts
+			(xy 16.764 185.166) (xy 20.066 185.166)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5783fdfe-c89f-4d72-b2bc-856ec28a4b5f")
+	)
+	(wire
+		(pts
 			(xy 209.042 54.356) (xy 209.042 53.086)
 		)
 		(stroke
@@ -7550,6 +7602,16 @@
 	)
 	(wire
 		(pts
+			(xy 39.878 185.166) (xy 39.878 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "867d0c99-539b-49dc-94e2-1465a8433d3c")
+	)
+	(wire
+		(pts
 			(xy 87.63 140.716) (xy 87.63 141.986)
 		)
 		(stroke
@@ -7737,6 +7799,16 @@
 			(type default)
 		)
 		(uuid "9d55fa55-8fca-45ec-a385-ed2f6ca72658")
+	)
+	(wire
+		(pts
+			(xy 55.626 182.118) (xy 55.626 185.166)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9df4e1dd-5960-4d10-9a8c-3261d298243c")
 	)
 	(wire
 		(pts
@@ -8067,6 +8139,16 @@
 			(type default)
 		)
 		(uuid "c2919a38-deec-40d2-8c73-b10ac68d5ab9")
+	)
+	(wire
+		(pts
+			(xy 32.766 182.118) (xy 32.766 185.166)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c3be8b1e-2704-4c40-8943-58f1a1190a58")
 	)
 	(wire
 		(pts
@@ -8457,6 +8539,16 @@
 			(type default)
 		)
 		(uuid "edef0137-b2a7-4555-9a0e-cbd0f047f4ad")
+	)
+	(wire
+		(pts
+			(xy 39.878 185.166) (xy 42.926 185.166)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eee8a267-48e0-4f9f-b11e-221fd17e4826")
 	)
 	(wire
 		(pts
@@ -8854,6 +8946,17 @@
 		)
 		(uuid "1281ba0a-7cce-4495-b86a-404587300b1f")
 	)
+	(label "VOUT"
+		(at 55.626 182.118 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1306e26e-e30f-400b-a176-9b1b6d9412e3")
+	)
 	(label "DIO1"
 		(at 85.344 58.42 0)
 		(fields_autoplaced yes)
@@ -9227,6 +9330,17 @@
 			(justify left bottom)
 		)
 		(uuid "94616c6b-8d0e-41d3-a81c-387d648d5169")
+	)
+	(label "VOUT"
+		(at 32.766 182.118 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "94e591f5-54aa-4d8d-ac6b-724d25151944")
 	)
 	(label "VOUT"
 		(at 39.878 53.594 0)
@@ -10689,6 +10803,113 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector_Generic:Conn_02x03_Odd_Even")
+		(at 27.686 187.706 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "29a5550f-5cd7-474d-9992-55a70c1c9637")
+		(property "Reference" "J5"
+			(at 26.416 182.626 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Add-On"
+			(at 26.416 192.786 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical_SMD"
+			(at 27.686 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 27.686 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 27.686 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC#" "C3975148"
+			(at 27.686 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Proveedor" ""
+			(at 27.686 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "manf#" ""
+			(at 27.686 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b2b362fa-44ff-4e16-b5f0-b331a174d809")
+		)
+		(pin "2"
+			(uuid "26b86c4e-88b4-422e-b399-1a84d1aa2ed6")
+		)
+		(pin "3"
+			(uuid "7ea0b25f-8e14-4a73-8f98-d9af9a26c43d")
+		)
+		(pin "4"
+			(uuid "61ae347e-e043-4d02-ba96-3cfcc71e8886")
+		)
+		(pin "5"
+			(uuid "f797d4e7-41c1-47d7-9e57-e9a3e83ea395")
+		)
+		(pin "6"
+			(uuid "f002996f-7d4c-496e-af90-4d5de98574bf")
+		)
+		(instances
+			(project "eko-badge-2024"
+				(path "/cbc35911-95a1-4069-b06d-7962aadb895f"
+					(reference "J5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:Speaker")
 		(at 252.476 88.392 0)
 		(unit 1)
@@ -11523,6 +11744,72 @@
 			(project "eko-badge-2024"
 				(path "/cbc35911-95a1-4069-b06d-7962aadb895f"
 					(reference "D3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 16.764 185.42 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "43ce0615-f6b2-4e14-927b-33037bca3ace")
+		(property "Reference" "#PWR05"
+			(at 16.764 191.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 16.637 189.8142 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 16.764 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 16.764 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 16.764 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ce9dc8f0-8657-42f3-81c5-c65f25db61f3")
+		)
+		(instances
+			(project "eko-badge-2024"
+				(path "/cbc35911-95a1-4069-b06d-7962aadb895f"
+					(reference "#PWR05")
 					(unit 1)
 				)
 			)
@@ -12760,7 +13047,7 @@
 				(hide yes)
 			)
 		)
-		(property "manf#" "Display Oled Azul y Blanco 128×64 0.96″ I2C SSD1306"
+		(property "manf#" "Display OLED 128×32 0.91 I2C SSD1306 Blanco / Azul"
 			(at 137.16 186.69 0)
 			(effects
 				(font
@@ -13386,6 +13673,72 @@
 			(project "eko-badge-2024"
 				(path "/cbc35911-95a1-4069-b06d-7962aadb895f"
 					(reference "#PWR016")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 39.878 185.42 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "81aa0709-ae96-4d08-b988-d06732f15e7d")
+		(property "Reference" "#PWR012"
+			(at 39.878 191.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 39.751 189.8142 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 39.878 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 39.878 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 39.878 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5016a247-7f85-4ba9-9a1c-a4369473017c")
+		)
+		(instances
+			(project "eko-badge-2024"
+				(path "/cbc35911-95a1-4069-b06d-7962aadb895f"
+					(reference "#PWR012")
 					(unit 1)
 				)
 			)
@@ -14688,7 +15041,7 @@
 				(hide yes)
 			)
 		)
-		(property "manf#" "CR-03JL7---10K"
+		(property "manf#" ""
 			(at 217.424 74.422 0)
 			(effects
 				(font
@@ -14697,7 +15050,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC#" "C217281"
+		(property "LCSC#" "C912502"
 			(at 217.424 74.422 0)
 			(effects
 				(font
@@ -14991,6 +15344,113 @@
 			(project "eko-badge-2024"
 				(path "/cbc35911-95a1-4069-b06d-7962aadb895f"
 					(reference "#PWR030")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_02x03_Odd_Even")
+		(at 50.546 187.706 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c65d1f81-d2bf-40e5-9efe-05ef2d4ab2dd")
+		(property "Reference" "J6"
+			(at 49.276 182.626 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Add-On"
+			(at 49.276 192.786 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical_SMD"
+			(at 50.546 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 50.546 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 50.546 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC#" "C3975148"
+			(at 50.546 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Proveedor" ""
+			(at 50.546 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "manf#" ""
+			(at 50.546 187.706 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "71c8c7fa-e4dc-4f11-a83b-22e130a98002")
+		)
+		(pin "2"
+			(uuid "396cb978-74fc-4286-b225-44a15592e2d3")
+		)
+		(pin "3"
+			(uuid "d4f9d040-0931-423e-8538-ea93e481c0c9")
+		)
+		(pin "4"
+			(uuid "79b6d148-3281-48ab-b69b-bfd3243e4a46")
+		)
+		(pin "5"
+			(uuid "9717f442-e131-4a86-945d-3e1426ae448a")
+		)
+		(pin "6"
+			(uuid "f78cf8a2-9ccc-499b-a95b-c89f3c5a3bb3")
+		)
+		(instances
+			(project "eko-badge-2024"
+				(path "/cbc35911-95a1-4069-b06d-7962aadb895f"
+					(reference "J6")
 					(unit 1)
 				)
 			)
