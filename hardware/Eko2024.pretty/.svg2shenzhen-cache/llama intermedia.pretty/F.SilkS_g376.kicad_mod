@@ -1,10 +1,11 @@
-(module "llama intermedia" (layer F.Cu)
-(fp_text reference Ref** (at 0 0) (layer F.SilkS) hide
-(effects (font (size 1.27 1.27) (thickness 0.15)))
-)
-(fp_text value Val** (at 0 0) (layer F.SilkS) hide
-(effects (font (size 1.27 1.27) (thickness 0.15)))
-)
+(module LOGO (layer F.Cu)
+  (at 0 0)
+ (fp_text reference "G***" (at 0 0) (layer F.SilkS) hide
+  (effects (font (thickness 0.3)))
+  )
+  (fp_text value "LOGO" (at 0.75 0) (layer F.SilkS) hide
+  (effects (font (thickness 0.3)))
+  )
   (fp_poly (pts (xy -7.613200 -4.281868) (xy -6.592502 -4.281803) (xy -5.531693 -4.281695) (xy -4.430396 -4.281543) (xy -3.288236 -4.281349) (xy -2.104839 -4.281111) (xy -0.879828 -4.280832) (xy 0.280458 -4.280538)
      (xy 21.907500 -4.274826) (xy 21.907500 -1.418167) (xy 21.218919 -1.418167) (xy 21.029326 -1.418026) (xy 20.877725 -1.417450) (xy 20.759772 -1.416211) (xy 20.671125 -1.414080) (xy 20.607444 -1.410829)
      (xy 20.564384 -1.406229) (xy 20.537605 -1.400051) (xy 20.522765 -1.392068) (xy 20.515521 -1.382050) (xy 20.515127 -1.381125) (xy 20.505598 -1.330748) (xy 20.502179 -1.247410) (xy 20.504511 -1.139987)
