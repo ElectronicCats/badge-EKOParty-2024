@@ -83,7 +83,7 @@
 	(footprint "Eko2024:llama-2-flaca"
 		(layer "F.Cu")
 		(uuid "aee39182-3bd1-4755-a9d1-9a89ca8feb14")
-		(at 129.02 64.96)
+		(at 128.99 64.93)
 		(property "Reference" "Ref**"
 			(at 0 0 0)
 			(layer "F.SilkS")
@@ -308,7 +308,7 @@
 	(footprint "Eko2024:llama intermedia_Contorno"
 		(layer "F.Cu")
 		(uuid "ee3c85b8-5033-4ec9-b6c2-ed503ef902d1")
-		(at 129.01 64.95)
+		(at 129 64.93)
 		(property "Reference" "Ref**"
 			(at 0 0 0)
 			(layer "F.SilkS")
@@ -1323,8 +1323,8 @@
 	(zone
 		(net 0)
 		(net_name "")
-		(layer "Edge.Cuts")
-		(uuid "e7a44250-fb91-4bd3-bb08-4ba02e107ff0")
+		(layers "F&B.Cu")
+		(uuid "9c5865c1-0b9d-490a-a017-43721a7d95e9")
 		(hatch edge 0.5)
 		(connect_pads
 			(clearance 0)
@@ -1332,9 +1332,9 @@
 		(min_thickness 0.25)
 		(filled_areas_thickness no)
 		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads not_allowed)
+			(tracks allowed)
+			(vias allowed)
+			(pads allowed)
 			(copperpour not_allowed)
 			(footprints allowed)
 		)
@@ -1344,7 +1344,37 @@
 		)
 		(polygon
 			(pts
-				(xy 107.13 60.71) (xy 150.855558 60.697123) (xy 150.88 69.38) (xy 107.12 69.38) (xy 107.1 60.7)
+				(xy 146.96 63.3) (xy 142.16 63.29) (xy 142.16 64.76) (xy 140.87 64.76) (xy 140.86 66.15) (xy 139.28 66.2)
+				(xy 139.29 67.9) (xy 144.15 67.94) (xy 144.16 66.53) (xy 145.39 66.52) (xy 145.41 65.23) (xy 146.96 65.24)
+			)
+		)
+	)
+	(zone
+		(net 0)
+		(net_name "")
+		(layers "F&B.Cu")
+		(uuid "b6922a2f-1011-4f16-b435-c9b956304848")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(filled_areas_thickness no)
+		(keepout
+			(tracks allowed)
+			(vias allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+		)
+		(polygon
+			(pts
+				(xy 124.33 63.35) (xy 119.37 63.33) (xy 119.32 64.67) (xy 118.1 64.7) (xy 118 66.15) (xy 116.25 66.1)
+				(xy 116.26 68.05) (xy 121.78 68.03) (xy 121.78 66.58) (xy 123.01 66.58) (xy 123.06 65.29) (xy 124.33 65.24)
 			)
 		)
 	)
