@@ -14886,7 +14886,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Value" "RFM95W-868S2"
+		(property "Value" "RFM95W-915S2"
 			(at 220.1672 157.5308 0)
 			(effects
 				(font
