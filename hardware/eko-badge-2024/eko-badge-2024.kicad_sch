@@ -16070,7 +16070,7 @@
 				)
 			)
 		)
-		(property "Value" "0.75A"
+		(property "Value" "1A"
 			(at 153.162 114.9604 0)
 			(effects
 				(font
@@ -16105,7 +16105,7 @@
 				(hide yes)
 			)
 		)
-		(property "manf#" "MFU0805FF00750P100 "
+		(property "manf#" "MFU0805FF01000P100"
 			(at 153.162 117.348 0)
 			(effects
 				(font
@@ -16123,7 +16123,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC#" "C1972808"
+		(property "LCSC#" "C2649564"
 			(at 153.162 117.348 0)
 			(effects
 				(font

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Eko2024")(type "KiCad")(uri "C:/Users/elect/Documents/GitKraken/badge-EKOParty-2024/hardware/Eko2024.pretty")(options "")(descr ""))
+)
