@@ -10598,7 +10598,16 @@
 				(hide yes)
 			)
 		)
-		(property "Proveedor" "LCSC"
+		(property "Proveedor" "Mouser"
+			(at 220.218 93.218 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "manf#" "TPA321D"
 			(at 220.218 93.218 0)
 			(effects
 				(font
