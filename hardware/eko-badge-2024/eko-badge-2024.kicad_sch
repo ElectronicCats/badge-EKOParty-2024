@@ -4,6 +4,13 @@
 	(generator_version "8.0")
 	(uuid "cbc35911-95a1-4069-b06d-7962aadb895f")
 	(paper "A4")
+	(title_block
+		(title "Ekoparty 2024")
+		(date "2024-08-28")
+		(rev "1.0")
+		(company "ElectronicCats")
+		(comment 1 "Edgar Capuchino")
+	)
 	(lib_symbols
 		(symbol "Connector:Conn_01x04_Pin"
 			(pin_names
@@ -10979,7 +10986,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_1.27mm:PinHeader_1x02_P1.27mm_Vertical"
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
 			(at 252.476 93.472 0)
 			(effects
 				(font
@@ -12327,7 +12334,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Eko2024:SMA_EDGE"
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical"
 			(at 259.588 121.158 0)
 			(effects
 				(font
@@ -16015,7 +16022,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical"
+		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical_SMD"
 			(at 72.39 184.15 0)
 			(effects
 				(font
@@ -16042,7 +16049,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC#" "C124421"
+		(property "LCSC#" ""
 			(at 72.39 184.15 0)
 			(effects
 				(font
@@ -16051,7 +16058,7 @@
 				(hide yes)
 			)
 		)
-		(property "Proveedor" "Digikey"
+		(property "Proveedor" "DIGIKEY"
 			(at 72.39 184.15 0)
 			(effects
 				(font
@@ -16060,7 +16067,7 @@
 				(hide yes)
 			)
 		)
-		(property "manf#" "PPPC032LFBN-RC"
+		(property "manf#" "HLE-103-02-L-DV"
 			(at 72.39 184.15 0)
 			(effects
 				(font
