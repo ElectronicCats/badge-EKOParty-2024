@@ -10965,7 +10965,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "2ab0e6a9-f9db-4e85-889e-4fa1ea47094e")
 		(property "Reference" "LS1"
@@ -12314,7 +12314,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "558c0ed6-afd4-445f-a0ca-0d8c98daeac8")
 		(property "Reference" "AE1"
 			(at 257.683 119.253 0)
@@ -16022,7 +16022,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical_SMD"
+		(property "Footprint" "Eko2024:HARWIN_M20-7810345"
 			(at 72.39 184.15 0)
 			(effects
 				(font
@@ -16067,7 +16067,7 @@
 				(hide yes)
 			)
 		)
-		(property "manf#" "HLE-103-02-L-DV"
+		(property "manf#" "M20-7810345 "
 			(at 72.39 184.15 0)
 			(effects
 				(font
