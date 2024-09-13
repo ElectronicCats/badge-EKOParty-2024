@@ -10965,7 +10965,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2ab0e6a9-f9db-4e85-889e-4fa1ea47094e")
 		(property "Reference" "LS1"
