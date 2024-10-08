@@ -29,3 +29,7 @@ hardware/Template-KiCAD-Project-CI-backups/
 hardware/eko-badge-2024/eko-badge-2024-backups/
 
 *.zip
+
+build/
+.DS_Store
+/**/managed_components/
