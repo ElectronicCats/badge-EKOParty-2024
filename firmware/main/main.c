@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "badge_connect.h"
 #include "badge_link_module.h"
 #include "buzzer.h"
@@ -8,15 +7,16 @@
 #include "flash_fs.h"
 #include "flash_fs_screens.h"
 #include "keyboard_module.h"
+#include "leds.h"
 #include "menus_module.h"
 #include "open_thread.h"
 #include "preferences.h"
 #include "sd_card.h"
 #include "web_file_browser.h"
 #include "wifi_app.h"
-#include "leds.h"
+#include <stdio.h>
 
-static const char* TAG = "main";
+static const char *TAG = "main";
 
 void app_main() {
 #if !defined(CONFIG_MAIN_DEBUG)
@@ -37,7 +37,7 @@ void app_main() {
   keyboard_module_begin();
   menus_module_begin();
   preferences_put_bool("wifi_connected", false);
-  
+
   // Always start the console at the end
   cat_console_begin();
 }
