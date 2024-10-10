@@ -16,6 +16,7 @@
 #include "wifi_app.h"
 #include "neopixels_module.h"
 #include "neopixels_events.h"
+#include "lora_manager.h"
 
 
 static const char* TAG = "main";
@@ -37,6 +38,9 @@ void app_main() {
   neopixels_set_pixels(MAX_LED_NUMBER, 0, 0, 0);
   neopixels_refresh();
   neopixel_events_run_event(neopixel_scanning_event);
+  lora_module_begin();
+  buzzer_begin(11);
+  buzzer_play_for(1000);
   // Always start the console at the end
   cat_console_begin();
 }
