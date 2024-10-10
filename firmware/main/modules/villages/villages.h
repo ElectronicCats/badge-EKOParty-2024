@@ -2,22 +2,22 @@
 
 #include <stdio.h>
 
-#define HW_HACK_STR "HW_HACK"
-#define BIT_CANA_STR "BIT_CANA"
-#define BLUE_SPACE_STR "BLUE_SPACE"
-#define RED_TEAM_STR "RED_TEAM"
-#define CYB_FIN_STR "CYB_FIN"
-#define HAMPING_STR "HAMPING"
-#define BUG_BOU_SPA_STR "BUG_BOU_SPA"
-#define SOCIAL_ENG_STR "SOCIAL_ENG"
-#define PAT_SPACE_STR "PAT_SPACE"
-#define BLOCK_SEC_STR "BLOCK_SEC"
-#define DEV_SEC_OPS_STR "DEV_SEC_OPS"
-#define SASO_CONF_STR "SASO_CONF"
-#define CAR_HACK_STR "CAR_HACK"
-#define MOB_HACK_STR "MOB_HACK"
-#define EC_STR "EC"
-#define CHICHES_ASADO_STR "CHICHES_ASADO"
+#define HW_HACK_STR "Hardware Hacking"
+#define BIT_CANA_STR "A 1 bit de ir en cana"
+#define BLUE_SPACE_STR "BlueSpace"
+#define RED_TEAM_STR "Red Team"
+#define CYB_FIN_STR "CyberFinance"
+#define HAMPING_STR "Hamping"
+#define BUG_BOU_SPA_STR "Bug Bounty Space"
+#define SOCIAL_ENG_STR "Social Engineering"
+#define PAT_SPACE_STR "PatagonSpace"
+#define BLOCK_SEC_STR "Blockchain Security Space"
+#define DEV_SEC_OPS_STR "DevSecOps"
+#define SASO_CONF_STR "SASOConf"
+#define CAR_HACK_STR "CarHacking"
+#define MOB_HACK_STR "MobileHacking"
+#define EC_STR "Electronic Cats"
+#define CHICHES_ASADO_STR "Asado de Chiche"
 
 typedef enum {
   HW_HACK,
