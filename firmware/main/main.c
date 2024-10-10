@@ -7,8 +7,9 @@
 #include "flash_fs.h"
 #include "flash_fs_screens.h"
 #include "keyboard_module.h"
-#include "leds.h"
 #include "menus_module.h"
+#include "neopixels_events.h"
+#include "neopixels_module.h"
 #include "open_thread.h"
 #include "preferences.h"
 #include "sd_card.h"
@@ -23,12 +24,6 @@ void app_main() {
   esp_log_level_set(TAG, ESP_LOG_NONE);
 #endif
   preferences_begin();
-
-  bool stealth_mode = preferences_get_bool("stealth_mode", false);
-  if (!stealth_mode) {
-    leds_begin();
-  }
-  // Hardcoded for the dragon
   if (preferences_get_int("dp_select", 0) == 0) {
     preferences_put_int("dp_select", 5);
   }
@@ -37,7 +32,10 @@ void app_main() {
   keyboard_module_begin();
   menus_module_begin();
   preferences_put_bool("wifi_connected", false);
-
+  neopixels_module_begin();
+  neopixels_set_pixels(MAX_LED_NUMBER, 0, 0, 0);
+  neopixels_refresh();
+  neopixel_events_run_event(neopixel_scanning_event);
   // Always start the console at the end
   cat_console_begin();
 }
