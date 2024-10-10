@@ -34,3 +34,6 @@ build/
 .DS_Store
 /**/managed_components/
 .vscode/c_cpp_properties.json
+firmware/sdkconfig
+.vscode/settings.json
+firmware/dependencies.lock

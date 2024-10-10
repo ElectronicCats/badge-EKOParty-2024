@@ -15,6 +15,8 @@
  *
  ****************************************************************************/
 
+#include "ibeacon_scann.h"
+
 #include "nvs_flash.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -24,16 +26,22 @@
 #include "esp_bt.h"
 #include "esp_bt_defs.h"
 #include "esp_bt_main.h"
-#include "esp_gap_ble_api.h"
 #include "esp_gatt_defs.h"
 #include "esp_gattc_api.h"
-#include "esp_ibeacon_api.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "villages.h"
 
 static const char *DEMO_TAG = "IBEACON_DEMO";
 extern esp_ble_ibeacon_vendor_t vendor_config;
+static on_ibeacon_cb_t on_ibeacon_cb = NULL;
+
+static void on_ibeacon(esp_ble_ibeacon_t *ibeacon,
+                       esp_ble_gap_cb_param_t *scan_result) {
+  if (on_ibeacon_cb) {
+    on_ibeacon_cb(ibeacon, scan_result);
+  }
+}
 
 /// Declare static functions
 static void esp_gap_cb(esp_gap_ble_cb_event_t event,
@@ -46,16 +54,6 @@ static esp_ble_scan_params_t ble_scan_params = {
     .scan_interval = 0x50,
     .scan_window = 0x30,
     .scan_duplicate = BLE_SCAN_DUPLICATE_DISABLE};
-
-static uint8_t get_village_uuid_idx(uint8_t uuid[]) {
-  // TODO: RSSI FILTER
-  for (uint8_t i = 0; i < VILLAGES_COUNT; i++) {
-    if (!memcmp(village_uuids[i], uuid, ESP_UUID_LEN_128)) {
-      return i;
-    }
-  }
-  return -1;
-}
 
 static void esp_gap_cb(esp_gap_ble_cb_event_t event,
                        esp_ble_gap_cb_param_t *param) {
@@ -92,13 +90,7 @@ static void esp_gap_cb(esp_gap_ble_cb_event_t event,
         esp_ble_ibeacon_t *ibeacon_data =
             (esp_ble_ibeacon_t *)(scan_result->scan_rst.ble_adv);
         ESP_LOGI(DEMO_TAG, "----------iBeacon Found----------");
-        uint8_t village_idx =
-            get_village_uuid_idx(ibeacon_data->ibeacon_vendor.proximity_uuid);
-        if (village_idx != -1) {
-          printf("%s\n", villages_str[village_idx]);
-        } else {
-          printf("NOT RECOGNIZED\n");
-        }
+        on_ibeacon(ibeacon_data, scan_result);
         ESP_LOG_BUFFER_HEX("IBEACON_DEMO: Device address:",
                            scan_result->scan_rst.bda, ESP_BD_ADDR_LEN);
         ESP_LOG_BUFFER_HEX("IBEACON_DEMO: Proximity UUID:",
@@ -170,3 +162,5 @@ void ibeacon_scann_begin() {
 
   esp_ble_gap_set_scan_params(&ble_scan_params);
 }
+
+void ibeacon_scann_set_on_ibeacon_cb(on_ibeacon_cb_t cb) { on_ibeacon_cb = cb; }
