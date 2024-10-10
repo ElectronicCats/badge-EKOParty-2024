@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "badge_connect.h"
 #include "badge_link_module.h"
 #include "buzzer.h"
@@ -15,7 +17,6 @@
 #include "sd_card.h"
 #include "web_file_browser.h"
 #include "wifi_app.h"
-#include <stdio.h>
 
 static const char *TAG = "main";
 
