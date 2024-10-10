@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "badge_connect.h"
 #include "badge_link_module.h"
 #include "buzzer.h"
@@ -9,16 +10,15 @@
 #include "flash_fs_screens.h"
 #include "keyboard_module.h"
 #include "menus_module.h"
+#include "neopixels_events.h"
+#include "neopixels_module.h"
 #include "open_thread.h"
 #include "preferences.h"
 #include "sd_card.h"
 #include "web_file_browser.h"
 #include "wifi_app.h"
-#include "neopixels_module.h"
-#include "neopixels_events.h"
 
-
-static const char* TAG = "main";
+static const char *TAG = "main";
 
 void app_main() {
 #if !defined(CONFIG_MAIN_DEBUG)
