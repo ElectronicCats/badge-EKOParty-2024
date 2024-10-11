@@ -17,6 +17,7 @@
 #include "neopixels_module.h"
 #include "neopixels_events.h"
 #include "lora_manager.h"
+#include "llamaneitor.h"
 
 
 static const char* TAG = "main";
@@ -41,6 +42,7 @@ void app_main() {
   lora_module_begin();
   buzzer_begin(11);
   buzzer_play_for(1000);
+  llamaneitor_begin();
   // Always start the console at the end
-  cat_console_begin();
+  // cat_console_begin();
 }

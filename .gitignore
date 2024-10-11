@@ -33,3 +33,5 @@ hardware/eko-badge-2024/eko-badge-2024-backups/
 build/
 .DS_Store
 /**/managed_components/
+.vscode/**
+*.kicad_sch.lck

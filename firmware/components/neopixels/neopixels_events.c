@@ -6,7 +6,7 @@
 #include "neopixels_events.h"
 #include "neopixels_module.h"
 
-#define MAX_BRIGHTNESS_VALUE 50
+#define MAX_BRIGHTNESS_VALUE 25
 
 typedef struct {
   uint8_t r;
@@ -45,6 +45,22 @@ void neopixel_scanning_event() {
   }
 }
 
+void neopixel_llamaneitor_init(){
+  uint8_t neopixel_idx = 0;
+  while (1) {
+    neopixels_set_pixel(neopixel_idx, MAX_BRIGHTNESS_VALUE, MAX_BRIGHTNESS_VALUE, MAX_BRIGHTNESS_VALUE);
+    neopixels_refresh();
+
+    vTaskDelay(pdMS_TO_TICKS(50));
+    neopixels_set_pixels(MAX_LED_NUMBER, 0, 0, 0);
+    neopixels_refresh();
+    vTaskDelay(pdMS_TO_TICKS(100));
+
+    neopixel_idx = ++neopixel_idx < MAX_LED_NUMBER ? neopixel_idx : 0;
+    vTaskDelay(pdMS_TO_TICKS(200));
+  }
+}
+
 void neopixel_events_stop_event() {
   neopixels_set_pixels(MAX_LED_NUMBER, 0, 0, 0);
   neopixels_refresh();
@@ -53,5 +69,8 @@ void neopixel_events_stop_event() {
 }
 
 void neopixel_events_run_event(neopixel_event event) {
+  if(neopixel_event_handler != NULL) {
+    neopixel_events_stop_event();
+  }
   xTaskCreate(event, "effect_function", 2048, NULL, 5, &neopixel_event_handler);
 }
