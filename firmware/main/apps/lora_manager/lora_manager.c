@@ -19,6 +19,8 @@ void task_rx(void *p)
          for(int i=0; i<x; i++) {
             printf(" %02x", buf[i]);
          }
+         ESP_LOGI("lora", "Received: %s", buf);
+         printf("\n");
          lora_receive();
       }
       vTaskDelay(1);
@@ -27,8 +29,16 @@ void task_rx(void *p)
 
 void lora_module_begin()
 {
-   lora_init();
+   uint8_t err = lora_init();
+   if(err != 1){
+      ESP_LOGE("lora", "Error initializing lora module");
+      return;
+   }
    lora_set_frequency(915e6);
+   lora_set_spreading_factor(7);
+   lora_set_bandwidth(125e3);
+   lora_set_coding_rate(4);
+   lora_set_preamble_length(8);
    lora_enable_crc();
    xTaskCreate(&task_rx, "task_rx", 2048, NULL, 5, NULL);
 }
