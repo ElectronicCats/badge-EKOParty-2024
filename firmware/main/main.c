@@ -18,6 +18,7 @@
 #include "neopixels_events.h"
 #include "lora_manager.h"
 #include "llamaneitor.h"
+#include "sounds.h"
 
 
 static const char* TAG = "main";
@@ -40,9 +41,10 @@ void app_main() {
   neopixels_refresh();
   neopixel_events_run_event(neopixel_scanning_event);
   lora_module_begin();
+  buzzer_enable();
   buzzer_begin(11);
-  buzzer_play_for(1000);
-  llamaneitor_begin();
+  sounds_play_music();
+  // llamaneitor_begin();
   // Always start the console at the end
   // cat_console_begin();
 }
