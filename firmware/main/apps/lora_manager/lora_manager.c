@@ -4,6 +4,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "lora.h"
+#include "neopixels_events.h"
 
 uint8_t buf[32];
 
@@ -22,6 +23,7 @@ void task_rx(void *p)
          ESP_LOGI("lora", "Received: %s", buf);
          printf("\n");
          lora_receive();
+         // neopixel_events_run_event(neopixel_message_notify);
       }
       vTaskDelay(1);
    }

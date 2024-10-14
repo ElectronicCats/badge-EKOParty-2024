@@ -9,3 +9,4 @@ void neopixel_events_stop_event();
 void neopixel_events_run_event(neopixel_event event);
 
 void neopixel_llamaneitor_init();
+void neopixel_message_notify();

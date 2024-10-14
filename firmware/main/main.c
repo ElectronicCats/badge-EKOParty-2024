@@ -2,6 +2,7 @@
 #include "badge_connect.h"
 #include "badge_link_module.h"
 #include "buzzer.h"
+#include "oled_screen.h"
 #include "cat_console.h"
 #include "esp_log.h"
 #include "esp_timer.h"
@@ -43,8 +44,8 @@ void app_main() {
   lora_module_begin();
   buzzer_enable();
   buzzer_begin(11);
-  sounds_play_music();
-  // llamaneitor_begin();
+  // sounds_play_music();
+  llamaneitor_begin();
   // Always start the console at the end
   // cat_console_begin();
 }

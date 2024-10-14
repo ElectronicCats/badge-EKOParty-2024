@@ -1,23 +1,4 @@
 #pragma once
-static int c=261; 
-static int d=294;
-static int e=329;
-static int f=349;
-static int g=391;
-static int gS=415;
-static int a=440;
-static int aS=455;
-static int b=466;
-static int cH=523;
-static int cSH=554;
-static int dH=587;
-static int dSH=622;
-static int eH=659;
-static int fH=698;
-static int fSH=740;
-static int gH=783;
-static int gSH=830;
-static int aH=880;
 
 int notes[211] = {
   440, 349, 440, 349, 440, 349, 330, 392, 349, 392,
