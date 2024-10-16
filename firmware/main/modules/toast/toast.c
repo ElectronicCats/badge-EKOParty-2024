@@ -7,10 +7,31 @@
 #include "menus_module.h"
 #include "nvs_flash.h"
 #include "oled_screen.h"
+#include "preferences.h"
 
 void toast_exit();
 
 toast_ctx_t *ctx = NULL;
+
+static void toast_task();
+
+static void cooldown_task() {
+  while (--ctx->cooldown_time) {
+
+    preferences_put_ushort(COOLDOWN_MEM, ctx->cooldown_time);
+    // printf("TIME: %d\n", ctx->cooldown_time);
+    vTaskDelay(pdMS_TO_TICKS(1000));
+  }
+  vTaskDelete(NULL);
+}
+
+static void ctx_init() {
+  ctx = calloc(1, sizeof(toast_ctx_t));
+  ctx->cooldown_time = preferences_get_ushort(COOLDOWN_MEM, 0);
+  if (ctx->cooldown_time) {
+    xTaskCreate(cooldown_task, "vaccination_task", 2048, NULL, 10, NULL);
+  }
+}
 
 static void show_scaning_dots(uint8_t x, uint8_t page) {
   static uint8_t dots = 0;
@@ -27,7 +48,8 @@ static void show_waiting_screen() {
 }
 
 static void toast_task() {
-  while (ctx != NULL) {
+  ctx->waiting = true;
+  while (ctx->waiting) {
     show_waiting_screen();
     vTaskDelay(pdMS_TO_TICKS(200));
   }
@@ -48,13 +70,18 @@ static void toast_input_cb(uint8_t button_name, uint8_t button_event) {
 }
 
 static void lets_toast() {
-  printf("BRINDIS\n");
-  toast_exit();
+  if (!ctx->cooldown_time) {
+    printf("BRINDIS\n");
+    ctx->cooldown_time = COOLDOWN_TIME_S;
+    xTaskCreate(cooldown_task, "vaccination_task", 2048, NULL, 10, NULL);
+  } else {
+    printf("COOLING DOWN\n");
+  }
+  // toast_exit();
 }
 
 void toast_exit() {
-  free(ctx);
-  ctx = NULL;
+  ctx->waiting = false;
   //   menus_module_set_app_state(false, NULL);
   badge_pairing_set_callbacks(NULL, NULL, NULL);
   badge_pairing_deinit();
@@ -84,16 +111,20 @@ static void wifi_init() {
   ESP_ERROR_CHECK(esp_wifi_start());
 }
 
-void toast_begin() {
-  ctx = malloc(sizeof(toast_ctx_t));
-  wifi_init();
-  badge_connect_init();
-  badge_connect_register_recv_cb(ping_handler);
-  // badge_connect_set_ekoparty_badge();
+void toast_init() {
   badge_pairing_begin();
   badge_pairing_set_callbacks(lets_toast, NULL, NULL); // TODO
   badge_pairing_init();
   menus_module_set_app_state(true, toast_input_cb);
   badge_pairing_set_any_team();
   xTaskCreate(toast_task, "vaccination_task", 2048, NULL, 10, NULL);
+}
+
+void toast_begin() {
+  ctx_init();
+  wifi_init();
+  badge_connect_init();
+  badge_connect_register_recv_cb(ping_handler);
+  // badge_connect_set_ekoparty_badge();
+  toast_init();
 }
