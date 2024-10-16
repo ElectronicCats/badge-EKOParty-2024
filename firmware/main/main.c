@@ -1,28 +1,27 @@
-#include <stdio.h>
 #include "badge_connect.h"
 #include "badge_link_module.h"
 #include "buzzer.h"
-#include "oled_screen.h"
 #include "cat_console.h"
 #include "esp_log.h"
 #include "esp_timer.h"
 #include "flash_fs.h"
 #include "flash_fs_screens.h"
 #include "keyboard_module.h"
+#include "llamaneitor.h"
+#include "lora_manager.h"
 #include "menus_module.h"
+#include "neopixels_events.h"
+#include "neopixels_module.h"
+#include "oled_screen.h"
 #include "open_thread.h"
 #include "preferences.h"
 #include "sd_card.h"
+#include "sounds.h"
 #include "web_file_browser.h"
 #include "wifi_app.h"
-#include "neopixels_module.h"
-#include "neopixels_events.h"
-#include "lora_manager.h"
-#include "llamaneitor.h"
-#include "sounds.h"
+#include <stdio.h>
 
-
-static const char* TAG = "main";
+static const char *TAG = "main";
 
 void app_main() {
 #if !defined(CONFIG_MAIN_DEBUG)
