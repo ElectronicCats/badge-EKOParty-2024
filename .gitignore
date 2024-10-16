@@ -38,3 +38,5 @@ firmware/sdkconfig
 .vscode/settings.json
 firmware/dependencies.lock
 firmware/sdkconfig.old
+.vscode/**
+*.kicad_sch.lck

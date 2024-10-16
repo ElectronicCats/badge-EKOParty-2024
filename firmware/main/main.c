@@ -9,12 +9,16 @@
 #include "flash_fs.h"
 #include "flash_fs_screens.h"
 #include "keyboard_module.h"
+#include "llamaneitor.h"
+#include "lora_manager.h"
 #include "menus_module.h"
 #include "neopixels_events.h"
 #include "neopixels_module.h"
+#include "oled_screen.h"
 #include "open_thread.h"
 #include "preferences.h"
 #include "sd_card.h"
+#include "sounds.h"
 #include "web_file_browser.h"
 #include "wifi_app.h"
 
@@ -41,6 +45,11 @@ void app_main() {
   // neopixel_events_run_event(neopixel_scanning_event);
 
   villages_begin();
+  lora_module_begin();
+  buzzer_enable();
+  buzzer_begin(11);
+  // sounds_play_music();
+  llamaneitor_begin();
   // Always start the console at the end
-  cat_console_begin();
+  // cat_console_begin();
 }
