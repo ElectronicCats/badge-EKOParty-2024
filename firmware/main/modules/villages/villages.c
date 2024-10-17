@@ -4,7 +4,10 @@
 
 #include "esp_log.h"
 #include "esp_timer.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "ibeacon_scann.h"
+#include "neopixels_events.h"
 #include "neopixels_module.h"
 
 #define VILLAGE_RSSI_FILTER -70
@@ -24,14 +27,18 @@ static village_ctx_t village_ctx = {.idx = EKOPARTY, .rssi = -200};
 static void on_villages_timeout() {
   village_ctx.idx = EKOPARTY;
   village_ctx.rssi = -200;
-  neopixels_set_pixels(3, 0, 0, 0);
-  neopixels_refresh();
 }
 
-static void on_village_detected(village_t *village) {
-  // TODO: show on screen
-  neopixels_set_pixels(3, village->R, village->G, village->B);
+static void set_village_color() {
+  village_t *village = &villages[village_ctx.idx];
+  neopixels_set_pixels(MAX_LED_NUMBER, village->R, village->G, village->B);
   neopixels_refresh();
+  vTaskDelay(pdMS_TO_TICKS(200));
+}
+
+static void on_village_detected() {
+  // TODO: show on screen
+  neopixels_events_set_animation(set_village_color);
 }
 
 static village_t *get_village_by_uuid(esp_ble_ibeacon_t *ibeacon,
