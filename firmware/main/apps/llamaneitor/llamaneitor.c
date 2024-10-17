@@ -4,6 +4,7 @@
 #include "llamaneitor.h"
 #include "neopixels_events.h"
 #include "modals_module.h"
+#include "preferences.h"
 
 #define ITEMOFFSET       1
 #define ITEM_PAGE_OFFSET 1
@@ -26,7 +27,7 @@ static const general_menu_t history_cont_menu = {
 static const general_menu_t main_menu_game = {
     .menu_items = main_menu_items,
     .menu_count = MENU_GM_COUNT,
-    .menu_level = GENERAL_TREE_APP_MENU,
+    .menu_level = GENERAL_TREE_APP_SUBMENU,
 };
 
 
@@ -45,6 +46,7 @@ static void module_display_history() {
   uint16_t screen_title = 0;
   uint8_t scroll_pos = (4 * 2) + 2;
   
+  general_clear_screen();
   oled_screen_clear_buffer();
   genera_screen_display_card_information_nbc("", "");
   
@@ -69,7 +71,8 @@ static void module_display_history() {
 
 
 static void module_user_option(){
-  oled_screen_clear_buffer();
+  general_clear_screen();
+  oled_screen_clear();
   oled_screen_display_text("Quieres ayudar?", 0, 0, OLED_DISPLAY_NORMAL);
   if(current_item == 0){
     oled_screen_display_text("> Si", 0, 2, OLED_DISPLAY_INVERT);
@@ -81,7 +84,7 @@ static void module_user_option(){
 }
 
 static void module_display_character_selector(){
-  oled_screen_clear_buffer();
+  general_clear_screen();
   oled_screen_clear();
   oled_screen_display_text("Elige personaje", 0, 0, OLED_DISPLAY_NORMAL);
   uint8_t scroll_pos = (4 * 2) + 2;
@@ -113,6 +116,7 @@ static void module_cb_event_main_menu(uint8_t button_name, uint8_t button_event)
     case BUTTON_RIGHT:
       break;
     case BUTTON_LEFT:
+      menus_module_restart();
       break;
     default:
       break;
@@ -137,6 +141,9 @@ static void module_cb_event_character_selection(uint8_t button_name, uint8_t but
     case BUTTON_RIGHT:
       player_ctx.character_bitmap = characters[current_item];
       current_item = 0;
+      if(preferences_get_int("flogin", 0) == 0){
+        preferences_put_int("flogin", 1);
+      }
       menus_module_set_app_state(true, module_cb_event_main_menu);
       general_register_menu(&main_menu_game);
       general_screen_display_menu(current_item);
@@ -165,13 +172,13 @@ static void module_cb_event_user_selection(uint8_t button_name, uint8_t button_e
       break;
     case BUTTON_RIGHT:
       if(current_item == 1){
-      oled_screen_clear_buffer();
+      oled_screen_clear();
       oled_screen_display_text("Igual nos vas", 0, 1, OLED_DISPLAY_NORMAL);
-      oled_screen_display_text("Ayudar :)", 0, 1, OLED_DISPLAY_NORMAL); 
+      oled_screen_display_text("Ayudar :)", 0, 2, OLED_DISPLAY_NORMAL); 
       vTaskDelay(2000 / portTICK_PERIOD_MS);
       }
       current_history = history_cont_menu;
-      oled_screen_clear_buffer();
+      oled_screen_clear();
       menus_module_set_app_state(true, module_cb_event);
       neopixel_events_run_event(neopixel_scanning_event);
       current_item = 0;
@@ -204,6 +211,7 @@ static void module_cb_event(uint8_t button_name, uint8_t button_event) {
         menus_module_set_app_state(true, module_cb_event_character_selection);
         module_display_character_selector();
       }else{
+        general_clear_screen();
         menus_module_set_app_state(true, module_cb_event_user_selection);
         module_user_option();
       }
@@ -228,4 +236,10 @@ void llamaneitor_begin() {
   menus_module_set_app_state(true, module_cb_event);
   vTaskDelay(2000 / portTICK_PERIOD_MS);
   module_display_history();
+}
+
+void llamaneitor_menu_begin(){
+  menus_module_set_app_state(true, module_cb_event_main_menu);
+  general_register_menu(&main_menu_game);
+  general_screen_display_menu(current_item);
 }
