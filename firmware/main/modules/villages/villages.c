@@ -22,18 +22,24 @@ typedef struct {
   int8_t rssi;
 } village_ctx_t;
 
-static village_ctx_t village_ctx = {.idx = EKOPARTY, .rssi = -200};
+static village_ctx_t village_ctx = {.idx = EKOPARTY, .rssi = -100};
 
 static void on_villages_timeout() {
   village_ctx.idx = EKOPARTY;
-  village_ctx.rssi = -200;
+  village_ctx.rssi = -100;
 }
 
 static void set_village_color() {
   village_t *village = &villages[village_ctx.idx];
-  neopixels_set_pixels(MAX_LED_NUMBER, village->R, village->G, village->B);
+  uint8_t red = village->R;
+  uint8_t green = village->G;
+  uint8_t blue = village->B;
+  neopixels_set_pixels(MAX_LED_NUMBER, red, green, blue);
   neopixels_refresh();
   vTaskDelay(pdMS_TO_TICKS(200));
+  neopixels_set_pixels(MAX_LED_NUMBER, 0, 0, 0);
+  neopixels_refresh();
+  vTaskDelay(pdMS_TO_TICKS(500));
 }
 
 static void on_village_detected() {
