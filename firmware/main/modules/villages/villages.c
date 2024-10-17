@@ -27,6 +27,7 @@ static village_ctx_t village_ctx = {.idx = EKOPARTY, .rssi = -100};
 static void on_villages_timeout() {
   village_ctx.idx = EKOPARTY;
   village_ctx.rssi = -100;
+  neopixels_events_set_animation(neopixel_llamaneitor_init);
 }
 
 static void set_village_color() {
