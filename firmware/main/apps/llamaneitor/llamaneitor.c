@@ -1,5 +1,6 @@
 #include "llamaneitor.h"
 #include "esp_log.h"
+#include "llamaneitor_scenes.h"
 #include "menus_module.h"
 #include "modals_module.h"
 #include "neopixels_events.h"
@@ -25,11 +26,11 @@ static const general_menu_t history_cont_menu = {
     .menu_level = GENERAL_TREE_APP_MENU,
 };
 
-static const general_menu_t main_menu_game = {
-    .menu_items = main_menu_items,
-    .menu_count = MENU_GM_COUNT,
-    .menu_level = GENERAL_TREE_APP_SUBMENU,
-};
+// static const general_menu_t main_menu_game = {
+//     .menu_items = main_menu_items,
+//     .menu_count = MENU_GM_COUNT,
+//     .menu_level = GENERAL_TREE_APP_SUBMENU,
+// };
 
 static game_ctx_t player_ctx = {0};
 
@@ -42,16 +43,9 @@ static void module_cb_event_character_selection(uint8_t button_name,
                                                 uint8_t button_event);
 static void module_cb_event_main_menu(uint8_t button_name,
                                       uint8_t button_event);
-static void module_cb_event_user_inventary(uint8_t button_name,
-                                           uint8_t button_event);
 static void module_display_history();
 
-static void module_reset_app_state() {
-  current_item = 0;
-  menus_module_set_app_state(true, module_cb_event_main_menu);
-  general_register_menu(&main_menu_game);
-  general_screen_display_menu(current_item);
-}
+static void module_reset_app_state() { llamaneitor_scenes_main_menu(); }
 
 static void module_display_history() {
   uint16_t items_per_screen = 3;
@@ -108,78 +102,6 @@ static void module_display_character_selector() {
                              OLED_DISPLAY_NORMAL);
 }
 
-static void module_display_player_inventary() {
-  oled_screen_clear();
-  player_ctx.cats_unlocked[0] = cats_names[GM_CAT_1];
-  player_ctx.cats_unlocked[1] = cats_names[GM_CAT_2];
-  player_ctx.cats_unlocked[2] = cats_names[GM_CAT_3];
-  uint8_t scroll_pos = (4 * 2) + 2;
-  oled_screen_display_bitmap(simple_up_arrow_bmp, 118, 8, 8, 8,
-                             OLED_DISPLAY_NORMAL);
-  oled_screen_display_bitmap(simple_down_arrow_bmp, 118, 16, 8, 8,
-                             OLED_DISPLAY_NORMAL);
-  static general_menu_t inventary_menu = {
-      .menu_items = player_ctx.cats_unlocked,
-      .menu_count = GM_CATS_COUNT,
-      .menu_level = GENERAL_TREE_APP_INFORMATION,
-  };
-  general_register_scrolling_menu(&inventary_menu);
-  general_screen_display_scrolling_text_handler(module_reset_app_state);
-}
-
-static void module_cb_event_user_inventary(uint8_t button_name,
-                                           uint8_t button_event) {
-  if (button_event != BUTTON_PRESS_DOWN) {
-    return;
-  }
-  switch (button_name) {
-  case BUTTON_UP:
-    current_item = current_item > 0 ? current_item - 1 : (GM_CATS_COUNT - 1);
-    module_display_player_inventary();
-    break;
-  case BUTTON_DOWN:
-    current_item = current_item < (GM_CATS_COUNT - 1) ? current_item + 1 : 0;
-    module_display_player_inventary();
-    break;
-  case BUTTON_RIGHT:
-    break;
-  case BUTTON_LEFT:
-    current_item = 0;
-    menus_module_set_app_state(true, module_cb_event_main_menu);
-    general_screen_display_menu(current_item);
-    break;
-  default:
-    break;
-  }
-}
-
-static void module_cb_event_main_menu(uint8_t button_name,
-                                      uint8_t button_event) {
-  if (button_event != BUTTON_PRESS_DOWN) {
-    return;
-  }
-  switch (button_name) {
-  case BUTTON_UP:
-    current_item = current_item > 0 ? current_item - 1 : (MENU_COUNT - 1);
-    general_screen_display_menu(current_item);
-    break;
-  case BUTTON_DOWN:
-    current_item = current_item < (MENU_COUNT - 1) ? current_item + 1 : 0;
-    general_screen_display_menu(current_item);
-    break;
-  case BUTTON_RIGHT:
-    current_item = 0;
-    menus_module_set_app_state(true, module_cb_event_user_inventary);
-    module_display_player_inventary();
-    break;
-  case BUTTON_LEFT:
-    menus_module_restart();
-    break;
-  default:
-    break;
-  }
-}
-
 static void module_cb_event_character_selection(uint8_t button_name,
                                                 uint8_t button_event) {
   if (button_event != BUTTON_PRESS_DOWN) {
@@ -200,9 +122,7 @@ static void module_cb_event_character_selection(uint8_t button_name,
     if (preferences_get_int("flogin", 0) == 0) {
       preferences_put_int("flogin", 1);
     }
-    menus_module_set_app_state(true, module_cb_event_main_menu);
-    general_register_menu(&main_menu_game);
-    general_screen_display_menu(current_item);
+    llamaneitor_scenes_main_menu();
     break;
   case BUTTON_LEFT:
     break;
@@ -284,6 +204,7 @@ static void module_cb_event(uint8_t button_name, uint8_t button_event) {
   }
 }
 
+game_ctx_t *llamaneitor_get_game_ctx() { return &player_ctx; }
 void llamaneitor_begin() {
   neopixel_events_run_event(neopixel_llamaneitor_init);
   oled_screen_display_bitmap(llamaneitor_1, 16, 0, 64, 32, OLED_DISPLAY_NORMAL);
@@ -293,8 +214,4 @@ void llamaneitor_begin() {
   module_display_history();
 }
 
-void llamaneitor_menu_begin() {
-  menus_module_set_app_state(true, module_cb_event_main_menu);
-  general_register_menu(&main_menu_game);
-  general_screen_display_menu(current_item);
-}
+void llamaneitor_menu_begin() { llamaneitor_scenes_main_menu(); }
