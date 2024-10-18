@@ -9,7 +9,14 @@ typedef enum {
   GM_CAT_1 = 0,
   GM_CAT_2,
   GM_CAT_3,
+  GM_CATS_COUNT
 } game_cats_t;
+
+char* cats_names[GM_CATS_COUNT] = {
+  "Naranjo",
+  "Panterita",
+  "Pelon"
+};
 
 typedef struct {
   const unsigned char* bitmap;
@@ -19,7 +26,7 @@ typedef struct {
 
 typedef struct {
   epd_bitmap_props_t character_bitmap;
-  game_cats_t cats_unlocked;
+  char* cats_unlocked[GM_CATS_COUNT];
 } game_ctx_t;
 
 const unsigned char llamaneitor_1 [] = {

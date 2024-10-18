@@ -5,6 +5,7 @@
 #include "neopixels_events.h"
 #include "modals_module.h"
 #include "preferences.h"
+#include "sounds.h"
 
 #define ITEMOFFSET       1
 #define ITEM_PAGE_OFFSET 1
@@ -37,9 +38,17 @@ static general_menu_t current_history = history_menu;
 
 static void module_cb_event(uint8_t button_name, uint8_t button_event);
 static void module_cb_event_user_selection(uint8_t button_name, uint8_t button_event);
-static void module_cb_event_user_selection(uint8_t button_name, uint8_t button_event);
+static void module_cb_event_character_selection(uint8_t button_name, uint8_t button_event);
 static void module_cb_event_main_menu(uint8_t button_name, uint8_t button_event);
+static void module_cb_event_user_inventary(uint8_t button_name, uint8_t button_event);
 static void module_display_history();
+
+static void module_reset_app_state(){
+  current_item = 0;
+  menus_module_set_app_state(true, module_cb_event_main_menu);
+  general_register_menu(&main_menu_game);
+  general_screen_display_menu(current_item);
+}
 
 static void module_display_history() {
   uint16_t items_per_screen = 3;
@@ -95,7 +104,47 @@ static void module_display_character_selector(){
 }
 
 static void module_display_player_inventary(){
-  
+  oled_screen_clear();
+  player_ctx.cats_unlocked[0] = cats_names[GM_CAT_1];
+  player_ctx.cats_unlocked[1] = cats_names[GM_CAT_2];
+  player_ctx.cats_unlocked[2] = cats_names[GM_CAT_3];
+  uint8_t scroll_pos = (4 * 2) + 2;
+  oled_screen_display_bitmap(simple_up_arrow_bmp, 118, 8, 8, 8, OLED_DISPLAY_NORMAL);
+  oled_screen_display_bitmap(simple_down_arrow_bmp, 118, 16, 8, 8, OLED_DISPLAY_NORMAL);
+  static general_menu_t inventary_menu = {
+    .menu_items = player_ctx.cats_unlocked,
+    .menu_count = GM_CATS_COUNT,
+    .menu_level = GENERAL_TREE_APP_INFORMATION,
+  };
+  general_register_scrolling_menu(&inventary_menu);
+  general_screen_display_scrolling_text_handler(module_reset_app_state);
+}
+
+static void module_cb_event_user_inventary(uint8_t button_name, uint8_t button_event){
+  if (button_event != BUTTON_PRESS_DOWN) {
+    return;
+  }
+  switch (button_name) {
+    case BUTTON_UP:
+      current_item = current_item > 0 ? current_item - 1 : (GM_CATS_COUNT - 1);
+      module_display_player_inventary();
+      break;
+    case BUTTON_DOWN:
+      current_item = current_item < (GM_CATS_COUNT - 1)
+                       ? current_item + 1
+                       : 0;
+      module_display_player_inventary();
+      break;
+    case BUTTON_RIGHT:
+      break;
+    case BUTTON_LEFT:
+    current_item = 0;
+      menus_module_set_app_state(true, module_cb_event_main_menu);
+      general_screen_display_menu(current_item);
+      break;
+    default:
+      break;
+  }
 }
 
 static void module_cb_event_main_menu(uint8_t button_name, uint8_t button_event){
@@ -114,6 +163,9 @@ static void module_cb_event_main_menu(uint8_t button_name, uint8_t button_event)
       general_screen_display_menu(current_item);
       break;
     case BUTTON_RIGHT:
+      current_item = 0;
+      menus_module_set_app_state(true, module_cb_event_user_inventary);
+      module_display_player_inventary();
       break;
     case BUTTON_LEFT:
       menus_module_restart();
