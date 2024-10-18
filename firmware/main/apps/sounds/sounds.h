@@ -50,4 +50,5 @@ int times[] = {
   538, 298, 177, 134
 };
 
+void sounds_stop_music();
 void sounds_play_music();

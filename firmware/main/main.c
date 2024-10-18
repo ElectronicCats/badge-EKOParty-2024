@@ -48,8 +48,11 @@ void app_main() {
   lora_module_begin();
   buzzer_enable();
   buzzer_begin(11);
-  // sounds_play_music();
-  llamaneitor_begin();
+  // This to show the history on first boot and until the user completes the
+  // history
+  if (preferences_get_int("flogin", 0) == 0) {
+    llamaneitor_begin();
+  }
   // Always start the console at the end
   // cat_console_begin();
 }

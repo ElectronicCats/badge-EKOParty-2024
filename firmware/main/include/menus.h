@@ -24,6 +24,7 @@
 #include "wifi_module.h"
 #include "wifi_settings.h"
 #include "zigbee_module.h"
+#include "llamaneitor.h"
 
 typedef enum {
   MENU_MAIN = 0,
@@ -439,6 +440,13 @@ menu_t menus[] = {  //////////////////////////////////
      .on_exit_cb = NULL,
      .is_visible = true},
 #endif
+    {.display_name = "Llamaneitor",
+     .menu_idx = MENU_SBATTERY,
+     .parent_idx = MENU_APPLICATIONS,
+     .last_selected_submenu = 0,
+     .on_enter_cb = llamaneitor_menu_begin,
+     .on_exit_cb = NULL,
+     .is_visible = true},
     {.display_name = "Encontrar",
      .menu_idx = MENU_BADGE_FINDER,
      .parent_idx = MENU_APPLICATIONS,
