@@ -32,21 +32,18 @@ static int melody_times[] = {
     500, 500, 500, 350, 150, 500, 350, 150, 1000
 };
 
-static void play_sound(){
+void play_sound(uint32_t note, uint32_t time) {
+  buzzer_set_freq(note);
+  buzzer_play_for(time);
+  vTaskDelay(time / portTICK_PERIOD_MS);
+}
 
-  while(is_playing){
-    for (int i = 0; i < sizeof(melody_notes) / sizeof(melody_notes[0]); i++) {
-      buzzer_set_freq(melody_notes[i]);
-      buzzer_play_for(melody_times[i]);
-      vTaskDelay(melody_times[i] / portTICK_PERIOD_MS);
-    }
+void play_tango(){
+  for(int i = 0; i < 100; i++){
+    buzzer_set_freq(notes[i]);
+    buzzer_play_for(times[i]);
+    vTaskDelay(times[i] / portTICK_PERIOD_MS);
   }
-
-  // for(int i = 0; i < 60; i++){
-  //   buzzer_set_freq(notes[i]);
-  //   buzzer_play_for(times[i]);
-  //   vTaskDelay(times[i] / portTICK_PERIOD_MS);
-  // }
   buzzer_stop();
   vTaskDelete(NULL);
 }
@@ -57,5 +54,5 @@ void sounds_stop_music() {
 
 void sounds_play_music() {
   is_playing = true;
-  xTaskCreate(play_sound, "play_sound", 4096, NULL, 5, NULL);
+  xTaskCreate(play_tango, "play_sound", 4096, NULL, 5, NULL);
 }
