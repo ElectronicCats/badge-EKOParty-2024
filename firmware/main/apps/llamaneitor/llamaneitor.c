@@ -1,13 +1,13 @@
-#include "menus_module.h"
-#include "esp_log.h"
-#include "oled_screen.h"
 #include "llamaneitor.h"
-#include "neopixels_events.h"
+#include "esp_log.h"
+#include "menus_module.h"
 #include "modals_module.h"
+#include "neopixels_events.h"
+#include "oled_screen.h"
 #include "preferences.h"
 #include "sounds.h"
 
-#define ITEMOFFSET       1
+#define ITEMOFFSET 1
 #define ITEM_PAGE_OFFSET 1
 
 static uint16_t current_item = 0;
@@ -31,19 +31,22 @@ static const general_menu_t main_menu_game = {
     .menu_level = GENERAL_TREE_APP_SUBMENU,
 };
 
-
 static game_ctx_t player_ctx = {0};
 
 static general_menu_t current_history = history_menu;
 
 static void module_cb_event(uint8_t button_name, uint8_t button_event);
-static void module_cb_event_user_selection(uint8_t button_name, uint8_t button_event);
-static void module_cb_event_character_selection(uint8_t button_name, uint8_t button_event);
-static void module_cb_event_main_menu(uint8_t button_name, uint8_t button_event);
-static void module_cb_event_user_inventary(uint8_t button_name, uint8_t button_event);
+static void module_cb_event_user_selection(uint8_t button_name,
+                                           uint8_t button_event);
+static void module_cb_event_character_selection(uint8_t button_name,
+                                                uint8_t button_event);
+static void module_cb_event_main_menu(uint8_t button_name,
+                                      uint8_t button_event);
+static void module_cb_event_user_inventary(uint8_t button_name,
+                                           uint8_t button_event);
 static void module_display_history();
 
-static void module_reset_app_state(){
+static void module_reset_app_state() {
   current_item = 0;
   menus_module_set_app_state(true, module_cb_event_main_menu);
   general_register_menu(&main_menu_game);
@@ -54,15 +57,15 @@ static void module_display_history() {
   uint16_t items_per_screen = 3;
   uint16_t screen_title = 0;
   uint8_t scroll_pos = (4 * 2) + 2;
-  
+
   general_clear_screen();
   oled_screen_clear_buffer();
   genera_screen_display_card_information_nbc("", "");
-  
-  oled_screen_display_bitmap(simple_up_arrow_bmp, (128 - 10), scroll_pos, 8,
-                                 8, OLED_DISPLAY_NORMAL);
-  oled_screen_display_bitmap(simple_down_arrow_bmp, (128 - 10),
-                              scroll_pos + 8, 8, 8, OLED_DISPLAY_NORMAL);
+
+  oled_screen_display_bitmap(simple_up_arrow_bmp, (128 - 10), scroll_pos, 8, 8,
+                             OLED_DISPLAY_NORMAL);
+  oled_screen_display_bitmap(simple_down_arrow_bmp, (128 - 10), scroll_pos + 8,
+                             8, 8, OLED_DISPLAY_NORMAL);
 
   uint16_t end_index = current_item + items_per_screen;
   if (end_index > current_history.menu_count) {
@@ -70,177 +73,177 @@ static void module_display_history() {
   }
 
   for (uint16_t i = current_item; i < end_index; i++) {
-    oled_screen_display_text(
-        current_history.menu_items[i], 3,
-        (i - current_item) + (ITEMOFFSET + screen_title),
-        OLED_DISPLAY_NORMAL);
+    oled_screen_display_text(current_history.menu_items[i], 3,
+                             (i - current_item) + (ITEMOFFSET + screen_title),
+                             OLED_DISPLAY_NORMAL);
   }
   oled_screen_display_show();
 }
 
-
-static void module_user_option(){
+static void module_user_option() {
   general_clear_screen();
   oled_screen_clear();
   oled_screen_display_text("Quieres ayudar?", 0, 0, OLED_DISPLAY_NORMAL);
-  if(current_item == 0){
+  if (current_item == 0) {
     oled_screen_display_text("> Si", 0, 2, OLED_DISPLAY_INVERT);
     oled_screen_display_text("No", 0, 3, OLED_DISPLAY_NORMAL);
-  }else if(current_item == 1){
+  } else if (current_item == 1) {
     oled_screen_display_text("Si", 0, 2, OLED_DISPLAY_NORMAL);
     oled_screen_display_text("> No", 0, 3, OLED_DISPLAY_INVERT);
   }
 }
 
-static void module_display_character_selector(){
+static void module_display_character_selector() {
   general_clear_screen();
   oled_screen_clear();
   oled_screen_display_text("Elige personaje", 0, 0, OLED_DISPLAY_NORMAL);
   uint8_t scroll_pos = (4 * 2) + 2;
-  oled_screen_display_bitmap(simple_up_arrow_bmp, 118, 8, 8, 8, OLED_DISPLAY_NORMAL);
-  oled_screen_display_bitmap(simple_down_arrow_bmp, 118, 16, 8, 8, OLED_DISPLAY_NORMAL);
+  oled_screen_display_bitmap(simple_up_arrow_bmp, 118, 8, 8, 8,
+                             OLED_DISPLAY_NORMAL);
+  oled_screen_display_bitmap(simple_down_arrow_bmp, 118, 16, 8, 8,
+                             OLED_DISPLAY_NORMAL);
   epd_bitmap_props_t character_bitmap = characters[current_item];
-  oled_screen_display_bitmap(character_bitmap.bitmap, 32, 8, character_bitmap.width, character_bitmap.height, OLED_DISPLAY_NORMAL);
+  oled_screen_display_bitmap(character_bitmap.bitmap, 32, 8,
+                             character_bitmap.width, character_bitmap.height,
+                             OLED_DISPLAY_NORMAL);
 }
 
-static void module_display_player_inventary(){
+static void module_display_player_inventary() {
   oled_screen_clear();
   player_ctx.cats_unlocked[0] = cats_names[GM_CAT_1];
   player_ctx.cats_unlocked[1] = cats_names[GM_CAT_2];
   player_ctx.cats_unlocked[2] = cats_names[GM_CAT_3];
   uint8_t scroll_pos = (4 * 2) + 2;
-  oled_screen_display_bitmap(simple_up_arrow_bmp, 118, 8, 8, 8, OLED_DISPLAY_NORMAL);
-  oled_screen_display_bitmap(simple_down_arrow_bmp, 118, 16, 8, 8, OLED_DISPLAY_NORMAL);
+  oled_screen_display_bitmap(simple_up_arrow_bmp, 118, 8, 8, 8,
+                             OLED_DISPLAY_NORMAL);
+  oled_screen_display_bitmap(simple_down_arrow_bmp, 118, 16, 8, 8,
+                             OLED_DISPLAY_NORMAL);
   static general_menu_t inventary_menu = {
-    .menu_items = player_ctx.cats_unlocked,
-    .menu_count = GM_CATS_COUNT,
-    .menu_level = GENERAL_TREE_APP_INFORMATION,
+      .menu_items = player_ctx.cats_unlocked,
+      .menu_count = GM_CATS_COUNT,
+      .menu_level = GENERAL_TREE_APP_INFORMATION,
   };
   general_register_scrolling_menu(&inventary_menu);
   general_screen_display_scrolling_text_handler(module_reset_app_state);
 }
 
-static void module_cb_event_user_inventary(uint8_t button_name, uint8_t button_event){
+static void module_cb_event_user_inventary(uint8_t button_name,
+                                           uint8_t button_event) {
   if (button_event != BUTTON_PRESS_DOWN) {
     return;
   }
   switch (button_name) {
-    case BUTTON_UP:
-      current_item = current_item > 0 ? current_item - 1 : (GM_CATS_COUNT - 1);
-      module_display_player_inventary();
-      break;
-    case BUTTON_DOWN:
-      current_item = current_item < (GM_CATS_COUNT - 1)
-                       ? current_item + 1
-                       : 0;
-      module_display_player_inventary();
-      break;
-    case BUTTON_RIGHT:
-      break;
-    case BUTTON_LEFT:
+  case BUTTON_UP:
+    current_item = current_item > 0 ? current_item - 1 : (GM_CATS_COUNT - 1);
+    module_display_player_inventary();
+    break;
+  case BUTTON_DOWN:
+    current_item = current_item < (GM_CATS_COUNT - 1) ? current_item + 1 : 0;
+    module_display_player_inventary();
+    break;
+  case BUTTON_RIGHT:
+    break;
+  case BUTTON_LEFT:
     current_item = 0;
-      menus_module_set_app_state(true, module_cb_event_main_menu);
-      general_screen_display_menu(current_item);
-      break;
-    default:
-      break;
+    menus_module_set_app_state(true, module_cb_event_main_menu);
+    general_screen_display_menu(current_item);
+    break;
+  default:
+    break;
   }
 }
 
-static void module_cb_event_main_menu(uint8_t button_name, uint8_t button_event){
+static void module_cb_event_main_menu(uint8_t button_name,
+                                      uint8_t button_event) {
   if (button_event != BUTTON_PRESS_DOWN) {
     return;
   }
   switch (button_name) {
-    case BUTTON_UP:
-      current_item = current_item > 0 ? current_item - 1 : (MENU_COUNT - 1);
-      general_screen_display_menu(current_item);
-      break;
-    case BUTTON_DOWN:
-      current_item = current_item < (MENU_COUNT - 1)
-                       ? current_item + 1
-                       : 0;
-      general_screen_display_menu(current_item);
-      break;
-    case BUTTON_RIGHT:
-      current_item = 0;
-      menus_module_set_app_state(true, module_cb_event_user_inventary);
-      module_display_player_inventary();
-      break;
-    case BUTTON_LEFT:
-      menus_module_restart();
-      break;
-    default:
-      break;
+  case BUTTON_UP:
+    current_item = current_item > 0 ? current_item - 1 : (MENU_COUNT - 1);
+    general_screen_display_menu(current_item);
+    break;
+  case BUTTON_DOWN:
+    current_item = current_item < (MENU_COUNT - 1) ? current_item + 1 : 0;
+    general_screen_display_menu(current_item);
+    break;
+  case BUTTON_RIGHT:
+    current_item = 0;
+    menus_module_set_app_state(true, module_cb_event_user_inventary);
+    module_display_player_inventary();
+    break;
+  case BUTTON_LEFT:
+    menus_module_restart();
+    break;
+  default:
+    break;
   }
 }
 
-static void module_cb_event_character_selection(uint8_t button_name, uint8_t button_event){
+static void module_cb_event_character_selection(uint8_t button_name,
+                                                uint8_t button_event) {
   if (button_event != BUTTON_PRESS_DOWN) {
     return;
   }
   switch (button_name) {
-    case BUTTON_UP:
-      current_item = current_item > 0 ? current_item - 1 : (5 - 1);
-      module_display_character_selector();
-      break;
-    case BUTTON_DOWN:
-      current_item = current_item < (5 - 1)
-                       ? current_item + 1
-                       : 0;
-      module_display_character_selector();
-      break;
-    case BUTTON_RIGHT:
-      player_ctx.character_bitmap = characters[current_item];
-      current_item = 0;
-      if(preferences_get_int("flogin", 0) == 0){
-        preferences_put_int("flogin", 1);
-      }
-      menus_module_set_app_state(true, module_cb_event_main_menu);
-      general_register_menu(&main_menu_game);
-      general_screen_display_menu(current_item);
-      break;
-    case BUTTON_LEFT:
-      break;
-    default:
-      break;
+  case BUTTON_UP:
+    current_item = current_item > 0 ? current_item - 1 : (5 - 1);
+    module_display_character_selector();
+    break;
+  case BUTTON_DOWN:
+    current_item = current_item < (5 - 1) ? current_item + 1 : 0;
+    module_display_character_selector();
+    break;
+  case BUTTON_RIGHT:
+    player_ctx.character_bitmap = characters[current_item];
+    current_item = 0;
+    if (preferences_get_int("flogin", 0) == 0) {
+      preferences_put_int("flogin", 1);
+    }
+    menus_module_set_app_state(true, module_cb_event_main_menu);
+    general_register_menu(&main_menu_game);
+    general_screen_display_menu(current_item);
+    break;
+  case BUTTON_LEFT:
+    break;
+  default:
+    break;
   }
 }
 
-static void module_cb_event_user_selection(uint8_t button_name, uint8_t button_event) {
+static void module_cb_event_user_selection(uint8_t button_name,
+                                           uint8_t button_event) {
   if (button_event != BUTTON_PRESS_DOWN) {
     return;
   }
   switch (button_name) {
-    case BUTTON_UP:
-      current_item = current_item > 0 ? current_item - 1 : (2 - 1);
-      module_user_option();
-      break;
-    case BUTTON_DOWN:
-      current_item = current_item < (2 - 1)
-                       ? current_item + 1
-                       : 0;
-      module_user_option();
-      break;
-    case BUTTON_RIGHT:
-      if(current_item == 1){
+  case BUTTON_UP:
+    current_item = current_item > 0 ? current_item - 1 : (2 - 1);
+    module_user_option();
+    break;
+  case BUTTON_DOWN:
+    current_item = current_item < (2 - 1) ? current_item + 1 : 0;
+    module_user_option();
+    break;
+  case BUTTON_RIGHT:
+    if (current_item == 1) {
       oled_screen_clear();
       oled_screen_display_text("Igual nos vas", 0, 1, OLED_DISPLAY_NORMAL);
-      oled_screen_display_text("Ayudar :)", 0, 2, OLED_DISPLAY_NORMAL); 
+      oled_screen_display_text("Ayudar :)", 0, 2, OLED_DISPLAY_NORMAL);
       vTaskDelay(2000 / portTICK_PERIOD_MS);
-      }
-      current_history = history_cont_menu;
-      oled_screen_clear();
-      menus_module_set_app_state(true, module_cb_event);
-      neopixel_events_run_event(neopixel_scanning_event);
-      current_item = 0;
-      is_user_selection = true;
-      module_display_history();
-      break;
-    case BUTTON_LEFT:
-      break;
-    default:
-      break;
+    }
+    current_history = history_cont_menu;
+    oled_screen_clear();
+    menus_module_set_app_state(true, module_cb_event);
+    neopixel_events_run_event(neopixel_scanning_event);
+    current_item = 0;
+    is_user_selection = true;
+    module_display_history();
+    break;
+  case BUTTON_LEFT:
+    break;
+  default:
+    break;
   }
 }
 
@@ -249,35 +252,35 @@ static void module_cb_event(uint8_t button_name, uint8_t button_event) {
     return;
   }
   switch (button_name) {
-    case BUTTON_UP:
-    current_item = current_item > 0 ? current_item - 1 : (current_history.menu_count - 1);
+  case BUTTON_UP:
+    current_item =
+        current_item > 0 ? current_item - 1 : (current_history.menu_count - 1);
     module_display_history();
-      break;
-    case BUTTON_DOWN:
-    current_item = current_item < (current_history.menu_count - 1)
-                       ? current_item + 1
-                       : 0;
-    if(current_item == (current_history.menu_count - 1)){
+    break;
+  case BUTTON_DOWN:
+    current_item =
+        current_item < (current_history.menu_count - 1) ? current_item + 1 : 0;
+    if (current_item == (current_history.menu_count - 1)) {
       current_item = 0;
-      if(is_user_selection){
+      if (is_user_selection) {
         menus_module_set_app_state(true, module_cb_event_character_selection);
         module_display_character_selector();
-      }else{
+      } else {
         general_clear_screen();
         menus_module_set_app_state(true, module_cb_event_user_selection);
         module_user_option();
       }
-    }else{
+    } else {
       module_display_history();
     }
-      break;
-    case BUTTON_RIGHT:
-      current_item = 0;
-      break;
-    case BUTTON_LEFT:
-      break;
-    default:
-      break;
+    break;
+  case BUTTON_RIGHT:
+    current_item = 0;
+    break;
+  case BUTTON_LEFT:
+    break;
+  default:
+    break;
   }
 }
 
@@ -290,7 +293,7 @@ void llamaneitor_begin() {
   module_display_history();
 }
 
-void llamaneitor_menu_begin(){
+void llamaneitor_menu_begin() {
   menus_module_set_app_state(true, module_cb_event_main_menu);
   general_register_menu(&main_menu_game);
   general_screen_display_menu(current_item);
