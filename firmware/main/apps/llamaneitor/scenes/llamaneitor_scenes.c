@@ -2,6 +2,7 @@
 #include "bitmaps_general.h"
 #include "general_submenu.h"
 #include "inventory.h"
+#include "mision.h"
 #include "items.h"
 #include "llamaneitor.h"
 #include "menus_module.h"
@@ -32,6 +33,8 @@ static void main_menu_selection_handler(uint8_t selection) {
   case CHARACTER_OPTION:
     break;
   case MISSIONS_OPTION:
+    mision_register_cb_exit(llamaneitor_scenes_main_menu);
+    mision_begin();
     break;
   case INVENTORY_OPTION:
     llamaneitor_scenes_inventory();
