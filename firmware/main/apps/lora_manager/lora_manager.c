@@ -5,6 +5,9 @@
 #include "freertos/task.h"
 #include "lora.h"
 #include "neopixels_events.h"
+#include "stdint.h"
+#include "sounds.h"
+#include <string.h>
 
 uint8_t buf[32];
 
@@ -23,7 +26,24 @@ void task_rx(void *p)
          ESP_LOGI("lora", "Received: %s", buf);
          printf("\n");
          lora_receive();
-         // neopixel_events_run_event(neopixel_message_notify);
+         // Check if play sound command is present.
+         // If 'play_sound' is received, play the music.
+
+         char *command = strtok((char *)buf, ":");
+         if (command != NULL && strcmp(command, "play") == 0) {
+            // Extraer los parámetros
+            char *note_str = strtok(NULL, ":");
+            char *duration_str = strtok(NULL, ":");
+
+            if (note_str != NULL && duration_str != NULL) {
+               // Convertir los parámetros a enteros
+               uint32_t note = atoi(note_str);
+               uint32_t duration = atoi(duration_str);
+
+               // Llamar a la función para tocar el sonido
+               play_sound(note, duration);
+            }
+         }
       }
       vTaskDelay(1);
    }

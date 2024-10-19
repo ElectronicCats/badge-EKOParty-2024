@@ -208,7 +208,6 @@ game_ctx_t *llamaneitor_get_game_ctx() { return &player_ctx; }
 void llamaneitor_begin() {
   neopixel_events_run_event(neopixel_llamaneitor_init);
   oled_screen_display_bitmap(llamaneitor_1, 16, 0, 64, 32, OLED_DISPLAY_NORMAL);
-  // general_register_scrolling_menu(&history_menu);
   menus_module_set_app_state(true, module_cb_event);
   vTaskDelay(2000 / portTICK_PERIOD_MS);
   module_display_history();
