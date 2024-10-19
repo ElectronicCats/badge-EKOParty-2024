@@ -1,11 +1,11 @@
 #pragma once
-#include <stdbool.h>
-#include <stdio.h>
 #include "about_module.h"
 #include "hid_module.h"
 #include "spam_module.h"
 #include "trackers_module.h"
 #include "z_switch_module.h"
+#include <stdbool.h>
+#include <stdio.h>
 
 #include "badge_link_module.h"
 #include "badge_link_screens_module.h"
@@ -15,6 +15,7 @@
 #include "file_manager_module.h"
 #include "gps_module.h"
 #include "gps_screens.h"
+#include "llamaneitor_scenes.h"
 #include "open_thread_module.h"
 #include "ota_module.h"
 #include "sd_card_settings_module.h"
@@ -101,16 +102,16 @@ typedef enum {
   MENU_SETTINGS_SD_CARD_FORMAT,
   MENU_STEALTH_MODE,
   /* Menu count */
-  MENU_COUNT,  // Keep this at the end
+  MENU_COUNT, // Keep this at the end
 } menu_idx_t;
 
 typedef struct {
   menu_idx_t menu_idx;
   menu_idx_t parent_idx;
-  const char* display_name;
+  const char *display_name;
   uint8_t last_selected_submenu;
-  void* on_enter_cb;
-  void* on_exit_cb;
+  void *on_enter_cb;
+  void *on_exit_cb;
   bool is_visible;
 } menu_t;
 
@@ -120,11 +121,11 @@ typedef struct {
   uint8_t selected_submenu;
   uint8_t submenus_count;
   uint8_t menus_count;
-  uint8_t** submenus_idx;
+  uint8_t **submenus_idx;
   bool input_lock;
 } menus_manager_t;
 
-menu_t menus[] = {  //////////////////////////////////
+menu_t menus[] = { //////////////////////////////////
     {.display_name = "Must Not See This",
      .menu_idx = MENU_MAIN,
      .parent_idx = -1,
@@ -189,7 +190,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = NULL,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #ifdef CONFIG_WIFI_APP_ANALYZER
+#ifdef CONFIG_WIFI_APP_ANALYZER
     {.display_name = "Analyzer",
      .menu_idx = MENU_WIFI_ANALIZER,
      .parent_idx = MENU_WIFI_APPS,
@@ -232,8 +233,8 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = wifi_module_show_analyzer_help,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #endif
-  #ifdef CONFIG_WIFI_APP_DEAUTH
+#endif
+#ifdef CONFIG_WIFI_APP_DEAUTH
     {.display_name = "Deauth",
      .menu_idx = MENU_WIFI_DEAUTH,
      .parent_idx = MENU_WIFI_APPS,
@@ -241,8 +242,8 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = deauth_module_begin,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #endif
-  #ifdef CONFIG_WIFI_APP_DOS
+#endif
+#ifdef CONFIG_WIFI_APP_DOS
     {.display_name = "DoS",
      .menu_idx = MENU_WIFI_DOS,
      .parent_idx = MENU_WIFI_APPS,
@@ -250,7 +251,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = catdos_module_begin,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #endif
+#endif
 #endif
 #ifdef CONFIG_BLUETOOTH_APPS_ENABLE
     {.display_name = "Bluetooth",
@@ -260,7 +261,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = NULL,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #ifdef CONFIG_BLUETOOTH_APP_TRAKERS
+#ifdef CONFIG_BLUETOOTH_APP_TRAKERS
     {.display_name = "Trakers scan",
      .menu_idx = MENU_BLUETOOTH_TRAKERS_SCAN,
      .parent_idx = MENU_BLUETOOTH_APPS,
@@ -268,8 +269,8 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = trackers_module_begin,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #endif
-  #ifdef CONFIG_BLUETOOTH_APP_SPAM
+#endif
+#ifdef CONFIG_BLUETOOTH_APP_SPAM
     {.display_name = "Spam",
      .menu_idx = MENU_BLUETOOTH_SPAM,
      .parent_idx = MENU_BLUETOOTH_APPS,
@@ -277,8 +278,8 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = ble_module_begin,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #endif
-  #ifdef CONFIG_BLUETOOTH_APP_HID
+#endif
+#ifdef CONFIG_BLUETOOTH_APP_HID
     {.display_name = "HID",
      .menu_idx = MENU_BLUETOOTH_HID,
      .parent_idx = MENU_BLUETOOTH_APPS,
@@ -286,7 +287,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = hid_module_begin,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #endif
+#endif
 #endif
 #ifdef CONFIG_ZIGBEE_APPS_ENABLE
     {.display_name = "Zigbee",
@@ -296,7 +297,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = NULL,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #ifdef CONFIG_ZIGBEE_APP_SPOOFING
+#ifdef CONFIG_ZIGBEE_APP_SPOOFING
     {.display_name = "Spoofing",
      .menu_idx = MENU_ZIGBEE_SPOOFING,
      .parent_idx = MENU_ZIGBEE_APPS,
@@ -318,8 +319,8 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = NULL,
      .on_exit_cb = NULL,
      .is_visible = false},
-  #endif
-  #ifdef CONFIG_ZIGBEE_APP_SNIFFER
+#endif
+#ifdef CONFIG_ZIGBEE_APP_SNIFFER
     {.display_name = "Sniffer",
      .menu_idx = MENU_ZIGBEE_SNIFFER,
      .parent_idx = MENU_ZIGBEE_APPS,
@@ -327,7 +328,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = zigbee_module_sniffer_enter,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #endif
+#endif
 #endif
 #ifdef CONFIG_THREAD_APPS_ENABLE
     {.display_name = "Thread",
@@ -337,7 +338,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = NULL,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #ifdef CONFIG_THREAD_APP_BROADCAST
+#ifdef CONFIG_THREAD_APP_BROADCAST
     {.display_name = "Broadcast",
      .menu_idx = MENU_THREAD_BROADCAST,
      .parent_idx = MENU_THREAD_APPS,
@@ -345,8 +346,8 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = open_thread_module_broadcast_enter,
      .on_exit_cb = open_thread_module_exit,
      .is_visible = true},
-  #endif
-  #ifdef CONFIG_THREAD_APP_SNIFFER
+#endif
+#ifdef CONFIG_THREAD_APP_SNIFFER
     {.display_name = "Sniffer",
      .menu_idx = MENU_THREAD_SNIFFER,
      .parent_idx = MENU_THREAD_APPS,
@@ -361,7 +362,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = open_thread_module_sniffer_run,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #endif
+#endif
 #endif
 #ifdef CONFIG_GPS_APPS_ENABLE
     {.display_name = "GPS",
@@ -371,7 +372,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = NULL,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #ifdef CONFIG_GPS_APP_WARDRIVING
+#ifdef CONFIG_GPS_APP_WARDRIVING
     {.display_name = "Wardriving",
      .menu_idx = MENU_GPS_WARDRIVING,
      .parent_idx = MENU_GPS,
@@ -393,7 +394,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = wardriving_screens_show_help,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #endif
+#endif
     {.display_name = "Date & Time",
      .menu_idx = MENU_GPS_DATE_TIME,
      .parent_idx = MENU_GPS,
@@ -439,6 +440,13 @@ menu_t menus[] = {  //////////////////////////////////
      .on_exit_cb = NULL,
      .is_visible = true},
 #endif
+    {.display_name = "Llamaneitor",
+     .menu_idx = MENU_SBATTERY,
+     .parent_idx = MENU_APPLICATIONS,
+     .last_selected_submenu = 0,
+     .on_enter_cb = llamaneitor_scenes_main_menu,
+     .on_exit_cb = NULL,
+     .is_visible = true},
     {.display_name = "Encontrar",
      .menu_idx = MENU_BADGE_FINDER,
      .parent_idx = MENU_APPLICATIONS,
@@ -519,7 +527,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = NULL,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #ifdef CONFIG_FILE_MANAGER_LOCAL
+#ifdef CONFIG_FILE_MANAGER_LOCAL
     {.display_name = "Local",
      .menu_idx = MENU_FILE_MANAGER_LOCAL,
      .parent_idx = MENU_FILE_MANAGER,
@@ -527,8 +535,8 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = file_manager_module_init,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #endif
-  #ifdef CONFIG_FILE_MANAGER_WEB
+#endif
+#ifdef CONFIG_FILE_MANAGER_WEB
     {.display_name = "Web",
      .menu_idx = MENU_FILE_MANAGER_WEB,
      .parent_idx = MENU_FILE_MANAGER,
@@ -536,7 +544,7 @@ menu_t menus[] = {  //////////////////////////////////
      .on_enter_cb = web_file_browser_module_begin,
      .on_exit_cb = NULL,
      .is_visible = true},
-  #endif
+#endif
 #endif
     {.display_name = "Stealth Mode",
      .menu_idx = MENU_STEALTH_MODE,
