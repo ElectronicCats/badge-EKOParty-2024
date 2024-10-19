@@ -62,9 +62,10 @@ char* mision_2[MISION2_COUNT] = {
   "a los gatos les",
   "gustan los addons",
   "si tienes uno",
-  "tal vez les guste",
-  "mostraselos"
+  "tal vez les",
+  "guste verlo"
 };
 
 void mision_register_cb_exit(void* cb);
 void mision_begin();
+void mision_enter_code();

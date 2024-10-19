@@ -17,7 +17,8 @@
         "hid_screens.h": "c",
         "__node_handle": "c",
         "regex": "c",
-        "freertos.h": "c"
+        "freertos.h": "c",
+        "llamaneitor.h": "c"
     },
     "cmake.sourceDirectory": "/Users/seecwinter/Documents/Electronic_cats/Minino/firmware/components/buzzer"
 }

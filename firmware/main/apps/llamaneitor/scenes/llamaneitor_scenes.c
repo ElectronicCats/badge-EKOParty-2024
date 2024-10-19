@@ -23,10 +23,11 @@ llamaneitor_scenes_t llamaneitor_scenes_get_scene() { return current_scene; }
 typedef enum {
   CHARACTER_OPTION,
   MISSIONS_OPTION,
-  INVENTORY_OPTION
+  INVENTORY_OPTION,
+  MATRIX_OPTION
 } llamaneitor_main_menu_options;
 const char *llamaneitor_main_menu_items[] = {"Personaje", "Misiones",
-                                             "Inventario"};
+                                             "Inventario", "Matrix"};
 
 static void main_menu_selection_handler(uint8_t selection) {
   switch (selection) {
@@ -38,6 +39,10 @@ static void main_menu_selection_handler(uint8_t selection) {
     break;
   case INVENTORY_OPTION:
     llamaneitor_scenes_inventory();
+    break;
+  case MATRIX_OPTION:
+    mision_register_cb_exit(llamaneitor_scenes_main_menu);
+    mision_enter_code();
     break;
   default:
     break;
