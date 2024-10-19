@@ -4,6 +4,9 @@
 #include "general/general_screens.h"
 #include "mision.h"
 #include "oled_screen.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "llamaneitor.h"
 
 static uint8_t current_mision = 0;
 static const general_menu_t mision_menu = {
@@ -16,6 +19,11 @@ static const general_menu_t mision_1_menu = {
   .menu_count = MISION1_COUNT,
   .menu_level = GENERAL_TREE_APP_INFORMATION,
 };
+static const general_menu_t mision_2_menu = {
+  .menu_items = mision_2,
+  .menu_count = MISION2_COUNT,
+  .menu_level = GENERAL_TREE_APP_INFORMATION,
+};
 
 static void* exit_cb;
 
@@ -24,18 +32,29 @@ static void module_exit_app();
 
 static void module_exit_app(){
   current_mision = 0;
+  oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
+  oled_screen_display_text("Volvere..", 40, 2, OLED_DISPLAY_NORMAL);
+  vTaskDelay(pdMS_TO_TICKS(3000));
   menus_module_set_app_state(true, module_cb_event);
   general_register_menu(&mision_menu);
   general_screen_display_menu(current_mision);
 }
 
 static void mision_selection_handler(uint8_t selection) {
+  oled_screen_clear();
+  oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
+  oled_screen_display_text("El destino", 40, 1, OLED_DISPLAY_NORMAL);
+  oled_screen_display_text("no ha sido", 40, 2, OLED_DISPLAY_NORMAL);
+  oled_screen_display_text("escrito", 40, 3, OLED_DISPLAY_NORMAL);
+  vTaskDelay(pdMS_TO_TICKS(3000));
   switch (selection) {
   case MISION_1:
     general_register_scrolling_menu(&mision_1_menu);
     general_screen_display_scrolling_text_handler(module_exit_app);
     break;
   case MISION_2:
+    general_register_scrolling_menu(&mision_2_menu);
+    general_screen_display_scrolling_text_handler(module_exit_app);
     break;
   case MISION_3:
     break;
