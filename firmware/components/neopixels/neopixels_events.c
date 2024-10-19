@@ -67,7 +67,9 @@ void neopixel_llamaneitor_init() {
   vTaskDelay(pdMS_TO_TICKS(200));
 }
 
-void neopixel_events_stop_event() { npx_animation_ctx.is_running = false; }
+void neopixel_events_stop_event() { 
+  npx_animation_ctx.is_running = false; 
+}
 
 static void npx_task() {
   npx_animation_ctx.is_running = true;
@@ -79,8 +81,14 @@ static void npx_task() {
   vTaskDelete(NULL);
 }
 
+static void npx_task_run(){
+  xTaskCreate(npx_task, "effect_function", 2048, NULL, 5, NULL);
+}
+
 void neopixels_events_set_animation(neopixel_event event) {
+  neopixel_events_stop_event();
   npx_animation_ctx.animation = event;
+  npx_task_run();
 }
 
 void neopixels_events_set_notification(neopixel_event notification,

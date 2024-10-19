@@ -91,19 +91,19 @@ static void esp_gap_cb(esp_gap_ble_cb_event_t event,
             (esp_ble_ibeacon_t *)(scan_result->scan_rst.ble_adv);
         ESP_LOGI(DEMO_TAG, "----------iBeacon Found----------");
         on_ibeacon(ibeacon_data, scan_result);
-        ESP_LOG_BUFFER_HEX("IBEACON_DEMO: Device address:",
-                           scan_result->scan_rst.bda, ESP_BD_ADDR_LEN);
-        ESP_LOG_BUFFER_HEX("IBEACON_DEMO: Proximity UUID:",
-                           ibeacon_data->ibeacon_vendor.proximity_uuid,
-                           ESP_UUID_LEN_128);
+        // ESP_LOG_BUFFER_HEX("IBEACON_DEMO: Device address:",
+                          //  scan_result->scan_rst.bda, ESP_BD_ADDR_LEN);
+        // ESP_LOG_BUFFER_HEX("IBEACON_DEMO: Proximity UUID:",
+                          //  ibeacon_data->ibeacon_vendor.proximity_uuid,
+                          //  ESP_UUID_LEN_128);
 
         uint16_t major = ENDIAN_CHANGE_U16(ibeacon_data->ibeacon_vendor.major);
         uint16_t minor = ENDIAN_CHANGE_U16(ibeacon_data->ibeacon_vendor.minor);
-        ESP_LOGI(DEMO_TAG, "Major: 0x%04x (%d)", major, major);
-        ESP_LOGI(DEMO_TAG, "Minor: 0x%04x (%d)", minor, minor);
-        ESP_LOGI(DEMO_TAG, "Measured power (RSSI at a 1m distance):%d dbm",
-                 ibeacon_data->ibeacon_vendor.measured_power);
-        ESP_LOGI(DEMO_TAG, "RSSI of packet:%d dbm", scan_result->scan_rst.rssi);
+        // ESP_LOGI(DEMO_TAG, "Major: 0x%04x (%d)", major, major);
+        // ESP_LOGI(DEMO_TAG, "Minor: 0x%04x (%d)", minor, minor);
+        // ESP_LOGI(DEMO_TAG, "Measured power (RSSI at a 1m distance):%d dbm",
+                //  ibeacon_data->ibeacon_vendor.measured_power);
+        // ESP_LOGI(DEMO_TAG, "RSSI of packet:%d dbm", scan_result->scan_rst.rssi);
       }
       break;
     default:
