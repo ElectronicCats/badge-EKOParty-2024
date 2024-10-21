@@ -89,18 +89,18 @@ static void module_user_option() {
 }
 
 static void module_display_character_selector() {
-  general_clear_screen();
-  oled_screen_clear();
-  oled_screen_display_text("Elige personaje", 0, 0, OLED_DISPLAY_NORMAL);
-  uint8_t scroll_pos = (4 * 2) + 2;
-  oled_screen_display_bitmap(simple_up_arrow_bmp, 118, 8, 8, 8,
+  oled_screen_clear_buffer();
+  oled_screen_display_text_center("Elige personaje", 0, OLED_DISPLAY_NORMAL);
+  oled_screen_display_bitmap(simple_up_arrow_bmp, 20, 14, 8, 8,
                              OLED_DISPLAY_NORMAL);
-  oled_screen_display_bitmap(simple_down_arrow_bmp, 118, 16, 8, 8,
+  oled_screen_display_bitmap(simple_down_arrow_bmp, 20, 22, 8, 8,
                              OLED_DISPLAY_NORMAL);
   epd_bitmap_props_t character_bitmap = characters[current_item];
-  oled_screen_display_bitmap(character_bitmap.bitmap, 32, 8,
+  uint8_t x = 64 - character_bitmap.width / 2;
+  oled_screen_display_bitmap(character_bitmap.bitmap, x, 8,
                              character_bitmap.width, character_bitmap.height,
                              OLED_DISPLAY_NORMAL);
+  oled_screen_display_show();
 }
 
 static void module_cb_event_character_selection(uint8_t button_name,
