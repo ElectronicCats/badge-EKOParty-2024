@@ -109,11 +109,11 @@ static void module_cb_event_character_selection(uint8_t button_name,
   }
   switch (button_name) {
   case BUTTON_UP:
-    current_item = current_item > 0 ? current_item - 1 : (5 - 1);
+    current_item = current_item > 0 ? current_item - 1 : (CHARS_NUM - 1);
     module_display_character_selector();
     break;
   case BUTTON_DOWN:
-    current_item = current_item < (5 - 1) ? current_item + 1 : 0;
+    current_item = current_item < (CHARS_NUM - 1) ? current_item + 1 : 0;
     module_display_character_selector();
     break;
   case BUTTON_RIGHT:
