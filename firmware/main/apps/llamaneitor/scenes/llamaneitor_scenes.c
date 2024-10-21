@@ -1,11 +1,12 @@
 #include "llamaneitor_scenes.h"
 #include "bitmaps_general.h"
+#include "character.h"
 #include "general_submenu.h"
 #include "inventory.h"
-#include "mision.h"
 #include "items.h"
 #include "llamaneitor.h"
 #include "menus_module.h"
+#include "mision.h"
 #include "oled_screen.h"
 
 static llamaneitor_scenes_t current_scene = 0;
@@ -32,6 +33,7 @@ const char *llamaneitor_main_menu_items[] = {"Personaje", "Misiones",
 static void main_menu_selection_handler(uint8_t selection) {
   switch (selection) {
   case CHARACTER_OPTION:
+    character_open_profile();
     break;
   case MISSIONS_OPTION:
     mision_register_cb_exit(llamaneitor_scenes_main_menu);

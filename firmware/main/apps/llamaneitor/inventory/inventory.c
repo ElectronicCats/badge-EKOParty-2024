@@ -23,3 +23,8 @@ void inventory_unlock_item(uint8_t item) {
   cat_items[item].unlocked = true;
   inventory_save_items();
 }
+
+void inventory_drop_item(uint8_t item) {
+  cat_items[item].unlocked = false;
+  inventory_save_items();
+}

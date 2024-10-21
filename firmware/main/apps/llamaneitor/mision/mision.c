@@ -5,6 +5,7 @@
 #include "freertos/task.h"
 #include "general/general_screens.h"
 #include "general_submenu.h"
+#include "inventory.h"
 #include "items.h"
 #include "llamaneitor.h"
 #include "menus_module.h"
@@ -59,7 +60,7 @@ static void module_validate_code() {
     oled_screen_display_text("Gato", 40, 1, OLED_DISPLAY_NORMAL);
     oled_screen_display_text(CAT1_STR, 40, 2, OLED_DISPLAY_NORMAL);
     oled_screen_display_text("Desbloqueado", 40, 3, OLED_DISPLAY_NORMAL);
-    preferences_put_bool("item1", true);
+    inventory_unlock_item(GM_CAT_1);
     vTaskDelay(pdMS_TO_TICKS(3000));
     if (exit_cb != NULL) {
       ((void (*)(void))exit_cb)();
@@ -74,7 +75,7 @@ static void module_validate_code() {
     oled_screen_display_text("Gato", 40, 1, OLED_DISPLAY_NORMAL);
     oled_screen_display_text(CAT2_STR, 40, 2, OLED_DISPLAY_NORMAL);
     oled_screen_display_text("Desbloqueado", 40, 3, OLED_DISPLAY_NORMAL);
-    preferences_put_bool("item2", true);
+    inventory_unlock_item(GM_CAT_2);
     vTaskDelay(pdMS_TO_TICKS(3000));
     if (exit_cb != NULL) {
       ((void (*)(void))exit_cb)();
@@ -89,7 +90,7 @@ static void module_validate_code() {
     oled_screen_display_text("Gato", 40, 1, OLED_DISPLAY_NORMAL);
     oled_screen_display_text(CAT3_STR, 40, 2, OLED_DISPLAY_NORMAL);
     oled_screen_display_text("Desbloqueado", 40, 3, OLED_DISPLAY_NORMAL);
-    preferences_put_bool("item3", true);
+    inventory_unlock_item(GM_CAT_3);
     vTaskDelay(pdMS_TO_TICKS(3000));
     if (exit_cb != NULL) {
       ((void (*)(void))exit_cb)();

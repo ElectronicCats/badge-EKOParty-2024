@@ -1,4 +1,5 @@
 #include "llamaneitor.h"
+#include "character.h"
 #include "esp_log.h"
 #include "llamaneitor_scenes.h"
 #include "menus_module.h"
@@ -118,6 +119,7 @@ static void module_cb_event_character_selection(uint8_t button_name,
     break;
   case BUTTON_RIGHT:
     player_ctx.character_bitmap = characters[current_item];
+    character_set_current_character(current_item);
     current_item = 0;
     if (preferences_get_int("flogin", 0) == 0) {
       preferences_put_int("flogin", 1);
