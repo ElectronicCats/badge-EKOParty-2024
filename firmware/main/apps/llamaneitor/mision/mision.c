@@ -234,8 +234,15 @@ static void module_cb_code_register_event(uint8_t button_name,
     break;
   case BUTTON_LEFT:
     current_x_pos--;
-    current_y_pos = code_selected[current_x_pos];
-    module_display_code_selector();
+    if(current_x_pos == 255){
+      current_x_pos = 0;
+      if (exit_cb != NULL) {
+        ((void (*)(void))exit_cb)();
+      }
+    }else{
+      current_y_pos = code_selected[current_x_pos];
+      module_display_code_selector();
+    }
     break;
   default:
     break;
