@@ -25,10 +25,11 @@ typedef enum {
   CHARACTER_OPTION,
   MISSIONS_OPTION,
   INVENTORY_OPTION,
-  MATRIX_OPTION
+  MATRIX_OPTION,
+  FLAME_OPTION
 } llamaneitor_main_menu_options;
 const char *llamaneitor_main_menu_items[] = {"Personaje", "Misiones",
-                                             "Inventario", "Matrix"};
+                                             "Inventario", "Matrix", "Llama"};
 
 static void main_menu_selection_handler(uint8_t selection) {
   switch (selection) {
@@ -45,6 +46,8 @@ static void main_menu_selection_handler(uint8_t selection) {
   case MATRIX_OPTION:
     mision_register_cb_exit(llamaneitor_scenes_main_menu);
     mision_enter_code();
+    break;
+  case FLAME_OPTION:
     break;
   default:
     break;
@@ -127,7 +130,7 @@ static void show_item_desc() {
                                                   : cat_items[item].hint_len;
   item_menu.menu_level = GENERAL_TREE_APP_INFORMATION;
   general_register_scrolling_menu(&item_menu);
-  general_screen_display_scrolling_text_handler(llamaneitor_scenes_inventory);
+  general_screen_display_scrolling_text_handler(open_item);
 }
 
 static void open_item() {
@@ -146,4 +149,31 @@ static void open_item() {
   oled_screen_display_bitmap(
       cat_items[item].bitmap.bitmap, x, y, cat_items[item].bitmap.width,
       cat_items[item].bitmap.height, OLED_DISPLAY_NORMAL);
+}
+
+//////////////////////////////////// Llama Menu
+//////////////////////////////////////
+
+static void llama_input_cb(uint8_t button_name, uint8_t button_event) {
+  if (button_event != BUTTON_PRESS_DOWN) {
+    return;
+  }
+  switch (button_name) {
+  case BUTTON_UP:
+    break;
+  case BUTTON_DOWN:
+    break;
+  case BUTTON_RIGHT:
+    break;
+  case BUTTON_LEFT:
+    llamaneitor_scenes_main_menu();
+    break;
+  default:
+    break;
+  }
+}
+
+void llamaneitor_scenes_flame_menu() {
+  current_scene = LLAMANEITOR_FLAME_SCENE;
+  menus_module_set_app_state(true, llama_input_cb);
 }

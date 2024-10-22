@@ -7,6 +7,7 @@ typedef enum {
   LLAMANEITOR_CHARACTER_SCENE,
   LLAMANEITOR_MISSIONS_SCENE,
   LLAMANEITOR_INVENTORY_SCENE,
+  LLAMANEITOR_FLAME_SCENE
 } llamaneitor_scenes_t;
 
 void llamaneitor_scenes_main_menu();
