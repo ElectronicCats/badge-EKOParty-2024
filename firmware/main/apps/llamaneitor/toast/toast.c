@@ -3,6 +3,7 @@
 #include "badge_connect.h"
 #include "badge_pairing.h"
 #include "espnow.h"
+#include "flame.h"
 #include "general_screens.h"
 #include "menus_module.h"
 #include "nvs_flash.h"
@@ -32,7 +33,8 @@ static void ctx_init() {
 }
 
 static void lets_toast() {
-  printf("BRINDIS\n");
+  // printf("BRINDIS\n");
+  flame_feed_flame();
   ctx->cooldown_time = COOLDOWN_TIME_S;
   xTaskCreate(cooldown_task, "cooldown_task", 2048, NULL, 10, NULL);
   toast_exit();

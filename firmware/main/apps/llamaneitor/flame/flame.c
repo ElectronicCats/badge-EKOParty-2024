@@ -23,15 +23,16 @@ static void show_toast_scann(uint8_t dots) {
   if (!toast_is_ready()) {
     return;
   }
-  // TODO: Mostrar bitmap de copa
+  oled_screen_display_bitmap(cup_bmp, 0, 8, 24, 24, OLED_DISPLAY_NORMAL);
   for (int i = 0; i < 3; i++) {
-    oled_screen_display_text(i < dots ? "." : "", 96 + (i * 8), 1,
+    oled_screen_display_text(i < dots ? "." : "", 104 + (i * 8), 1,
                              OLED_DISPLAY_NORMAL);
   }
 }
 
 static void show_flame_animation(uint8_t frame) {
-  // TODO: Agregar animacion de FLAMA
+  oled_screen_display_bitmap(flame_bmp_arr[frame], 52, 0, 24, 24,
+                             OLED_DISPLAY_NORMAL);
 }
 
 static void show_remaining_time() {
@@ -49,6 +50,7 @@ static void flame_task() {
   while (1) {
     if (!frame) {
       flame_time--;
+      save_flame_time();
     }
     if (llamaneitor_scenes_get_scene() == LLAMANEITOR_FLAME_SCENE) {
       flame_refresh(frame);
@@ -60,10 +62,10 @@ static void flame_task() {
 
 void flame_refresh(uint8_t frame) {
   oled_screen_clear_buffer();
-  show_toast_scann(frame);
   toast_init();
-  show_flame_animation(frame);
+  show_toast_scann(frame);
   show_remaining_time();
+  show_flame_animation(frame);
   oled_screen_display_show();
 }
 
@@ -73,4 +75,9 @@ void flame_task_begin() {
 
 void flame_set_flame_time(uint32_t timestamp) {
   // TODO: Obtener el timestamp y callcular el tiempo restante
+}
+
+void flame_feed_flame() {
+  flame_time += 600;
+  save_flame_time();
 }
