@@ -50,8 +50,8 @@ void split_and_group_string(const char *str, char *result[]) {
 }
 
 static void exit_notification(){
-   neopixel_events_run_event(neopixel_scanning_event);
-   menus_module_exit_app();
+   neopixel_events_stop_event();
+   menus_module_reset();
 }
 
 static void alert_scrolling(char *message){

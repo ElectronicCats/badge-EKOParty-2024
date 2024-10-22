@@ -208,7 +208,7 @@ static void module_cb_event(uint8_t button_name, uint8_t button_event) {
 
 game_ctx_t *llamaneitor_get_game_ctx() { return &player_ctx; }
 void llamaneitor_begin() {
-  neopixel_events_run_event(neopixel_llamaneitor_init);
+  neopixels_events_set_animation(neopixel_llamaneitor_init);
   oled_screen_display_bitmap(llamaneitor_1, 16, 0, 32, 32, OLED_DISPLAY_NORMAL);
   menus_module_set_app_state(true, module_cb_event);
   vTaskDelay(2000 / portTICK_PERIOD_MS);
