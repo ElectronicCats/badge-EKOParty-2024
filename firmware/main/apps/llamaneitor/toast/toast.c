@@ -29,7 +29,7 @@ static void ctx_init() {
   ctx = calloc(1, sizeof(toast_ctx_t));
   ctx->cooldown_time = preferences_get_ushort(COOLDOWN_MEM, 0);
   if (ctx->cooldown_time) {
-    xTaskCreate(cooldown_task, "vaccination_task", 2048, NULL, 10, NULL);
+    xTaskCreate(cooldown_task, "cooldown_task", 2048, NULL, 10, NULL);
   }
 }
 

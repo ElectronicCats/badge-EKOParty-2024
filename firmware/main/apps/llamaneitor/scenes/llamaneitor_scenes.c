@@ -1,6 +1,7 @@
 #include "llamaneitor_scenes.h"
 #include "bitmaps_general.h"
 #include "character.h"
+#include "flame.h"
 #include "general_submenu.h"
 #include "inventory.h"
 #include "items.h"
@@ -17,6 +18,7 @@ static void show_item_desc();
 
 void llamaneitor_scenes_main_menu();
 void llamaneitor_scenes_inventory();
+void llamaneitor_scenes_flame_menu();
 
 llamaneitor_scenes_t llamaneitor_scenes_get_scene() { return current_scene; }
 
@@ -48,6 +50,7 @@ static void main_menu_selection_handler(uint8_t selection) {
     mision_enter_code();
     break;
   case FLAME_OPTION:
+    llamaneitor_scenes_flame_menu();
     break;
   default:
     break;
@@ -122,6 +125,14 @@ static void item_input_cb(uint8_t button_name, uint8_t button_event) {
   }
 }
 
+static void item_desc_exit() {
+  if (cat_items[item].unlocked) {
+    open_item();
+  } else {
+    llamaneitor_scenes_inventory();
+  }
+}
+
 static void show_item_desc() {
   static general_menu_t item_menu;
   item_menu.menu_items =
@@ -130,7 +141,7 @@ static void show_item_desc() {
                                                   : cat_items[item].hint_len;
   item_menu.menu_level = GENERAL_TREE_APP_INFORMATION;
   general_register_scrolling_menu(&item_menu);
-  general_screen_display_scrolling_text_handler(open_item);
+  general_screen_display_scrolling_text_handler(item_desc_exit);
 }
 
 static void open_item() {
@@ -174,6 +185,7 @@ static void llama_input_cb(uint8_t button_name, uint8_t button_event) {
 }
 
 void llamaneitor_scenes_flame_menu() {
+  flame_refresh(0);
   current_scene = LLAMANEITOR_FLAME_SCENE;
   menus_module_set_app_state(true, llama_input_cb);
 }

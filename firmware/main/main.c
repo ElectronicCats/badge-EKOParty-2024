@@ -6,6 +6,7 @@
 #include "cat_console.h"
 #include "esp_log.h"
 #include "esp_timer.h"
+#include "flame.h"
 #include "flash_fs.h"
 #include "flash_fs_screens.h"
 #include "keyboard_module.h"
@@ -57,6 +58,7 @@ void app_main() {
   if (!preferences_get_int("flogin", 0)) {
     llamaneitor_begin();
   }
+  flame_task_begin();
   // Always start the console at the end
   // cat_console_begin();
 }

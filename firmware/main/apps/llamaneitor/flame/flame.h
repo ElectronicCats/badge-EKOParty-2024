@@ -5,3 +5,7 @@
 
 #define FLAME_TIME 172800
 #define FLAME_TIME_MEM "flame_time"
+
+void flame_refresh(uint8_t frame);
+void flame_task_begin();
+void flame_set_flame_time(uint32_t timestamp);
