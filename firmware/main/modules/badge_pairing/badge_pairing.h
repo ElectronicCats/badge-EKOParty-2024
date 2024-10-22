@@ -11,8 +11,8 @@
 #define PING_SALT 255
 #define PING_HASH 212
 
-#define RSSI_FILTER -100
-#define CONNECTED_RSSI_FILTER -150
+#define RSSI_FILTER -30
+#define CONNECTED_RSSI_FILTER -60
 
 typedef enum {
   ON_CONNECT_EV,

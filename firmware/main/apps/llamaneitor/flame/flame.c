@@ -5,6 +5,7 @@
 
 #include "oled_screen.h"
 #include "preferences.h"
+#include "toast.h"
 
 uint32_t flame_time;
 
@@ -19,6 +20,9 @@ static void save_flame_time() {
 }
 
 static void show_toast_scann(uint8_t dots) {
+  if (!toast_is_ready()) {
+    return;
+  }
   // TODO: Mostrar bitmap de copa
   for (int i = 0; i < 3; i++) {
     oled_screen_display_text(i < dots ? "." : "", 96 + (i * 8), 1,
@@ -57,6 +61,7 @@ static void flame_task() {
 void flame_refresh(uint8_t frame) {
   oled_screen_clear_buffer();
   show_toast_scann(frame);
+  toast_init();
   show_flame_animation(frame);
   show_remaining_time();
   oled_screen_display_show();

@@ -48,6 +48,7 @@ static void send_ping_response(uint8_t *src_addr) {
   ping_cmd.is_request = false;
   ping_cmd.team = ctx->team;
   badge_connect_send(src_addr, &ping_cmd, sizeof(pairing_ping_cmd_t));
+  on_badge_connect(src_addr);
 }
 
 static void get_ping_response(badge_connect_recv_msg_t *msg) {
@@ -73,14 +74,15 @@ void ping_handler(badge_connect_recv_msg_t *msg) {
   if (!is_task_running) {
     return;
   }
-  if (msg->rx_ctrl->rssi < (ctx->state ? CONNECTED_RSSI_FILTER : RSSI_FILTER)) {
-    return;
-  }
   pairing_ping_cmd_t *cmd = (pairing_ping_cmd_t *)msg->data;
   if (cmd->ping_hash != PING_HASH || cmd->ping_salt != PING_SALT) {
     return;
   }
   if (cmd->is_request) {
+    if (msg->rx_ctrl->rssi <
+        (ctx->state ? CONNECTED_RSSI_FILTER : RSSI_FILTER)) {
+      return;
+    }
     get_ping_request(msg);
   } else {
     get_ping_response(msg);
@@ -109,7 +111,7 @@ void badge_pairing_deinit() {
     vTaskDelay(pdMS_TO_TICKS(5));
   };
   badge_pairing_reset();
-  // free(ctx);
+  free(ctx);
 }
 
 void badge_pairing_begin() { ctx = calloc(1, sizeof(badge_pairing_ctx_t)); }

@@ -21,6 +21,7 @@
 #include "screen_saver.h"
 #include "sd_card.h"
 #include "sounds.h"
+#include "toast.h"
 #include "web_file_browser.h"
 #include "wifi_app.h"
 
@@ -58,6 +59,7 @@ void app_main() {
   if (!preferences_get_int("flogin", 0)) {
     llamaneitor_begin();
   }
+  toast_begin();
   flame_task_begin();
   // Always start the console at the end
   // cat_console_begin();

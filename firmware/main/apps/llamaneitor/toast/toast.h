@@ -15,3 +15,5 @@ typedef struct {
 } toast_ctx_t;
 
 void toast_begin();
+void toast_init();
+bool toast_is_ready();
