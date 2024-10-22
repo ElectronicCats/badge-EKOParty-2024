@@ -50,7 +50,7 @@ void app_main() {
   // neopixel_events_run_event(neopixel_scanning_event);
 
   villages_begin();
-  // lora_module_begin();
+  lora_module_begin();
   buzzer_enable();
   buzzer_begin(11);
   // This to show the history on first boot and until the user completes the
