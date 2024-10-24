@@ -22,6 +22,26 @@ void llamaneitor_scenes_flame_menu();
 
 llamaneitor_scenes_t llamaneitor_scenes_get_scene() { return current_scene; }
 
+void llamaneitor_scenes_set_scene_current_scene() {
+  switch (current_scene) {
+  case LLAMANEITOR_MAIN_SCENE:
+    llamaneitor_scenes_main_menu();
+    break;
+  case LLAMANEITOR_CHARACTER_SCENE:
+    current_scene = LLAMANEITOR_CHARACTER_SCENE;
+    character_open_profile();
+    break;
+  case LLAMANEITOR_INVENTORY_SCENE:
+    llamaneitor_scenes_inventory();
+    break;
+  case LLAMANEITOR_FLAME_SCENE:
+    llamaneitor_scenes_flame_menu();
+    break;
+  default:
+    break;
+  }
+}
+
 //////////////////////////////////// Main Menu ////////////////////////////////
 typedef enum {
   CHARACTER_OPTION,
@@ -36,6 +56,7 @@ const char *llamaneitor_main_menu_items[] = {"Personaje", "Misiones",
 static void main_menu_selection_handler(uint8_t selection) {
   switch (selection) {
   case CHARACTER_OPTION:
+    current_scene = LLAMANEITOR_CHARACTER_SCENE;
     character_open_profile();
     break;
   case MISSIONS_OPTION:
@@ -162,7 +183,7 @@ static void open_item() {
       cat_items[item].bitmap.height, OLED_DISPLAY_NORMAL);
 }
 
-//////////////////////////////////// Llama Menu
+//////////////////////////////////// Flame Menu
 //////////////////////////////////////
 
 static void llama_input_cb(uint8_t button_name, uint8_t button_event) {
