@@ -16,3 +16,4 @@
 #define LORA_AT_CMD_NOTIFY "AT+NOTIFY"
 
 void lora_module_begin();
+void lora_manager_alert_scrolling(char *message);

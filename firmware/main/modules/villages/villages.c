@@ -7,6 +7,8 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "ibeacon_scann.h"
+#include "llamaneitor_scenes.c"
+#include "lora_manager.h"
 #include "neopixels_events.h"
 #include "neopixels_module.h"
 
@@ -44,8 +46,15 @@ static void set_village_color() {
   vTaskDelay(pdMS_TO_TICKS(500));
 }
 
+static void show_village_screen() {
+  village_t *village = &villages[village_ctx.idx];
+  char str[100];
+  sprintf(str, "Has_llegado_a:_%s", village->name);
+  lora_manager_alert_scrolling(str);
+}
+
 static void on_village_detected() {
-  // TODO: show on screen
+  show_village_screen();
   ESP_LOGI("VILLAGE", "Village detected: %d\n", village_ctx.idx);
   neopixels_events_set_animation(set_village_color);
 }
