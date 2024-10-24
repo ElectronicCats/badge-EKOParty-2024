@@ -79,7 +79,7 @@ static char **get_items_names() {
   uint8_t items_count = sizeof(cat_items) / sizeof(llamaneitor_item_t);
   char **names = malloc(sizeof(char *) * items_count);
   for (uint8_t i = 0; i < items_count; i++) {
-    names[i] = cat_items[i].name;
+    names[i] = cat_items[i].unlocked ? cat_items[i].name : "[VACIO]";
   }
   return names;
 }
