@@ -48,10 +48,10 @@ void app_main() {
   neopixels_module_begin();
   neopixels_set_pixels(MAX_LED_NUMBER, 0, 0, 0);
   neopixels_refresh();
-  // neopixel_events_run_event(neopixel_scanning_event);
+  neopixel_events_run_event(neopixel_scanning_event);
 
   villages_begin();
-  // lora_module_begin();
+  lora_module_begin();
   buzzer_enable();
   buzzer_begin(11);
   // This to show the history on first boot and until the user completes the

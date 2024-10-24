@@ -9,4 +9,10 @@
 #define LORA_PIN_NSS CONFIG_LORA_NSS_PIN
 #define LORA_PIN_RST CONFIG_LORA_RST_PIN
 
+#define LORA_PACKET_LENGTH 254
+
+#define LORA_AT_CMD_PLAY "AT+PLAY"
+#define LORA_AT_CMD_STOP "AT+STOP"
+#define LORA_AT_CMD_NOTIFY "AT+NOTIFY"
+
 void lora_module_begin();
