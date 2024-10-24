@@ -13,7 +13,7 @@
 #include "neopixels_module.h"
 
 #define VILLAGE_RSSI_FILTER -70
-#define VILLAGES_TIMEOUT_S 5
+#define VILLAGES_TIMEOUT_S 10
 
 #define VILLAGE_TAG "VILLAGE"
 
@@ -47,6 +47,9 @@ static void set_village_color() {
 }
 
 static void show_village_screen() {
+  if (llamaneitor_scenes_get_scene()) {
+    return;
+  }
   village_t *village = &villages[village_ctx.idx];
   char str[100];
   sprintf(str, "Has_llegado_a:_%s", village->name);
