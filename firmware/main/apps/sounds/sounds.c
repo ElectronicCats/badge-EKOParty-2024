@@ -16,21 +16,19 @@
 #define NOTE_G5 784
 #define NOTE_GS5 830
 #define NOTE_A5 880
-#define NOTE_C6  1047
-#define NOTE_E6  1319
-#define NOTE_F6  1397
+#define NOTE_C6 1047
+#define NOTE_E6 1319
+#define NOTE_F6 1397
 
 static bool is_playing = false;
 
-static int melody_notes[] = {
-    NOTE_A4, NOTE_A4, NOTE_A4, NOTE_F5, NOTE_C6, NOTE_A5, NOTE_F5, NOTE_C6, NOTE_A5,
-    NOTE_E6, NOTE_E6, NOTE_E6, NOTE_F6, NOTE_C6, NOTE_GS5, NOTE_F5, NOTE_C6, NOTE_A5
-};
+static int melody_notes[] = {NOTE_A4, NOTE_A4, NOTE_A4, NOTE_F5, NOTE_C6,
+                             NOTE_A5, NOTE_F5, NOTE_C6, NOTE_A5, NOTE_E6,
+                             NOTE_E6, NOTE_E6, NOTE_F6, NOTE_C6, NOTE_GS5,
+                             NOTE_F5, NOTE_C6, NOTE_A5};
 
-static int melody_times[] = {
-    500, 500, 500, 350, 150, 500, 350, 150, 1000,
-    500, 500, 500, 350, 150, 500, 350, 150, 1000
-};
+static int melody_times[] = {500, 500, 500, 350, 150, 500, 350, 150, 1000,
+                             500, 500, 500, 350, 150, 500, 350, 150, 1000};
 
 void play_sound(uint32_t note, uint32_t time) {
   buzzer_set_freq(note);
@@ -38,19 +36,18 @@ void play_sound(uint32_t note, uint32_t time) {
   vTaskDelay(time / portTICK_PERIOD_MS);
 }
 
-void play_tango(){
-  for(int i = 0; i < 100; i++){
-    buzzer_set_freq(notes[i]);
-    buzzer_play_for(times[i]);
-    vTaskDelay(times[i] / portTICK_PERIOD_MS);
+void play_tango() {
+  uint8_t samples_num = sizeof(volver_notes) / sizeof(int);
+  for (int i = 0; i < samples_num; i++) {
+    buzzer_set_freq(volver_notes[i]);
+    buzzer_play_for(volver_times[i]);
+    vTaskDelay(volver_times[i] / portTICK_PERIOD_MS);
   }
   buzzer_stop();
   vTaskDelete(NULL);
 }
 
-void sounds_stop_music() {
-  is_playing = false;
-}
+void sounds_stop_music() { is_playing = false; }
 
 void sounds_play_music() {
   is_playing = true;

@@ -11,6 +11,7 @@
 #include "lora_manager.h"
 #include "neopixels_events.h"
 #include "neopixels_module.h"
+#include "sounds.h"
 
 #define VILLAGE_RSSI_FILTER -70
 #define VILLAGES_TIMEOUT_S 10
@@ -51,9 +52,13 @@ static void show_village_screen() {
     return;
   }
   village_t *village = &villages[village_ctx.idx];
-  char str[100];
-  sprintf(str, "Has_llegado_a:_%s", village->name);
-  lora_manager_alert_scrolling(str);
+  if (village->idx >= CHICHES_ASADO) {
+    lora_manager_alert_scrolling(village->name);
+  } else {
+    char str[100];
+    sprintf(str, "Has_llegado_a:_%s", village->name);
+    lora_manager_alert_scrolling(str);
+  }
 }
 
 static void on_village_detected() {
