@@ -118,7 +118,7 @@ void badge_pairing_begin() { ctx = calloc(1, sizeof(badge_pairing_ctx_t)); }
 
 void badge_pairing_init() {
   is_task_running = true;
-  xTaskCreate(pairing_task, "pairing_task", 2048, NULL, 10, NULL);
+  xTaskCreate(pairing_task, "pairing_task", 4096, NULL, 10, NULL);
 }
 
 uint8_t *badge_pairing_get_friend_addr() { return ctx->friend_addr; }

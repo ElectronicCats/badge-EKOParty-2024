@@ -7,9 +7,12 @@
 #include "preferences.h"
 #include "toast.h"
 
+#include "keyboard_module.h"
+
 uint32_t flame_time;
 
 void flame_refresh(uint8_t frame);
+void flame_waken_flame(uint16_t seconds);
 
 static void load_flame_time() {
   flame_time = preferences_get_uint(FLAME_TIME_MEM, FLAME_TIME);
@@ -38,7 +41,7 @@ static void show_flame_animation(uint8_t frame) {
 static void show_remaining_time() {
   char life_level_str[10];
   uint8_t life_level = flame_time * 100 / FLAME_TIME;
-  sprintf(life_level_str, "%d%%", life_level);
+  sprintf(life_level_str, "%d%%", !life_level && flame_time ? 1 : life_level);
   oled_screen_display_text_center(life_level_str, 3, OLED_DISPLAY_NORMAL);
 }
 
@@ -60,6 +63,13 @@ static void flame_task() {
   }
 }
 
+static void flame_input_cb(uint8_t button_name, uint8_t button_event) {
+  if (button_event != BUTTON_PRESS_DOWN) {
+    return;
+  }
+  flame_waken_flame(120);
+}
+
 void flame_refresh(uint8_t frame) {
   oled_screen_clear_buffer();
   toast_init();
@@ -70,6 +80,7 @@ void flame_refresh(uint8_t frame) {
 }
 
 void flame_task_begin() {
+  keyboard_module_set_secondary_input_callback(flame_input_cb);
   xTaskCreate(flame_task, "flame_task", 2048, NULL, 10, NULL);
 }
 
@@ -83,6 +94,10 @@ void flame_feed_flame(uint16_t seconds) {
 }
 
 void flame_waken_flame(uint16_t seconds) {
-  flame_time -= seconds;
+  if (flame_time > seconds) {
+    flame_time -= seconds;
+  } else {
+    flame_time = 0;
+  }
   save_flame_time();
 }
