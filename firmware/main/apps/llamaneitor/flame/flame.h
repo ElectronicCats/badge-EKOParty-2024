@@ -56,3 +56,4 @@ void flame_task_begin();
 void flame_set_flame_time(uint32_t timestamp);
 void flame_feed_flame(uint16_t seconds);
 void flame_waken_flame(uint16_t seconds);
+uint32_t get_flame_time();

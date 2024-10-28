@@ -23,6 +23,9 @@ static void save_flame_time() {
 }
 
 static void show_toast_scann(uint8_t dots) {
+  if (!flame_time) {
+    return;
+  }
   if (!toast_is_ready()) {
     return;
   }
@@ -72,7 +75,9 @@ static void flame_input_cb(uint8_t button_name, uint8_t button_event) {
 
 void flame_refresh(uint8_t frame) {
   oled_screen_clear_buffer();
-  toast_init();
+  if (flame_time) {
+    toast_init();
+  }
   show_toast_scann(frame);
   show_remaining_time();
   show_flame_animation(frame);
@@ -89,6 +94,9 @@ void flame_set_flame_time(uint32_t timestamp) {
 }
 
 void flame_feed_flame(uint16_t seconds) {
+  if (!flame_time) {
+    return;
+  }
   flame_time += seconds;
   save_flame_time();
 }
@@ -101,3 +109,5 @@ void flame_waken_flame(uint16_t seconds) {
   }
   save_flame_time();
 }
+
+uint32_t get_flame_time() { return flame_time; }
