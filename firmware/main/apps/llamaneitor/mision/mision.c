@@ -21,11 +21,6 @@ static uint8_t current_x_pos = 0;
 static uint8_t current_y_pos = 0;
 static uint8_t code_selected[4] = {0, 0, 0, 0};
 
-static const general_menu_t mision_menu = {
-    .menu_items = list_mision,
-    .menu_count = MISION_COUNT,
-    .menu_level = GENERAL_TREE_APP_INFORMATION,
-};
 static const general_menu_t mision_1_menu = {
     .menu_items = mision_1,
     .menu_count = MISION1_COUNT,
@@ -45,6 +40,29 @@ static void module_cb_code_register_event(uint8_t button_name,
 static void module_exit_missions_app();
 static void module_display_code_selector();
 static void module_validate_code();
+
+static void module_update_mision(){
+  char menu_item[16];
+  char mission_item[16];
+  char* tmp_list_mision[MISION_COUNT];
+
+  for(int i=0; i<MISION_COUNT; i++){
+    sprintf(menu_item, "mission_%d", i+1);
+    uint8_t show_mission = preferences_get_int(menu_item, 0);
+    if(show_mission == 1){
+      sprintf(mission_item, "Mision %d", i+1);
+      list_mision[i] = mission_item;
+    }
+  }
+  general_menu_t mision_menu = {
+    .menu_items = list_mision,
+    .menu_count = MISION_COUNT,
+    .menu_level = GENERAL_TREE_APP_INFORMATION,
+  };
+
+  general_register_menu(&mision_menu);
+  general_screen_display_menu(current_mision);
+}
 
 static void module_validate_code() {
   if (current_x_pos != 4) {
@@ -115,8 +133,7 @@ static void module_exit_missions_app() {
   oled_screen_display_text("Volvere..", 40, 2, OLED_DISPLAY_NORMAL);
   vTaskDelay(pdMS_TO_TICKS(3000));
   menus_module_set_app_state(true, module_cb_event);
-  general_register_menu(&mision_menu);
-  general_screen_display_menu(current_mision);
+  module_update_mision();
 }
 
 static void mision_selection_handler(uint8_t selection) {
@@ -155,13 +172,13 @@ static void module_cb_event(uint8_t button_name, uint8_t button_event) {
   switch (button_name) {
   case BUTTON_UP:
     current_mision =
-        current_mision > 0 ? current_mision - 1 : (mision_menu.menu_count - 1);
-    general_screen_display_menu(current_mision);
+        current_mision > 0 ? current_mision - 1 : (MISION_COUNT - 1);
+    module_update_mision();
     break;
   case BUTTON_DOWN:
     current_mision =
-        current_mision < (mision_menu.menu_count - 1) ? current_mision + 1 : 0;
-    general_screen_display_menu(current_mision);
+        current_mision < (MISION_COUNT - 1) ? current_mision + 1 : 0;
+    module_update_mision();
     break;
   case BUTTON_RIGHT:
     mision_selection_handler(current_mision);
@@ -255,18 +272,8 @@ void mision_register_cb_exit(void *cb) { exit_cb = cb; }
 
 void mision_begin() {
   menus_module_set_app_state(true, module_cb_event);
-  general_register_menu(&mision_menu);
-  char menu_item[16];
-  char mission_item[16];
-  for(int i=0; i<MISION_COUNT; i++){
-    sprintf(menu_item, "smission_%d", i+1);
-    uint8_t show_mission = preferences_get_int(menu_item, 0);
-    if(show_mission){
-      sprintf(mission_item, "Mision %d", i+1);
-      list_mision[i] = mission_item;
-    }
-  }
-  general_screen_display_menu(current_mision);
+  module_update_mision();
+  
 }
 
 void mision_enter_code() {

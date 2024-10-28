@@ -51,7 +51,7 @@ void split_and_group_string(const char *str, char *result[]) {
 }
 
 static void exit_notification() {
-  neopixel_events_stop_event();
+  neopixels_events_set_animation(neopixel_scanning_event);
   menus_module_reset();
 }
 

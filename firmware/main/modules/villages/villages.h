@@ -23,6 +23,7 @@
 #define CHICHES_ASADO_STR "`Has_llegado_al_asado'"
 #define THE_BOSS_1_STR " ES EL BOSS!!!"
 #define THE_BOSS_2_STR " ES EL BOSS!!!"
+#define YWE_HACK_STR "YES WE HACK!!"
 
 #define HW_HACK_ID                                                             \
   {                                                                            \
@@ -115,6 +116,11 @@
     0xB6, 0xC1, 0x7D, 0xE5, 0xF0, 0xA3, 0x54, 0xD8, 0xC3, 0x1E, 0xF7, 0x41,    \
         0x9A, 0x2B, 0x4E, 0x8D                                                 \
   }
+#define YWE_HACK_ID \
+  {\
+    0x6B, 0xC5, 0xD1, 0x0C, 0xD7, 0x92, 0x45, 0xC2, 0xA4, 0x2E, 0xFF, 0x8E, \
+        0x7F, 0xA0, 0xE9, 0x1C\
+  }
 
 typedef enum {
   EKOPARTY,
@@ -136,6 +142,7 @@ typedef enum {
   CHICHES_ASADO, // To add more villages, please insert them before this item
   THE_BOSS_1,
   THE_BOSS_2,
+  YWE_HACK,
   VILLAGES_COUNT
 } villages_e;
 
@@ -166,6 +173,7 @@ const uint8_t ec_id[UUID_LEN] = EC_ID;
 const uint8_t chiches_asado_id[UUID_LEN] = CHICHES_ASADO_ID;
 const uint8_t the_boss_1_id[UUID_LEN] = THE_BOSS_1_ID;
 const uint8_t the_boss_2_id[UUID_LEN] = THE_BOSS_2_ID;
+const uint8_t ywe_hack_id[UUID_LEN] = YWE_HACK_ID;
 
 const village_t villages[] = {
     {.idx = EKOPARTY,
@@ -276,7 +284,13 @@ const village_t villages[] = {
      .uuid = the_boss_2_id,
      .R = 255,
      .G = 0,
-     .B = 0}};
+     .B = 0},
+     {.idx = YWE_HACK,
+     .name = YWE_HACK_STR,
+     .uuid = ywe_hack_id,
+     .R = 255,
+     .G = 93,
+     .B = 18}};
 
 void villages_begin();
 

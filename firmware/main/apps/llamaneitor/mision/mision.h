@@ -19,7 +19,7 @@ char* list_mision[MISION_COUNT] = {
   "Sin encontrar",
 };
 
-
+// PatagonSpace - Hardware village
 char* mision_1[MISION1_COUNT] = {
   "La Villa",
   "PatagonSpace",
@@ -42,6 +42,7 @@ char* mision_1[MISION1_COUNT] = {
   "/(O.O)/"
 };
 
+// Yes we hack - EC Villages
 char* mision_2[MISION2_COUNT] = {
   "Esto es un reto",
   "no? ...",

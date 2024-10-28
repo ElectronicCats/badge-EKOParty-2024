@@ -12,6 +12,7 @@
 #include "neopixels_events.h"
 #include "neopixels_module.h"
 #include "sounds.h"
+#include "preferences.h"
 
 #define VILLAGE_RSSI_FILTER -70
 #define VILLAGES_TIMEOUT_S 10
@@ -58,6 +59,21 @@ static void show_village_screen() {
     char str[100];
     sprintf(str, "Has_llegado_a:_%s", village->name);
     lora_manager_alert_scrolling(str);
+  }
+
+  // Unlock mission 1
+  if(village->idx == PAT_SPACE || village->idx == HW_HACK){
+    if(preferences_get_int("mission_1", 0) == 0){
+      vTaskDelay(pdMS_TO_TICKS(8000));
+      preferences_put_int("mission_1", 1);
+      lora_manager_alert_scrolling("Mision_1_desbloqueada");
+    }
+  }else if(village->idx == YWE_HACK || village->idx == EC){
+    if(preferences_get_int("mission_2", 0) == 0){
+      vTaskDelay(pdMS_TO_TICKS(8000));
+      preferences_put_int("mission_2", 1);
+      lora_manager_alert_scrolling("Mision_2_desbloqueada");
+    }
   }
 }
 
