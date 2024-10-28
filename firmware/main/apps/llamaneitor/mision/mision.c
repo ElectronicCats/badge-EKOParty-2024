@@ -256,6 +256,16 @@ void mision_register_cb_exit(void *cb) { exit_cb = cb; }
 void mision_begin() {
   menus_module_set_app_state(true, module_cb_event);
   general_register_menu(&mision_menu);
+  char menu_item[16];
+  char mission_item[16];
+  for(int i=0; i<MISION_COUNT; i++){
+    sprintf(menu_item, "smission_%d", i+1);
+    uint8_t show_mission = preferences_get_int(menu_item, 0);
+    if(show_mission){
+      sprintf(mission_item, "Mision %d", i+1);
+      list_mision[i] = mission_item;
+    }
+  }
   general_screen_display_menu(current_mision);
 }
 

@@ -14,9 +14,9 @@ typedef enum {
 } mision_t;
 
 char* list_mision[MISION_COUNT] = {
-  "Mision 1",
-  "Mision 2",
-  "Mision 3",
+  "Sin encontrar",
+  "Sin encontrar",
+  "Sin encontrar",
 };
 
 

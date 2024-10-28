@@ -38,3 +38,4 @@ int volver_times[] = {
 void sounds_stop_music();
 void sounds_play_music();
 void play_sound(uint32_t note, uint32_t time);
+void play_zelda();

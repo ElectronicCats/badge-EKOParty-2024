@@ -2,7 +2,7 @@
 #include "general/bitmaps_general.h"
 #include "general/general_screens.h"
 
-#define HISTORY_MENU_COUNT 36
+#define HISTORY_MENU_COUNT 40
 #define HISTORY_CONT_COUNT 82
 
 typedef enum { CHAR_1, CHAR_2, CHAR_3, CHAR_4, CHARS_NUM } characteres_e;
@@ -72,6 +72,18 @@ const unsigned char epd_bitmap_char3[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
+// 'White Rabbit', 32x32px
+const unsigned char white_rabbit_bitmap[] = {
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0x00, 0x00, 0x00, 0xe0, 0x00, 
+	0x00, 0x00, 0xe0, 0x00, 0x00, 0x00, 0x60, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x38, 0x00, 
+	0x00, 0x00, 0x7c, 0x00, 0x00, 0x00, 0xf8, 0x00, 0x00, 0x01, 0xf8, 0x00, 0x00, 0x03, 0xfc, 0x00, 
+	0x00, 0x0f, 0xfc, 0x00, 0x00, 0x1f, 0xfe, 0x00, 0x00, 0x3f, 0xfe, 0x00, 0x00, 0x3f, 0xfe, 0x00, 
+	0x00, 0x3f, 0xfe, 0x00, 0x00, 0x7f, 0xfe, 0x00, 0x00, 0x7f, 0xfc, 0x00, 0x00, 0x7f, 0x9c, 0x00, 
+	0x00, 0x7f, 0x9c, 0x00, 0x00, 0x7f, 0x18, 0x00, 0x00, 0x3f, 0x00, 0x00, 0x00, 0x1f, 0x00, 0x00, 
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
+
 const epd_bitmap_props_t epd_bitmap_char1_props = {
     .bitmap = epd_bitmap_char1, .width = 32, .height = 32};
 
@@ -84,13 +96,20 @@ const epd_bitmap_props_t epd_bitmap_char3_props = {
 const epd_bitmap_props_t epd_bitmap_char4_props = {
     .bitmap = epd_bitmap_baby_dragon_ss, .width = 32, .height = 32};
 
+const epd_bitmap_props_t epd_bitmap_white_rabbit = {
+    .bitmap = white_rabbit_bitmap, .width = 32, .height = 32
+};
+
 epd_bitmap_props_t characters[CHARS_NUM] = {
     epd_bitmap_char1_props, epd_bitmap_char2_props, epd_bitmap_char3_props,
     epd_bitmap_char4_props};
 
 char *history_menu_items[HISTORY_MENU_COUNT] = {
     "Vengo de hace",
-    "20 primaveras",
+    "20 a\32os en",
+    "el futuro",
+    "              ",
+    "              ",
     "El mundo esta",
     "gobernado por",
     "la inteligencia",
@@ -110,8 +129,8 @@ char *history_menu_items[HISTORY_MENU_COUNT] = {
     "y creo que",
     "puedes ser tu",
     "      ...     ", // 20
-    "Para evitar el",
-    "fin de la",
+    "... Para evitar",
+    "el fin de la",
     "humanidad",
     "en el futuro",
     "es necesario",
@@ -123,6 +142,7 @@ char *history_menu_items[HISTORY_MENU_COUNT] = {
     "pero que haran",
     "para vencer a",
     "      ...     ", // 38
+    "              ",
     "Me puedes",
     "ayudar?",
 };
@@ -133,12 +153,16 @@ char *history_continue[HISTORY_CONT_COUNT] = {
     "habia",
     "encontrado al",
     "hacker adecuado",
-    "",
-    "Esta EkoParty",
-    "2024",
-    "donde se cumplen",
-    "20 primaveras",
-    "de la eko",
+    "              ",
+    "Hace 20 a\32os",
+    "En tu presente",
+    "en el 2024",
+    "     ...      ",
+    "              ",
+    "Se cumplia el",
+    "20 aniversario",
+    "de la EkoParty."
+    "Este encuentro",
     "es determinante",
     "para el futuro",
     "de la humanidad",
@@ -200,8 +224,8 @@ char *history_continue[HISTORY_CONT_COUNT] = {
     "vida que ",
     "deberas",
     "cuidar y no",
-    "dejar morir",
-    "en los",
+    "dejar que se",
+    "apague en los",
     "siguientes dias",
     "cuidala o",
     "realiza",
@@ -210,6 +234,10 @@ char *history_continue[HISTORY_CONT_COUNT] = {
     "fuerte y",
     "seguir en la",
     "travesia",
+    "              ",
+    "              ",
+    "Sigue al conejo",
+    "blanco ...",
 };
 
 typedef enum {

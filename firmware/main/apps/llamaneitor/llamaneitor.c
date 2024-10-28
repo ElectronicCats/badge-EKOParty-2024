@@ -46,6 +46,8 @@ static void module_cb_event_main_menu(uint8_t button_name,
                                       uint8_t button_event);
 static void module_display_history();
 
+static void module_follow_white_rabbit();
+
 static void module_reset_app_state() { llamaneitor_scenes_main_menu(); }
 
 static void module_display_history() {
@@ -73,6 +75,24 @@ static void module_display_history() {
                              OLED_DISPLAY_NORMAL);
   }
   oled_screen_display_show();
+}
+
+static void module_follow_white_rabbit(){
+  
+  for(int i=0; i< 13; i++){
+    oled_screen_clear();
+    uint8_t is_none = i % 2;
+    uint8_t x_pos = 8*i;
+    if(x_pos > 128){
+      x_pos = 0;
+    }
+    if(is_none == 0){
+      oled_screen_display_bitmap(epd_bitmap_white_rabbit.bitmap, x_pos, 0, epd_bitmap_white_rabbit.width, epd_bitmap_white_rabbit.height, OLED_DISPLAY_NORMAL);
+    }else{
+      oled_screen_display_bitmap(epd_bitmap_white_rabbit.bitmap, x_pos, 8, epd_bitmap_white_rabbit.width, epd_bitmap_white_rabbit.height, OLED_DISPLAY_NORMAL);
+    }
+    vTaskDelay(250 / portTICK_PERIOD_MS);
+  }
 }
 
 static void module_user_option() {
@@ -157,7 +177,7 @@ static void module_cb_event_user_selection(uint8_t button_name,
     current_history = history_cont_menu;
     oled_screen_clear();
     menus_module_set_app_state(true, module_cb_event);
-    neopixel_events_run_event(neopixel_scanning_event);
+    neopixels_events_set_animation(neopixel_scanning_event);
     current_item = 0;
     is_user_selection = true;
     module_display_history();
@@ -185,6 +205,8 @@ static void module_cb_event(uint8_t button_name, uint8_t button_event) {
     if (current_item == (current_history.menu_count - 1)) {
       current_item = 0;
       if (is_user_selection) {
+        menus_module_set_app_state(true, NULL);
+        module_follow_white_rabbit();
         menus_module_set_app_state(true, module_cb_event_character_selection);
         module_display_character_selector();
       } else {
@@ -207,11 +229,18 @@ static void module_cb_event(uint8_t button_name, uint8_t button_event) {
 }
 
 game_ctx_t *llamaneitor_get_game_ctx() { return &player_ctx; }
+
 void llamaneitor_begin() {
+  sounds_play_music();
   neopixels_events_set_animation(neopixel_llamaneitor_init);
-  oled_screen_display_bitmap(llamaneitor_1, 16, 0, 32, 32, OLED_DISPLAY_NORMAL);
+  oled_screen_clear();
+  oled_screen_fadeout();
+  oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
+  oled_screen_display_text("INICIANDO", 40, 1, OLED_DISPLAY_NORMAL);
+  oled_screen_display_text("  COMMS", 40, 2, OLED_DISPLAY_NORMAL);
   menus_module_set_app_state(true, module_cb_event);
   vTaskDelay(2000 / portTICK_PERIOD_MS);
+  oled_screen_fadeout();
   module_display_history();
 }
 
