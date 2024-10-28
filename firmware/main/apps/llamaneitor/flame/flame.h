@@ -3,7 +3,7 @@
 #include "llamaneitor_scenes.h"
 #include <stdio.h>
 
-#define FLAME_TIME 172800
+#define FLAME_TIME 86400
 #define FLAME_TIME_MEM "flame_time"
 
 // 'flame_1', 24x24px
@@ -54,4 +54,5 @@ const unsigned char cup_bmp[] = {
 void flame_refresh(uint8_t frame);
 void flame_task_begin();
 void flame_set_flame_time(uint32_t timestamp);
-void flame_feed_flame();
+void flame_feed_flame(uint16_t seconds);
+void flame_waken_flame(uint16_t seconds);

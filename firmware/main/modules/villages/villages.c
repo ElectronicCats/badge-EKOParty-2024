@@ -63,6 +63,7 @@ static void show_village_screen() {
 
 static void on_village_detected() {
   show_village_screen();
+  flame_feed_flame(120);
   ESP_LOGI("VILLAGE", "Village detected: %d\n", village_ctx.idx);
   neopixels_events_set_animation(set_village_color);
 }

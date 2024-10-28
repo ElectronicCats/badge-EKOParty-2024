@@ -36,12 +36,10 @@ static void show_flame_animation(uint8_t frame) {
 }
 
 static void show_remaining_time() {
-  char time[10];
-  uint8_t hours = flame_time / 3600;
-  uint8_t minutes = (flame_time % 3600) / 60;
-  uint8_t seconds = (flame_time % 3600) % 60;
-  sprintf(time, "%02d:%02d:%02d", hours, minutes, seconds);
-  oled_screen_display_text_center(time, 3, OLED_DISPLAY_NORMAL);
+  char life_level_str[10];
+  uint8_t life_level = flame_time * 100 / FLAME_TIME;
+  sprintf(life_level_str, "%d%%", life_level);
+  oled_screen_display_text_center(life_level_str, 3, OLED_DISPLAY_NORMAL);
 }
 
 static void flame_task() {
@@ -49,8 +47,10 @@ static void flame_task() {
   load_flame_time();
   while (1) {
     if (!frame) {
-      flame_time--;
-      save_flame_time();
+      if (flame_time) {
+        flame_time--;
+        save_flame_time();
+      }
     }
     if (llamaneitor_scenes_get_scene() == LLAMANEITOR_FLAME_SCENE) {
       flame_refresh(frame);
@@ -77,7 +77,12 @@ void flame_set_flame_time(uint32_t timestamp) {
   // TODO: Obtener el timestamp y callcular el tiempo restante
 }
 
-void flame_feed_flame() {
-  flame_time += 600;
+void flame_feed_flame(uint16_t seconds) {
+  flame_time += seconds;
+  save_flame_time();
+}
+
+void flame_waken_flame(uint16_t seconds) {
+  flame_time -= seconds;
   save_flame_time();
 }
