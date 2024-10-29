@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#define MISION1_COUNT 19
+#define MISION1_COUNT 29
 #define MISION2_COUNT 21
 
 typedef enum {
@@ -21,15 +21,26 @@ char* list_mision[MISION_COUNT] = {
 
 // PatagonSpace - Hardware village
 char* mision_1[MISION1_COUNT] = {
-  "La Villa",
-  "PatagonSpace",
-  "se le ha",
-  "rompido uno de",
-  "sus dispositivos",
-  "necesitamos algo",
-  "para poder ",
-  "volver a soldar",
+  "No es posible",
+  "conseguir que",
+  "se desarrrolle",
+  "el combustible",
+  "ekologico para",
+  "los",
+  "transbordadores",
+  "en el espacio",
+  "si no",
+  "conseguimos",
+  "arreglar este",
+  "tema el problema",
+  "no parece ser",
+  "demasiado grave,",
+  "solo retrasara el",
+  "lanzamiento. Pero",
+  "vas a necesitar",
+  "herramientas",
   "     ...     ",
+  "             ",
   "puedes ayudarlos",
   "buscando algo",
   "con los amigos?",
@@ -39,7 +50,6 @@ char* mision_1[MISION1_COUNT] = {
   "             ",
   "Pista: Soldar?",
   "Hardware?",
-  "/(O.O)/"
 };
 
 // Yes we hack - EC Villages
