@@ -52,18 +52,23 @@ static void show_village_screen() {
     return;
   }
   village_t *village = &villages[village_ctx.idx];
-  if (village->idx >= CHICHES_ASADO) {
+  if (village->idx == CHICHES_ASADO) {
+    flame_feed_flame(120);
+    lora_manager_alert_scrolling(village->name);
+  } else if (village->idx > CHICHES_ASADO) {
+    flame_waken_flame(30);
+    sounds_play_music(RIVAL_SONG);
     lora_manager_alert_scrolling(village->name);
   } else {
     char str[100];
     sprintf(str, "Has_llegado_a:_%s", village->name);
     lora_manager_alert_scrolling(str);
+    flame_feed_flame(120);
   }
 }
 
 static void on_village_detected() {
   show_village_screen();
-  flame_feed_flame(120);
   ESP_LOGI("VILLAGE", "Village detected: %d\n", village_ctx.idx);
   neopixels_events_set_animation(set_village_color);
 }

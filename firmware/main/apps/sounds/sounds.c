@@ -36,12 +36,14 @@ void play_sound(uint32_t note, uint32_t time) {
   vTaskDelay(time / portTICK_PERIOD_MS);
 }
 
-void play_tango() {
-  uint8_t samples_num = sizeof(volver_notes) / sizeof(int);
+void play_tango(chiptune_song_e *song) {
+  uint16_t samples_num = chiptune_songs[*song].len;
+  int *notes = chiptune_songs[*song].notes;
+  int *times = chiptune_songs[*song].times;
   for (int i = 0; i < samples_num; i++) {
-    buzzer_set_freq(volver_notes[i]);
-    buzzer_play_for(volver_times[i]);
-    vTaskDelay(volver_times[i] / portTICK_PERIOD_MS);
+    buzzer_set_freq(notes[i]);
+    buzzer_play_for(times[i]);
+    vTaskDelay(times[i] / portTICK_PERIOD_MS);
   }
   buzzer_stop();
   vTaskDelete(NULL);
@@ -49,7 +51,10 @@ void play_tango() {
 
 void sounds_stop_music() { is_playing = false; }
 
-void sounds_play_music() {
+void sounds_play_music(chiptune_song_e song) {
+  if (song >= SONGS_NUM) {
+    return;
+  }
   is_playing = true;
-  xTaskCreate(play_tango, "play_sound", 4096, NULL, 5, NULL);
+  xTaskCreate(play_tango, "play_sound", 4096, &song, 5, NULL);
 }
