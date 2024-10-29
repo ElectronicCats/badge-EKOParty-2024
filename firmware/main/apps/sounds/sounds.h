@@ -195,7 +195,7 @@ chiptune_t chiptune_songs[] = {
     {.idx = VOLVER_SONG,
      .notes = volver_notes,
      .times = volver_times,
-     .len = 212},
+     .len = 106},
     {.idx = SMB_SONG, .notes = smb_notes, .times = smb_times, .len = 308},
     {.idx = ZELDA_INTRO_SONG,
      .notes = zelda_intro_notes,

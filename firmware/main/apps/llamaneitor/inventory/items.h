@@ -62,6 +62,18 @@ const unsigned char epd_bitmap_kitty_medal[] = {
     0x00, 0x00, 0x00, 0x30, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1c,
     0x38, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0xe0, 0x00, 0x00, 0x00};
 
+const epd_bitmap_t cat_badge_bitmap = {
+    .bitmap = epd_bitmap_kitty_medal,
+    .width = 64,
+    .height = 24,
+};
+
+const epd_bitmap_t soldering_iron_bitmap = {
+    .bitmap = epd_bitmap_soldering_iron,
+    .width = 64,
+    .height = 24,
+};
+
 const char *cat1_desc[] = {"Gato " CAT1_STR, "Lorem Ipsum"};
 const char *cat1_hint[] = {"No encontrado", "Completa la", "mision #1",
                            "para obtenerlo"};
@@ -78,28 +90,28 @@ const char *s_iron_hint[] = {"No encontrado", "Completa", "el reto en la",
                              "villa de",      "Hardware", "para obtenerlo"};
 
 llamaneitor_item_t cat_items[] = {
-    {.bitmap = minino_face_bitmap,
+    {.bitmap = cat_badge_bitmap,
      .name = CAT1_STR,
      .desc = cat1_desc,
      .desc_len = 2,
      .hint = cat1_hint,
      .hint_len = 4,
      .unlocked = false},
-    {.bitmap = minino_face_bitmap,
+    {.bitmap = cat_badge_bitmap,
      .name = CAT2_STR,
      .desc = cat2_desc,
      .desc_len = 2,
      .hint = cat2_hint,
      .hint_len = 4,
      .unlocked = false},
-    {.bitmap = minino_face_bitmap,
+    {.bitmap = cat_badge_bitmap,
      .name = CAT3_STR,
      .desc = cat3_desc,
      .desc_len = 2,
      .hint = cat3_hint,
      .hint_len = 4,
      .unlocked = false},
-    {.bitmap = minino_face_bitmap,
+    {.bitmap = soldering_iron_bitmap,
      .name = SOLDERING_IRON_STR,
      .desc = s_iron_desc,
      .desc_len = 6,
