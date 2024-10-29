@@ -37,8 +37,13 @@ static void show_toast_scann(uint8_t dots) {
 }
 
 static void show_flame_animation(uint8_t frame) {
-  oled_screen_display_bitmap(flame_bmp_arr[frame], 52, 0, 24, 24,
-                             OLED_DISPLAY_NORMAL);
+  if (flame_time) {
+    oled_screen_display_bitmap(flame_bmp_arr[frame], 52, 0, 24, 24,
+                               OLED_DISPLAY_NORMAL);
+  } else {
+    oled_screen_display_bitmap(fathom_bmp_arr[frame], 32, 0, 64, 24,
+                               OLED_DISPLAY_NORMAL);
+  }
 }
 
 static void show_remaining_time() {
