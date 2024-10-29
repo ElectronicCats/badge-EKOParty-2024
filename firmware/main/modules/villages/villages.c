@@ -2,6 +2,7 @@
 
 #include <string.h>
 
+#include "almanac.h"
 #include "esp_log.h"
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
@@ -52,6 +53,7 @@ static void show_village_screen() {
     return;
   }
   village_t *village = &villages[village_ctx.idx];
+  almanac_unlock_item(village->idx);
   if (village->idx == CHICHES_ASADO) {
     flame_feed_flame(120);
     lora_manager_alert_scrolling(village->name);
