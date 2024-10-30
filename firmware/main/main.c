@@ -35,7 +35,7 @@ void app_main() {
 #endif
   preferences_begin();
   if (preferences_get_int("dp_select", 0) == 0) {
-    preferences_put_int("dp_select", 5);
+    preferences_put_int("dp_select", 6);
   }
   flash_fs_begin(flash_fs_screens_handler);
   sd_card_begin();
