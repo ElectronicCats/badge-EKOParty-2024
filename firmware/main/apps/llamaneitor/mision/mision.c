@@ -141,7 +141,7 @@ static void module_cb_event_mission_preamble(uint8_t button_name, uint8_t button
           }else{
             is_user_finished = false;
             char mission_str[16];
-            sprintf(mission_str, "mision_%d", mission_idx);
+            sprintf(mission_str, "mission_%d", mission_idx);
             preferences_put_int(mission_str, 1);
             menus_module_set_app_state(true, module_cb_event);
             module_update_mision();
@@ -176,7 +176,7 @@ static void show_mission_screen_loading(){
   oled_screen_fadeout();
   show_downloading_bar_mission();
   char mission_str[16];
-  sprintf(mission_str, "mision_%d", current_mision_idx);
+  sprintf(mission_str, "mission_%d", current_mision_idx);
   preferences_put_int(mission_str, 1);
   vTaskDelay(pdMS_TO_TICKS(1000));
   // lora_manager_alert_scrolling("Mision_1_desbloqueada");
@@ -254,7 +254,7 @@ static void module_validate_code() {
   }
   oled_screen_clear();
   char mission_str[16];
-  sprintf(mission_str, "mision_%d", code_index + 1);
+  sprintf(mission_str, "mission_%d", code_index + 1);
   uint8_t is_unlocked_mission = preferences_get_int(mission_str, 0);
   if(is_unlocked_mission == 1){
     oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
@@ -333,9 +333,7 @@ static void module_cb_event(uint8_t button_name, uint8_t button_event) {
     current_mision = 0;
     break;
   case BUTTON_LEFT:
-    if (exit_cb != NULL) {
-      ((void (*)(void))exit_cb)();
-    }
+    llamaneitor_scenes_main_menu();
     break;
   default:
     break;

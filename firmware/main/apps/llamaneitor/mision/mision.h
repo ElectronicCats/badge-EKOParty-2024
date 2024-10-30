@@ -4,8 +4,8 @@
 #include <stdio.h>
 
 #define MISION1_COUNT 29
-#define MISION1_PREAMBLE 51
-#define MISION1_PATAGON 43
+#define MISION1_PREAMBLE 50
+#define MISION1_PATAGON 42
 #define MISION2_COUNT 21
 
 typedef enum {
@@ -96,7 +96,6 @@ char* mission_1_patagon[MISION1_PATAGON] = {
   "             ",
   "             ",
   "- NUEVA MISION -",
-  "             ",
 };
 
 char* mission_1_text[MISION1_PREAMBLE] = {
@@ -149,7 +148,6 @@ char* mission_1_text[MISION1_PREAMBLE] = {
   "             ",
   "             ",
   "- NUEVA MISION -",
-  "             ",
 };
 
 // Yes we hack - EC Villages
