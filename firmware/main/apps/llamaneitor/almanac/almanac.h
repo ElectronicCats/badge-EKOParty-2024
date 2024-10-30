@@ -55,7 +55,22 @@ typedef struct {
   bool found;
 } almanac_village_t;
 
-const char *ekoparty_details[] = {EKOPARTY_V_STR, "Organizador:", "-@------"};
+const char *ekoparty_details[] = {EKOPARTY_V_STR,
+                                  "",
+                                  "Comienza",
+                                  "oficialmente el",
+                                  "festejo de los",
+                                  "20 a\32os de la",
+                                  "conferencia de",
+                                  "hackers mas",
+                                  "grande de",
+                                  "Latinoamerica.",
+                                  "",
+                                  "Encuentra las",
+                                  "18 villas y a",
+                                  "los 2 JEFES",
+                                  "para completar",
+                                  "el almanaque."};
 const char *hw_hack_details[] = {HW_HACK_V_STR, "Organizador:", "-@marianoit"};
 const char *bit_cana_details[] = {BIT_CANA_V_STR,
                                   "Organizador:", "-@SOcr4t3s_100", "44534"};
@@ -96,7 +111,7 @@ const char *village_not_found[] = {"  --[VACIO]-- ", "Explora todas",
 almanac_village_t almanac[] = {{.name = EKOPARTY_V_STR,
                                 .name_hint = EKOPARTY_H_STR,
                                 .details = ekoparty_details,
-                                .details_len = 3,
+                                .details_len = 16,
                                 .found = false},
                                {.name = HW_HACK_V_STR,
                                 .name_hint = HW_HACK_H_STR,
