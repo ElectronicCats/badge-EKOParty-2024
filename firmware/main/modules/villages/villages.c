@@ -58,7 +58,7 @@ static void show_village_screen() {
   village_t *village = &villages[village_ctx.idx];
   almanac_unlock_item(village->idx);
   if (village->idx == CHICHES_ASADO) {
-    play_azul();
+    sounds_play_soundtrack(play_azul);
     flame_feed_flame(120);
     lora_manager_alert_scrolling(village->name);
   } else if (village->idx > CHICHES_ASADO) {
