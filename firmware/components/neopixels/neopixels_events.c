@@ -47,7 +47,7 @@ void neopixel_message_notify() {
   neopixels_set_pixels(MAX_LED_NUMBER, 0, 0, 0);
   neopixels_refresh();
   vTaskDelay(pdMS_TO_TICKS(200));
-  neopixels_set_pixels(MAX_LED_NUMBER, 50, 50, 0);
+  neopixels_set_pixels(MAX_LED_NUMBER, 25, 25, 0);
   neopixels_refresh();
   vTaskDelay(pdMS_TO_TICKS(200));
 }

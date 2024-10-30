@@ -11,3 +11,4 @@ void inventory_load_items();
 void inventory_save_items();
 void inventory_unlock_item(uint8_t item);
 void inventory_drop_item(uint8_t item);
+bool inventory_is_unlocked_item(uint8_t item);

@@ -97,10 +97,11 @@
 
 
 static bool is_playing = false;
+static pre_sound_event pre_sound = NULL;
 
 #define TEMPO 108
 
-uint16_t zelda_medoly[] = {
+static uint16_t zelda_medoly[] = {
   NOTE_E4,2, NOTE_G4,4,
   NOTE_D4,2, NOTE_C4,8, NOTE_D4,8, 
   NOTE_E4,2, NOTE_G4,4,
@@ -124,25 +125,319 @@ uint16_t zelda_medoly[] = {
   NOTE_F4,8, NOTE_E4,8, NOTE_C4,4, NOTE_F4,4,
   NOTE_C5,-2, 
 };
+static uint16_t nggyup[] = {
+  NOTE_D5,-4, NOTE_E5,-4, NOTE_A4,4, //1
+  NOTE_E5,-4, NOTE_FS5,-4, NOTE_A5,16, NOTE_G5,16, NOTE_FS5,8,
+  NOTE_D5,-4, NOTE_E5,-4, NOTE_A4,2,
+  NOTE_A4,16, NOTE_A4,16, NOTE_B4,16, NOTE_D5,8, NOTE_D5,16,
+  NOTE_D5,-4, NOTE_E5,-4, NOTE_A4,4, //repeat from 1
+  NOTE_E5,-4, NOTE_FS5,-4, NOTE_A5,16, NOTE_G5,16, NOTE_FS5,8,
+  NOTE_D5,-4, NOTE_E5,-4, NOTE_A4,2,
+  NOTE_A4,16, NOTE_A4,16, NOTE_B4,16, NOTE_D5,8, NOTE_D5,16,
+  REST,4, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_D5,8, NOTE_E5,8, NOTE_CS5,-8,
+  NOTE_B4,16, NOTE_A4,2, REST,4, 
 
+  REST,8, NOTE_B4,8, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_B4,4, NOTE_A4,8, //7
+  NOTE_A5,8, REST,8, NOTE_A5,8, NOTE_E5,-4, REST,4, 
+  NOTE_B4,8, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_B4,8, NOTE_D5,8, NOTE_E5,8, REST,8,
+  REST,8, NOTE_CS5,8, NOTE_B4,8, NOTE_A4,-4, REST,4,
+  REST,8, NOTE_B4,8, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_B4,8, NOTE_A4,4,
+  NOTE_E5,8, NOTE_E5,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,4, REST,4,
+   
+  NOTE_D5,2, NOTE_E5,8, NOTE_FS5,8, NOTE_D5,8, //13
+  NOTE_E5,8, NOTE_E5,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,4, NOTE_A4,4,
+  REST,2, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_B4,8,
+  REST,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,-4, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_FS5,-8, NOTE_FS5,-8, NOTE_E5,-4, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
 
-void play_zelda(){
-  int notes = sizeof(zelda_medoly) / sizeof(zelda_medoly[0]/2);
-  int wholenote = (60000 * 4) / TEMPO;
+  NOTE_E5,-8, NOTE_E5,-8, NOTE_D5,-8, NOTE_CS5,16, NOTE_B4,-8, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16, //18
+  NOTE_D5,4, NOTE_E5,8, NOTE_CS5,-8, NOTE_B4,16, NOTE_A4,8, NOTE_A4,8, NOTE_A4,8, 
+  NOTE_E5,4, NOTE_D5,2, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_FS5,-8, NOTE_FS5,-8, NOTE_E5,-4, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_A5,4, NOTE_CS5,8, NOTE_D5,-8, NOTE_CS5,16, NOTE_B4,8, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+
+  NOTE_D5,4, NOTE_E5,8, NOTE_CS5,-8, NOTE_B4,16, NOTE_A4,4, NOTE_A4,8,  //23
+  NOTE_E5,4, NOTE_D5,2, REST,4,
+  REST,8, NOTE_B4,8, NOTE_D5,8, NOTE_B4,8, NOTE_D5,8, NOTE_E5,4, REST,8,
+  REST,8, NOTE_CS5,8, NOTE_B4,8, NOTE_A4,-4, REST,4,
+  REST,8, NOTE_B4,8, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_B4,8, NOTE_A4,4,
+  REST,8, NOTE_A5,8, NOTE_A5,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,8, NOTE_D5,8,
+  
+  REST,8, NOTE_A4,8, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_B4,8, //29
+  REST,8, NOTE_CS5,8, NOTE_B4,8, NOTE_A4,-4, REST,4,
+  NOTE_B4,8, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_B4,8, NOTE_A4,4, REST,8,
+  REST,8, NOTE_E5,8, NOTE_E5,8, NOTE_FS5,4, NOTE_E5,-4, 
+  NOTE_D5,2, NOTE_D5,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,4, 
+  NOTE_E5,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,8, NOTE_A4,8, NOTE_A4,4,
+
+  REST,-4, NOTE_A4,8, NOTE_B4,8, NOTE_CS5,8, NOTE_D5,8, NOTE_B4,8, //35
+  REST,8, NOTE_E5,8, NOTE_FS5,8, NOTE_E5,-4, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_FS5,-8, NOTE_FS5,-8, NOTE_E5,-4, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_E5,-8, NOTE_E5,-8, NOTE_D5,-8, NOTE_CS5,16, NOTE_B4,8, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_D5,4, NOTE_E5,8, NOTE_CS5,-8, NOTE_B4,16, NOTE_A4,4, NOTE_A4,8, 
+
+   NOTE_E5,4, NOTE_D5,2, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16, //40
+  NOTE_FS5,-8, NOTE_FS5,-8, NOTE_E5,-4, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_A5,4, NOTE_CS5,8, NOTE_D5,-8, NOTE_CS5,16, NOTE_B4,8, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_D5,4, NOTE_E5,8, NOTE_CS5,-8, NOTE_B4,16, NOTE_A4,4, NOTE_A4,8,  
+  NOTE_E5,4, NOTE_D5,2, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+   
+  NOTE_FS5,-8, NOTE_FS5,-8, NOTE_E5,-4, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16, //45
+  NOTE_A5,4, NOTE_CS5,8, NOTE_D5,-8, NOTE_CS5,16, NOTE_B4,8, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_D5,4, NOTE_E5,8, NOTE_CS5,-8, NOTE_B4,16, NOTE_A4,4, NOTE_A4,8,  
+  NOTE_E5,4, NOTE_D5,2, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_FS5,-8, NOTE_FS5,-8, NOTE_E5,-4, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16, //45
+  
+  NOTE_A5,4, NOTE_CS5,8, NOTE_D5,-8, NOTE_CS5,16, NOTE_B4,8, NOTE_A4,16, NOTE_B4,16, NOTE_D5,16, NOTE_B4,16,
+  NOTE_D5,4, NOTE_E5,8, NOTE_CS5,-8, NOTE_B4,16, NOTE_A4,4, NOTE_A4,8, 
+
+  NOTE_E5,4, NOTE_D5,2, REST,4
+};
+
+static uint16_t godfather[] = {
+
+  REST, 4, REST, 8, REST, 8, REST, 8, NOTE_E4, 8, NOTE_A4, 8, NOTE_C5, 8, //1
+  NOTE_B4, 8, NOTE_A4, 8, NOTE_C5, 8, NOTE_A4, 8, NOTE_B4, 8, NOTE_A4, 8, NOTE_F4, 8, NOTE_G4, 8,
+  NOTE_E4, 2, NOTE_E4, 8, NOTE_A4, 8, NOTE_C5, 8,
+  NOTE_B4, 8, NOTE_A4, 8, NOTE_C5, 8, NOTE_A4, 8, NOTE_C5, 8, NOTE_A4, 8, NOTE_E4, 8, NOTE_DS4, 8,
+  
+  NOTE_D4, 2, NOTE_D4, 8, NOTE_F4, 8, NOTE_GS4, 8, //5
+  NOTE_B4, 2, NOTE_D4, 8, NOTE_F4, 8, NOTE_GS4, 8,
+  NOTE_A4, 2, NOTE_C4, 8, NOTE_C4, 8, NOTE_G4, 8, 
+  NOTE_F4, 8, NOTE_E4, 8, NOTE_G4, 8, NOTE_F4, 8, NOTE_F4, 8, NOTE_E4, 8, NOTE_E4, 8, NOTE_GS4, 8,
+
+  NOTE_A4, 2, REST,8, NOTE_A4, 8, NOTE_A4, 8, NOTE_GS4, 8, //9
+  NOTE_G4, 2, NOTE_B4, 8, NOTE_A4, 8, NOTE_F4, 8, 
+  NOTE_E4, 2, NOTE_E4, 8, NOTE_G4, 8, NOTE_E4, 8,
+  NOTE_D4, 2, NOTE_D4, 8, NOTE_D4, 8, NOTE_F4, 8, NOTE_DS4, 8, 
+   
+  NOTE_E4, 2, REST, 8, NOTE_E4, 8, NOTE_A4, 8, NOTE_C5, 8, //13
+   
+  NOTE_E4, 2 //13
+};
+
+static uint16_t azul_melody[] = {
+  // Intro
+  NOTE_C4, 8, NOTE_E4, 8, NOTE_G4, 4, NOTE_A4, 4,
+  NOTE_F4, 8, NOTE_G4, 8, NOTE_A4, 4, NOTE_G4, 4,
+  NOTE_F4, 8, NOTE_E4, 8, NOTE_D4, 4, NOTE_E4, 4,
+
+  // "Azul..."
+  NOTE_A4, 4, NOTE_B4, 4, NOTE_C5, 2, 
+  NOTE_A4, 4, NOTE_G4, 4, NOTE_A4, 2,
+  NOTE_F4, 4, NOTE_G4, 4, NOTE_A4, 2,
+
+  // "Es que este amor es azul como el mar, azul..."
+  NOTE_G4, 8, NOTE_F4, 8, NOTE_E4, 4, NOTE_F4, 4,
+  NOTE_D4, 8, NOTE_E4, 8, NOTE_F4, 4, NOTE_G4, 4,
+  NOTE_A4, 4, NOTE_B4, 4, NOTE_C5, 2,
+  
+  // "Como de tu mirar, azul, azul..."
+  NOTE_A4, 4, NOTE_B4, 4, NOTE_A4, 2,
+  NOTE_G4, 4, NOTE_F4, 4, NOTE_E4, 2,
+  NOTE_D4, 4, NOTE_E4, 4, NOTE_F4, 2,
+  
+  // Repetir parte
+  NOTE_A4, 4, NOTE_B4, 4, NOTE_C5, 2, 
+  NOTE_A4, 4, NOTE_G4, 4, NOTE_A4, 2,
+  NOTE_F4, 4, NOTE_G4, 4, NOTE_A4, 2,
+  
+  REST, 4
+};
+
+static uint16_t volver_melody[] = {
+  // "Volver con la frente marchita..."
+  NOTE_C4, 4, NOTE_E4, 4, NOTE_G4, 2, // "Vol-ver"
+  NOTE_A4, 4, NOTE_G4, 4, NOTE_E4, 2, // "con la"
+  NOTE_C4, 4, NOTE_E4, 4, NOTE_G4, 4, NOTE_A4, 8, NOTE_G4, 8, // "frente mar-chi-ta"
+  
+  // "Las nieves del tiempo..."
+  NOTE_F4, 4, NOTE_G4, 4, NOTE_A4, 2, // "Las nie-ves"
+  NOTE_G4, 8, NOTE_A4, 8, NOTE_G4, 4, NOTE_E4, 4, // "del tiem-po"
+  NOTE_F4, 4, NOTE_G4, 4, NOTE_A4, 2, // "pla-tearon mi sien"
+  
+  // "Sentir que es un soplo la vida..."
+  NOTE_C5, 4, NOTE_B4, 4, NOTE_A4, 2, // "Sen-tir"
+  NOTE_G4, 4, NOTE_A4, 4, NOTE_B4, 2, // "que es un"
+  NOTE_C5, 4, NOTE_E5, 4, NOTE_F5, 2, // "soplo la"
+  
+  // "Que veinte años no es nada..."
+  NOTE_E5, 4, NOTE_C5, 4, NOTE_A4, 2, // "vi-da"
+  NOTE_C5, 4, NOTE_D5, 4, NOTE_E5, 2, // "que vein-te"
+  
+  // "Que febril la mirada..."
+  NOTE_F5, 4, NOTE_G5, 4, NOTE_A5, 2, // "an-ios no es na-da"
+  NOTE_F5, 4, NOTE_D5, 4, NOTE_B4, 2, // "que fe-bril"
+  
+  // "La mirada errante..."
+  NOTE_C5, 4, NOTE_B4, 4, NOTE_A4, 4, NOTE_G4, 4, // "la mi-ra-da er-ran-te"
+  
+  // "De las sombras que buscan mi fe..."
+  NOTE_C5, 4, NOTE_D5, 4, NOTE_E5, 2, // "de las som-bras"
+  NOTE_C5, 4, NOTE_D5, 4, NOTE_C5, 2, // "que bus-can"
+  NOTE_A4, 4, NOTE_G4, 4, NOTE_F4, 2, // "mi fe"
+  
+  // "Tengo miedo del encuentro..."
+  NOTE_F5, 4, NOTE_G5, 4, NOTE_A5, 2, // "Ten-go"
+  NOTE_G5, 4, NOTE_F5, 4, NOTE_E5, 2, // "mie-do"
+  NOTE_F5, 4, NOTE_G5, 4, NOTE_A5, 2, // "del en-cuen-tro"
+  // Rest to end the phrase
+  REST, 4
+};
+
+void play_azul(){
+  int notes = sizeof(azul_melody) / sizeof(azul_melody[0]/2);
+  int wholenote = (60000 * 4) / 114;
   int divider = 0, noteDuration = 0;
+  while(is_playing){
+    for(int i = 0; i < notes*2; i+=2){
+      if(!is_playing){
+        break;
+      }
+      divider = azul_melody[i+1];
+      if(divider == 0){
+        vTaskDelay(wholenote / portTICK_PERIOD_MS);
+        continue;
+      }
+      if(divider > 0){
+        noteDuration = (wholenote) / divider;
+      }else if(divider < 0){
+        noteDuration = (wholenote) / abs(divider);
+        noteDuration *= 1.5;
+      }
+      if(azul_melody[i] <= 13){
+        continue;
+      }
+      buzzer_set_freq(azul_melody[i]);
+      buzzer_play_for(noteDuration*0.9);
+      vTaskDelay(noteDuration / portTICK_PERIOD_MS);
+    }
+  }
+  is_playing = false;
+  vTaskDelete(NULL);
+}
 
+void play_volver(){
+  int notes = sizeof(volver_melody) / sizeof(volver_melody[0]/2);
+  int wholenote = (60000 * 4) / 114;
+  int divider = 0, noteDuration = 0;
+   for(int i = 0; i < notes*2; i+=2){
+      if(!is_playing){
+        break;
+      }
+      divider = volver_melody[i+1];
+      if(divider == 0){
+        vTaskDelay(wholenote / portTICK_PERIOD_MS);
+        continue;
+      }
+      if(divider > 0){
+        noteDuration = (wholenote) / divider;
+      }else if(divider < 0){
+        noteDuration = (wholenote) / abs(divider);
+        noteDuration *= 1.5;
+      }
+      if(volver_melody[i] <= 13){
+        continue;
+      }
+      buzzer_set_freq(volver_melody[i]);
+      buzzer_play_for(noteDuration*0.9);
+      vTaskDelay(noteDuration / portTICK_PERIOD_MS);
+    }
+  is_playing = false;
+  vTaskDelete(NULL);
+}
+
+void play_godfather(){
+  int notes = sizeof(godfather) / sizeof(godfather[0]/2);
+  int wholenote = (60000 * 4) / 80;
+  int divider = 0, noteDuration = 0;
   for(int i = 0; i < notes*2; i+=2){
-    divider = zelda_medoly[i+1];
+    if(!is_playing){
+      break;
+    }
+    divider = godfather[i+1];
+    if(divider == 0){
+      vTaskDelay(wholenote / portTICK_PERIOD_MS);
+      continue;
+    }
     if(divider > 0){
       noteDuration = (wholenote) / divider;
     }else if(divider < 0){
       noteDuration = (wholenote) / abs(divider);
       noteDuration *= 1.5;
     }
-    buzzer_set_freq(zelda_medoly[i]);
+    if(godfather[i] <= 13){
+      continue;
+    }
+    buzzer_set_freq(godfather[i]);
     buzzer_play_for(noteDuration*0.9);
     vTaskDelay(noteDuration / portTICK_PERIOD_MS);
   }
+  is_playing = false;
+  vTaskDelete(NULL);
+}
+
+void play_nggyup(){
+  int notes = sizeof(nggyup) / sizeof(nggyup[0]/2);
+  int wholenote = (60000 * 4) / 114;
+  int divider = 0, noteDuration = 0;
+  while(is_playing){
+    for(int i = 0; i < notes*2; i+=2){
+      if(!is_playing){
+        break;
+      }
+      divider = nggyup[i+1];
+      if(divider == 0){
+        vTaskDelay(wholenote / portTICK_PERIOD_MS);
+        continue;
+      }
+      if(divider > 0){
+        noteDuration = (wholenote) / divider;
+      }else if(divider < 0){
+        noteDuration = (wholenote) / abs(divider);
+        noteDuration *= 1.5;
+      }
+      if(nggyup[i] <= 13){
+        continue;
+      }
+      buzzer_set_freq(nggyup[i]);
+      buzzer_play_for(noteDuration*0.9);
+      vTaskDelay(noteDuration / portTICK_PERIOD_MS);
+    }
+  }
+  is_playing = false;
+  vTaskDelete(NULL);
+}
+
+void play_zelda(){
+  int notes = sizeof(zelda_medoly) / sizeof(zelda_medoly[0]/2);
+  int wholenote = (60000 * 4) / TEMPO;
+  int divider = 0, noteDuration = 0;
+  while(is_playing){
+    for(int i = 0; i < notes*2; i+=2){
+      if(!is_playing){
+        break;
+      }
+      divider = zelda_medoly[i+1];
+      if(divider == 0){
+        vTaskDelay(wholenote / portTICK_PERIOD_MS);
+        continue;
+      }
+      if(divider > 0){
+        noteDuration = (wholenote) / divider;
+      }else if(divider < 0){
+        noteDuration = (wholenote) / abs(divider);
+        noteDuration *= 1.5;
+      }
+      if(zelda_medoly[i] <= 13){
+        continue;
+      }
+      buzzer_set_freq(zelda_medoly[i]);
+      buzzer_play_for(noteDuration*0.9);
+      vTaskDelay(noteDuration / portTICK_PERIOD_MS);
+    }
+  }
+  is_playing = false;
   vTaskDelete(NULL);
 }
 
@@ -152,20 +447,19 @@ void play_sound(uint32_t note, uint32_t time) {
   vTaskDelay(time / portTICK_PERIOD_MS);
 }
 
-void play_tango() {
-  uint8_t samples_num = sizeof(volver_notes) / sizeof(int);
-  for (int i = 0; i < samples_num; i++) {
-    buzzer_set_freq(volver_notes[i]);
-    buzzer_play_for(volver_times[i]);
-    vTaskDelay(volver_times[i] / portTICK_PERIOD_MS);
-  }
-  buzzer_stop();
-  vTaskDelete(NULL);
-}
-
 void sounds_stop_music() { is_playing = false; }
 
 void sounds_play_music() {
   is_playing = true;
   xTaskCreate(play_zelda, "play_sound", 4096, NULL, 5, NULL);
+}
+
+void sounds_play_soundtrack(pre_sound_event pre_sound) {
+  
+  if(is_playing == true){
+    is_playing = false;
+    vTaskDelete(NULL);
+  }
+  is_playing = true;
+  xTaskCreate(pre_sound, "pre_sound", 4096, NULL, 5, NULL);
 }

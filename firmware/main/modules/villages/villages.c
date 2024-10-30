@@ -13,6 +13,7 @@
 #include "neopixels_module.h"
 #include "sounds.h"
 #include "preferences.h"
+#include "mision.h"
 
 #define VILLAGE_RSSI_FILTER -70
 #define VILLAGES_TIMEOUT_S 10
@@ -48,17 +49,6 @@ static void set_village_color() {
   vTaskDelay(pdMS_TO_TICKS(500));
 }
 
-static void show_downloading_bar_mission(){
-  oled_screen_clear();
-  oled_screen_display_text_center("Descargando", 0, OLED_DISPLAY_NORMAL);
-  oled_screen_display_text_center("Mision", 1, OLED_DISPLAY_NORMAL);
-  for(int i = 0; i < 128; i++){
-    oled_screen_display_loading_bar(i, 3);
-    vTaskDelay(pdMS_TO_TICKS(50));
-  }
-  vTaskDelay(pdMS_TO_TICKS(2000));
-}
-
 static void show_village_screen() {
   if (llamaneitor_scenes_get_scene()) {
     return;
@@ -71,36 +61,16 @@ static void show_village_screen() {
     sprintf(str, "Has_llegado_a:_%s", village->name);
     lora_manager_alert_scrolling(str);
   }
-  // Unlock mission 1
-  if(village->idx == PAT_SPACE || village->idx == HW_HACK){
-    if(preferences_get_int("mission_1", 0) == 0){
-      vTaskDelay(pdMS_TO_TICKS(3000));
-      show_downloading_bar_mission();
-      preferences_put_int("mission_1", 1);
-      vTaskDelay(pdMS_TO_TICKS(1000));
-      lora_manager_alert_scrolling("Mision_1_desbloqueada");
-      if(llamaneitor_scenes_get_scene()){
-        llamaneitor_scenes_main_menu();
-      }
-    }
-  }else if(village->idx == YWE_HACK || village->idx == EC){
-    if(preferences_get_int("mission_2", 0) == 0){
-      vTaskDelay(pdMS_TO_TICKS(3000));
-      show_downloading_bar_mission();
-      preferences_put_int("mission_2", 1);
-      vTaskDelay(pdMS_TO_TICKS(1000));
-      lora_manager_alert_scrolling("Mision_2_desbloqueada");
-      if(llamaneitor_scenes_get_scene()){
-        llamaneitor_scenes_main_menu();
-      }
-    }
-  }
+
+  show_mission_screen(village->idx);
 }
 
 static void on_village_detected() {
-  show_village_screen();
-  ESP_LOGI("VILLAGE", "Village detected: %d\n", village_ctx.idx);
-  neopixels_events_set_animation(set_village_color);
+  if(!mission_get_state()){
+    show_village_screen();
+    ESP_LOGI("VILLAGE", "Village detected: %d\n", village_ctx.idx);
+    neopixels_events_set_animation(set_village_color);
+  }
 }
 
 static village_t *get_village_by_uuid(esp_ble_ibeacon_t *ibeacon,

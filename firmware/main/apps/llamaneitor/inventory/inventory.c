@@ -2,6 +2,7 @@
 
 #include "items.h"
 #include "preferences.h"
+#include "string.h"
 
 void inventory_load_items() {
   char str[10];
@@ -27,4 +28,10 @@ void inventory_unlock_item(uint8_t item) {
 void inventory_drop_item(uint8_t item) {
   cat_items[item].unlocked = false;
   inventory_save_items();
+}
+
+bool inventory_is_unlocked_item(uint8_t item) {
+  char str[10];
+  sprintf(str, "item%d\n", item);
+  return preferences_get_bool(str, false);
 }

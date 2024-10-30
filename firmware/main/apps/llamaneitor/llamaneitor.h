@@ -3,7 +3,7 @@
 #include "general/general_screens.h"
 
 #define HISTORY_MENU_COUNT 40
-#define HISTORY_CONT_COUNT 82
+#define HISTORY_CONT_COUNT 89
 
 typedef enum { CHAR_1, CHAR_2, CHAR_3, CHAR_4, CHARS_NUM } characteres_e;
 
