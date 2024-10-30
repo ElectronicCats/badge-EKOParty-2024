@@ -17,3 +17,4 @@ typedef struct {
 void toast_begin();
 void toast_init();
 bool toast_is_ready();
+void toast_exit();

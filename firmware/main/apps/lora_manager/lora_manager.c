@@ -16,10 +16,27 @@
 #define MAX_WORDS 10
 #define MAX_WORD_LENGTH 17
 #define MAX_CHAR_PER_ENTRY 15
+#define NOTIFICATION_TIMEOUT 30
 
 uint8_t buf[LORA_PACKET_LENGTH];
 
 static general_menu_t item_menu;
+static uint8_t timeout_notify = 0;
+static bool is_pressed_exit = false;
+
+static void exit_notification();
+
+
+static void running_timeout(){
+  while(!is_pressed_exit){
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    timeout_notify++;
+    if(timeout_notify >= NOTIFICATION_TIMEOUT){
+      exit_notification();
+    }
+  }
+  vTaskDelete(NULL);
+}
 
 void split_and_group_string(const char *str, char *result[]) {
   char *temp_str = strdup(str);
@@ -51,8 +68,13 @@ void split_and_group_string(const char *str, char *result[]) {
 }
 
 static void exit_notification() {
-  neopixel_events_stop_event();
-  menus_module_reset();
+  is_pressed_exit = true;
+  llamaneitor_scenes_main_menu();
+}
+
+static void manual_exit(){
+  is_pressed_exit = true;
+  llamaneitor_scenes_main_menu();
 }
 
 void lora_manager_alert_scrolling(char *message) {
@@ -69,7 +91,7 @@ void lora_manager_alert_scrolling(char *message) {
   }
   item_menu.menu_level = GENERAL_TREE_APP_INFORMATION;
   general_register_scrolling_menu(&item_menu);
-  general_screen_display_scrolling_text_handler(llamaneitor_scenes_main_menu);
+  general_screen_display_scrolling_text_handler(manual_exit);
 }
 
 static void lora_command_handler() {
@@ -86,15 +108,26 @@ static void lora_command_handler() {
     if (note_str != NULL && duration_str != NULL) {
       uint32_t note = atoi(note_str);
       uint32_t duration = atoi(duration_str);
+      if(note <= 0 || note > 5000){
+        return;
+      }
+      if(duration <= 0 || duration > 10000){
+        return;
+      }
       play_sound(note, duration);
     }
   } else if (strcmp(command, "STOP") == 0) {
     sounds_stop_music();
   } else if (strcmp(command, "NOTIFY") == 0) {
     char *notification_str = strtok(NULL, ":");
-    screen_saver_stop();
-    neopixel_events_run_event(neopixel_message_notify);
-    lora_manager_alert_scrolling(notification_str);
+    if(notification_str != NULL){
+      screen_saver_stop();
+      neopixel_volatil_notification();
+      xTaskCreate(running_timeout, "running_timeout", 2048, NULL, 5, NULL);
+      lora_manager_alert_scrolling(notification_str);
+      timeout_notify = 0;
+      is_pressed_exit = false;
+    }
   }
 }
 

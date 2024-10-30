@@ -23,6 +23,7 @@ typedef struct {
   char **hint;
   uint8_t hint_len;
   bool unlocked;
+  game_items_t item;
 } llamaneitor_item_t;
 
 // 'soldering_iron', 64x24px
@@ -96,26 +97,30 @@ llamaneitor_item_t cat_items[] = {
      .desc_len = 2,
      .hint = cat1_hint,
      .hint_len = 4,
-     .unlocked = false},
+     .unlocked = false,
+     .item = GM_CAT_1},
     {.bitmap = cat_badge_bitmap,
      .name = CAT2_STR,
      .desc = cat2_desc,
      .desc_len = 2,
      .hint = cat2_hint,
      .hint_len = 4,
-     .unlocked = false},
+     .unlocked = false,
+     .item = GM_CAT_2},
     {.bitmap = cat_badge_bitmap,
      .name = CAT3_STR,
      .desc = cat3_desc,
      .desc_len = 2,
      .hint = cat3_hint,
      .hint_len = 4,
-     .unlocked = false},
+     .unlocked = false,
+     .item = GM_CAT_3},
     {.bitmap = soldering_iron_bitmap,
      .name = SOLDERING_IRON_STR,
      .desc = s_iron_desc,
      .desc_len = 6,
      .hint = s_iron_hint,
      .hint_len = 6,
-     .unlocked = false},
+     .unlocked = false,
+     .item = GM_SOLDERING_IRON},
 };

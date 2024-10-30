@@ -19,3 +19,4 @@ void neopixels_events_set_notification(neopixel_event notification,
 
 void neopixel_llamaneitor_init();
 void neopixel_message_notify();
+void neopixel_volatil_notification();

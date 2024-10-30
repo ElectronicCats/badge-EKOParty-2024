@@ -8,10 +8,13 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "ibeacon_scann.h"
+#include "inventory.h"
 #include "llamaneitor_scenes.c"
 #include "lora_manager.h"
+#include "mision.h"
 #include "neopixels_events.h"
 #include "neopixels_module.h"
+#include "preferences.h"
 #include "sounds.h"
 
 #define VILLAGE_RSSI_FILTER -70
@@ -37,9 +40,9 @@ static void on_villages_timeout() {
 static void set_village_color() {
   ESP_LOGI(VILLAGE_TAG, "Village color: %d\n", village_ctx.idx);
   village_t *village = &villages[village_ctx.idx];
-  uint8_t red = village->R;
-  uint8_t green = village->G;
-  uint8_t blue = village->B;
+  uint8_t red = village->R * 0.5;
+  uint8_t green = village->G * 0.5;
+  uint8_t blue = village->B * 0.5;
   neopixels_set_pixels(MAX_LED_NUMBER, red, green, blue);
   neopixels_refresh();
   vTaskDelay(pdMS_TO_TICKS(200));
@@ -49,17 +52,17 @@ static void set_village_color() {
 }
 
 static void show_village_screen() {
-  if (llamaneitor_scenes_get_scene()) {
-    return;
-  }
+  // if (llamaneitor_scenes_get_scene()) {
+  //   return;
+  // }
   village_t *village = &villages[village_ctx.idx];
   almanac_unlock_item(village->idx);
   if (village->idx == CHICHES_ASADO) {
+    play_azul();
     flame_feed_flame(120);
     lora_manager_alert_scrolling(village->name);
   } else if (village->idx > CHICHES_ASADO) {
     flame_waken_flame(30);
-    sounds_play_music(RIVAL_SONG);
     lora_manager_alert_scrolling(village->name);
   } else {
     char str[100];
@@ -67,12 +70,16 @@ static void show_village_screen() {
     lora_manager_alert_scrolling(str);
     flame_feed_flame(120);
   }
+
+  show_mission_screen(village->idx);
 }
 
 static void on_village_detected() {
-  show_village_screen();
-  ESP_LOGI("VILLAGE", "Village detected: %d\n", village_ctx.idx);
-  neopixels_events_set_animation(set_village_color);
+  if (!mission_get_state()) {
+    show_village_screen();
+    ESP_LOGI("VILLAGE", "Village detected: %d\n", village_ctx.idx);
+    neopixels_events_set_animation(set_village_color);
+  }
 }
 
 static village_t *get_village_by_uuid(esp_ble_ibeacon_t *ibeacon,
@@ -91,6 +98,9 @@ static village_t *get_village_by_uuid(esp_ble_ibeacon_t *ibeacon,
 
 static void on_ibeacon_cb(esp_ble_ibeacon_t *ibeacon,
                           esp_ble_gap_cb_param_t *scan_result) {
+  if (preferences_get_int("flogin", 0) == 0) {
+    return;
+  }
   village_t *village = get_village_by_uuid(ibeacon, scan_result);
   if (village) {
     esp_timer_stop(villages_timer);
@@ -113,6 +123,9 @@ village_t *villages_get_current_village() { return &villages[village_ctx.idx]; }
 void villages_begin() {
   ibeacon_scann_set_on_ibeacon_cb(on_ibeacon_cb);
   ibeacon_scann_begin();
+
+  inventory_load_items();
+  almanac_load_items();
 
   esp_timer_create_args_t villages_timer_args = {
       .arg = NULL, .callback = on_villages_timeout};
