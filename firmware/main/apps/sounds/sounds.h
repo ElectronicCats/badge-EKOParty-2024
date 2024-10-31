@@ -10,4 +10,5 @@ void play_nggyup();
 void play_godfather();
 void play_volver();
 void play_azul();
+void play_imperial_march();
 void sounds_play_soundtrack(pre_sound_event pre_sound);

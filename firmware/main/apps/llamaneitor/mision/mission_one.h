@@ -8,7 +8,7 @@
 #define MMISSION_ONE_PAT_HW_BEACON 68
 #define MMISSION_ONE_PATAGON_FINISH 47
 #define MMISSION_ONE_FINISHED 1
-#define MMISSION_ONE_HARDWARE_BEACON 65
+#define MMISSION_ONE_HARDWARE_BEACON 66
 #define MMISSION_ONE_HARDWARE_TASK 6
 
 #define FSAVE_STATE "m_state"
@@ -309,5 +309,6 @@ char* mmission_one_finished[MMISSION_ONE_FINISHED] = {
 };
 
 void mission_one_begin(uint8_t village_idx);
-
-uint8_t mission_get_current_state();
+void mission_one_show_mission_done();
+void mission_one_show_mission_details(void *exit_cb);
+uint8_t mission_one_get_current_state();

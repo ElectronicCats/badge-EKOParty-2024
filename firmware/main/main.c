@@ -24,6 +24,7 @@
 #include "toast.h"
 #include "web_file_browser.h"
 #include "wifi_app.h"
+#include "mission_two.h"
 
 #include "villages.h"
 

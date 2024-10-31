@@ -1,0 +1,241 @@
+#pragma once
+
+#include <stdbool.h>
+#include <stdio.h>
+#define FSAVE_STATE_TWO "m_state_tw"
+#define FMISSION_2 "mission_2"
+#define MISSION_TWO_HACKED "m2pwnd"
+#define MISSION_TWO_CAR_BEACON 67
+#define MISSION_TWO_RED_HACK_BEACON 39
+#define MISSION_TWO_YWHACK_BEACONHACKED 38
+#define MISSION_TWO_YWHACK_BEACON 32
+#define MISSION_TWO_DESCRIPTION 19
+
+typedef enum {
+  MISSION_TWO_YWH_IDLE, // Waiting for a beacon in the patagonspace village
+  MISSION_TWO_RED_HACKED, // Show mission
+  MISSION_TWO_CAR_BEACON_IDLE,
+  MISSION_TWO_SHOW_MISSION,
+} mission_two_state_t;
+
+
+char* mission_two_carhacking_beacon[MISSION_TWO_CAR_BEACON] = {
+  ".. Tu vehiculo",
+  "rueda por la",
+  "carreta rajada",
+  "tras las",
+  "tormentas ...",
+  "             ",
+  "El cambio de",
+  "las condiciones",
+  "climaticas ha",
+  "provocado las",
+  "tormentas, que",
+  "en consecuencia",
+  "ha traido ",
+  "da\32os a la",
+  "carretera. ",
+  "Pero si ",
+  "hubieramos",
+  "conducido",
+  "menos,",
+  "habriamos",
+  "tenido menos",
+  "impacto vas",
+  "pensando en ",
+  "voz alta."
+  "             ",
+  "-No pude evitar",
+  "escucharte…"
+  "             ",
+  "-Una gran parte",
+  "del problema es",
+  "nuestra",
+  "dependencia en ",
+  "la tecnologia ",
+  "no optima. ",
+  "Si tienes codigo",
+  "mal escrito, tus",
+  "servidores corren",
+  "por mas tiempo.",
+  "Si no optimizas,",
+  "afecta al ",
+  "rendimiento del",
+  "sistema."
+  "             ",
+  "No seria bueno",
+  "aprender mas ",
+  "sobre como ",
+  "corregir esos",
+  "errores para",
+  "minimizar el",
+  "consumo",
+  "energetico?",
+  "- te preguntas",
+  "mientras buscas",
+  "a alguien que",
+  "te pueda echar",
+  "una mano a ",
+  "comprender ",
+  "mejor como",
+  "gestionar los",
+  "constantes",
+  "errores de ",
+  "codigo."
+  "             ",
+  "- En eso",
+  "piensas en la",
+  "villa de",
+  "Yes We Hack",
+  "             ",
+  "Si, ellos",
+  "tambien hackean",
+  "..."
+};
+
+char* mission_two_red_beacon_hacked[MISSION_TWO_RED_HACK_BEACON] = {
+  "Mas cuidado!",
+  "acabas de ser",
+  "hackeado!",
+  "             ",
+  "Ahora tu badge",
+  "esta bajo el",
+  "control de",
+  "un ransomware",
+  "...",
+  "             ",
+  "Este ransomware",
+  "entorpece tu",
+  "sistema y",
+  "te muestra",
+  "texto en",
+  "utilizando",
+  "frases en",
+  "formato aliado",
+  "             ",
+  "Si quieres",
+  "recuperar el",
+  "control de tu",
+  "badge, debes",
+  "resolver la",
+  "mision en la",
+  "villla de",
+  "Yes We Hack",
+  "             ",
+  "             ",
+  "O tal vez",
+  "alguna otra",
+  "villa te puede",
+  "ayudar a",
+  "recuperar el",
+  "control de tu",
+  "badge...",
+  "             ",
+  "No todo es",
+  "red team...",
+};
+
+char* mission_two_ywhack_beacon_hacked[MISSION_TWO_YWHACK_BEACONHACKED] = {
+  "Se te acerca",
+  "une de les",
+  "coleques",
+  "hackers, ",
+  "te pasa una",
+  "tabla de",
+  "conversion y",
+  "te pide que",
+  "le eches una",
+  "mano a ",
+  "decodificar un",
+  "mensaje. ",
+  "Pero no es",
+  "porque el",
+  "colegue no",
+  "pueda, sino",
+  "porque asi",
+  "va la historia",
+  "             ",
+  "             ",
+  "No tienen la",
+  "tabla completa,"
+  "asi que tienes"
+  "que echar mano",
+  "de tus",
+  "conocimientos en",
+  "criptografia",
+  "para ",
+  "descifrar el",
+  "error oculto",
+  "en el codigo.",
+  "             ",
+  "             ",
+  "Como pago por",
+  "el trabajo, ",
+  "te dara un ",
+  "add-on para",
+  "tu badge.",
+  "Y un codigo",
+  "para la matrix."
+};
+
+char* mission_two_ywhack_beacon[MISSION_TWO_YWHACK_BEACON] = {
+  "Se te acerca",
+  "uno de los",
+  "colegas",
+  "hackers, ",
+  "te pasa una",
+  "tabla de",
+  "conversion y",
+  "te pide que",
+  "le eches una",
+  "mano a ",
+  "decodificar un",
+  "mensaje. ",
+  "             ",
+  "             ",
+  "No tienen la",
+  "tabla completa,"
+  "asi que tienes"
+  "que echar mano",
+  "de tus",
+  "conocimientos en",
+  "criptografia",
+  "para ",
+  "descifrar el",
+  "error oculto",
+  "en el codigo.",
+  "             ",
+  "             ",
+  "Como pago por",
+  "el trabajo, ",
+  "te dara un ",
+  "add-on para",
+  "tu badge.",
+  "Y un codigo",
+  "para la matrix."
+};
+// No encrypted
+char* mission_two_description[MISSION_TWO_DESCRIPTION] = {
+  "... El saludo",
+  "secreto de la",
+  "gente de",
+  "Yes We Hack",
+  "             ",
+  "             ",
+  "El saludo es",
+  "tan sencillo",
+  "como gritar...",
+  "             ",
+  "YES WE HACK!",
+  "             ",
+  "al llegar a su",
+  "villa, asi que",
+  "grita lo mas",
+  "fuerte que",
+  "puedas!",
+  "             ",
+  "- NUEVA MISION -",
+};
+uint8_t mission_hacked_active();
+void mission_two_begin(uint8_t village_idx);
+void mission_two_hacked_begin(uint8_t village_idx);

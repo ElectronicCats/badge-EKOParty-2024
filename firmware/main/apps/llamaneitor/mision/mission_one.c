@@ -99,11 +99,6 @@ static void mission_one_reset_history(){
   mission_one_display_scrolling_text();
 }
 
-static void mission_one_transition_scene(){
-  oled_screen_clear();
-  oled_screen_fadeout();
-}
-
 static void show_downloading_bar_mission(){
   oled_screen_clear();
   oled_screen_display_text_center("Descargando", 0, OLED_DISPLAY_NORMAL);
@@ -226,14 +221,18 @@ static void mission_beacon_dissector(uint8_t village_idx){
   mission_one_reset_history();
 }
 
-uint8_t mission_get_current_state(){
+uint8_t mission_one_get_current_state(){
   return current_state;
 }
 
-void mission_display_mission_done(){
-  current_history = mmission_one_finished_menu;
-  mission_one_transition_scene();
-  mission_one_reset_history();
+void mission_one_show_mission_details(void *exit_cb){
+  general_register_scrolling_menu(&mmission_one_description_menu);
+  general_screen_display_scrolling_text_handler(exit_cb);
+}
+
+void mission_one_show_mission_done(){
+  general_register_scrolling_menu(&mmission_one_finished_menu);
+  general_screen_display_scrolling_text_handler(llamaneitor_scenes_main_menu);
 }
 
 void mission_one_begin(uint8_t village_idx){
