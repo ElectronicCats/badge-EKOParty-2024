@@ -85,8 +85,9 @@ const char *cat3_desc[] = {"Gato " CAT3_STR, "Lorem Ipsum"};
 const char *cat3_hint[] = {"No encontrado", "Completa la", "mision #3",
                            "para obtenerlo"};
 
-const char *s_iron_desc[] = {"Cautin",       "Rapido!!!", "Necesitan este",
-                             "cautin en la", "villa",     "PatagonSpace"};
+const char *s_iron_desc[] = {
+    "Cautin",        "Rapido!!!",    "Necesitan este",  "cautin en la", "villa",
+    "PatagonSpace,", "muestraselos", "para compleatar", "la mision"};
 const char *s_iron_hint[] = {"No encontrado", "Completa", "el reto en la",
                              "villa de",      "Hardware", "para obtenerlo"};
 
@@ -118,7 +119,7 @@ llamaneitor_item_t cat_items[] = {
     {.bitmap = soldering_iron_bitmap,
      .name = SOLDERING_IRON_STR,
      .desc = s_iron_desc,
-     .desc_len = 6,
+     .desc_len = 9,
      .hint = s_iron_hint,
      .hint_len = 6,
      .unlocked = false,
