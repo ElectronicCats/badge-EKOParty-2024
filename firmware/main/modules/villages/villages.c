@@ -36,7 +36,7 @@ static void on_villages_timeout() {
 }
 
 static void set_village_color() {
-  ESP_LOGI(VILLAGE_TAG, "Village color: %d\n", village_ctx.idx);
+  // ESP_LOGI(VILLAGE_TAG, "Village color: %d\n", village_ctx.idx);
   village_t *village = &villages[village_ctx.idx];
   uint8_t red   = village->R * 0.5;
   uint8_t green = village->G * 0.5;
@@ -68,7 +68,7 @@ static void show_village_screen() {
 static void on_village_detected() {
   if(!mission_get_state()){
     show_village_screen();
-    ESP_LOGI("VILLAGE", "Village detected: %d\n", village_ctx.idx);
+    // ESP_LOGI("VILLAGE", "Village detected: %d\n", village_ctx.idx);
     neopixels_events_set_animation(set_village_color);
   }
 }
@@ -96,7 +96,7 @@ static void on_ibeacon_cb(esp_ble_ibeacon_t *ibeacon,
   if (village) {
     esp_timer_stop(villages_timer);
     esp_timer_start_once(villages_timer, VILLAGES_TIMEOUT_S * 1000 * 1000);
-    ESP_LOGI(VILLAGE_TAG, "%s: %d", village->name, scan_result->scan_rst.rssi);
+    // ESP_LOGI(VILLAGE_TAG, "%s: %d", village->name, scan_result->scan_rst.rssi);
     if (village->idx == village_ctx.idx) {
       village_ctx.rssi = scan_result->scan_rst.rssi;
     } else if (scan_result->scan_rst.rssi > village_ctx.rssi) {

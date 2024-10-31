@@ -62,4 +62,5 @@ void app_main() {
   flame_task_begin();
   // Always start the console at the end
   // cat_console_begin();
+  // play_artu();
 }

@@ -14,6 +14,7 @@
 #include "villages.h"
 #include "sounds.h"
 #include "lora_manager.h"
+#include "mission_one.h"
 
 #define CODE_LEN 4
 #define ITEMOFFSET 1
@@ -42,8 +43,8 @@ static const general_menu_t mission_1_hardware_menu = {
 };
 // PatagonSpace - Hardware village
 static const general_menu_t mission_1_patagon_menu = {
-    .menu_items = mission_1_patagon,
-    .menu_count = MISION1_PATAGON,
+    .menu_items = mission_one_patagon_beacon,
+    .menu_count = MISSION_ONE_PATAGON_BEACON,
     .menu_level = GENERAL_TREE_APP_INFORMATION,
 };
 
@@ -53,8 +54,8 @@ static const general_menu_t mision_2_menu = {
     .menu_level = GENERAL_TREE_APP_INFORMATION,
 };
 static const general_menu_t mission_1_preamble = {
-    .menu_items = mission_1_text,
-    .menu_count = MISION1_PREAMBLE,
+    .menu_items = mission_one_patagon,
+    .menu_count = MISSION_ONE_PATAGON,
     .menu_level = GENERAL_TREE_APP_INFORMATION,
 };
 
@@ -163,7 +164,7 @@ static void show_downloading_bar_mission(){
   oled_screen_clear();
   oled_screen_display_text_center("Descargando", 0, OLED_DISPLAY_NORMAL);
   char mission_str[16];
-  sprintf(mission_str, "Mision %d", mission_idx);
+  sprintf(mission_str, "Mision %d", current_mision_idx);
   oled_screen_display_text_center(mission_str, 1, OLED_DISPLAY_NORMAL);
   for(int i = 0; i < 128; i++){
     oled_screen_display_loading_bar(i, 3);
@@ -199,13 +200,9 @@ void show_mission_screen(uint8_t village_idx){
   
   // Unlock mission 1
   if(village_idx == PAT_SPACE || village_idx == HW_HACK){
-    if(preferences_get_int("mission_1", 0) == 0){
-      current_mision_idx = 1;
-      oled_screen_fadeout();
-      oled_screen_clear();
-      menus_module_set_app_state(true, module_cb_event_mission_preamble);
-      module_display_preamble_mission();
-      
+    current_mision_idx = 1;
+    if(cat_items[GM_CAT_1].unlocked == false){
+      mission_one_begin(village_idx);
     }
   }else if(village_idx == YWE_HACK || village_idx == EC){
     if(preferences_get_int("mission_2", 0) == 0){
@@ -234,19 +231,19 @@ static void llamaneitor_show_need_mission(){
 static void llamaneitor_unlock_cat(uint8_t item_index){
   oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("Gato", 40, 1, OLED_DISPLAY_NORMAL);
-  oled_screen_display_text("Desbloqueado", 40, 3, OLED_DISPLAY_NORMAL);
+  oled_screen_display_text("Liberado", 40, 3, OLED_DISPLAY_NORMAL);
   oled_screen_display_text(cat_items[item_index].name, 40, 2, OLED_DISPLAY_NORMAL);
   vTaskDelay(pdMS_TO_TICKS(3000));
 }
 
 static void llamaneitor_unlock_cautin(){
   oled_screen_fadeout();
-  oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
+  oled_screen_display_bitmap(soldering_iron_bitmap.bitmap, 4, 16, soldering_iron_bitmap.width, soldering_iron_bitmap.height, OLED_DISPLAY_NORMAL);
   vTaskDelay(pdMS_TO_TICKS(2000));
   oled_screen_clear();
   oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("Cautin", 40, 1, OLED_DISPLAY_NORMAL);
-  oled_screen_display_text("Desbloqueado", 40, 2, OLED_DISPLAY_NORMAL);
+  oled_screen_display_text("Liberado", 40, 2, OLED_DISPLAY_NORMAL);
   vTaskDelay(pdMS_TO_TICKS(3000));
 }
 
@@ -316,8 +313,13 @@ static void module_validate_code() {
     uint8_t is_unlocked_mission = preferences_get_int("mission_1", 0);
     if(is_unlocked_mission){
       if(!inventory_is_unlocked_item(GM_SOLDERING_IRON)){
+        if(mission_get_current_state() == MISSION_ONE_PAT_UNLOCK){
+          llamaneitor_error_trick();
+          return;
+        }
         inventory_unlock_item(GM_SOLDERING_IRON);
         llamaneitor_unlock_cautin();
+        
       }else{
         llamaneitor_error_trick();
       }
@@ -350,6 +352,7 @@ static void module_exit_missions_app() {
   module_update_mision();
 }
 
+// Cuando se selecciona una mision
 static void mision_selection_handler(uint8_t selection) {
   oled_screen_clear();
   oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);

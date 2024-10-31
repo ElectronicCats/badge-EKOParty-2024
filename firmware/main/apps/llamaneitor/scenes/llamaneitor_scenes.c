@@ -9,6 +9,7 @@
 #include "menus_module.h"
 #include "mision.h"
 #include "oled_screen.h"
+#include "screen_saver.h"
 
 static llamaneitor_scenes_t current_scene = 0;
 static uint8_t item = 0;
@@ -81,6 +82,7 @@ static void main_menu_selection_handler(uint8_t selection) {
 static void main_menu_exit_handler() { menus_module_exit_app(); }
 
 void llamaneitor_scenes_main_menu() {
+  screen_saver_stop();
   current_scene = LLAMANEITOR_MAIN_SCENE;
   general_submenu_menu_t main_menu;
   main_menu.options = llamaneitor_main_menu_items;
