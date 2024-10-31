@@ -80,6 +80,9 @@ static void main_menu_selection_handler(uint8_t selection) {
     llamaneitor_scenes_flame_menu();
     break;
   case ALMANAC_OPTION:
+    if (almanac_is_first_completed()) {
+      break;
+    }
     llamaneitor_scenes_almanac();
     break;
   default:
