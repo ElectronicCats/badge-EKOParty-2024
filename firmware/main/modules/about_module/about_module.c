@@ -19,22 +19,27 @@ static char *about_credits_text[] = {
     "- Kevin",
     "  @kevlem97",
     "- Roberto",
+    "  @otrebor_671",
     "- Francisco",
     "  @deimoshall",
+    "- David",
+    "  @dcuartielles",
+    "- Edgar",
+    "  Capuchino",
     "and Electronic",
     "Cats team",
 };
 
 static char *about_legal_text[] = {
     "The user",        "assumes all",     "responsibility",   "for the use of",
-    "MININO and",      "agrees to use",   "it legally and",   "ethically,",
+    "this badge and",  "agrees to use",   "it legally and",   "ethically,",
     "avoiding any",    "activities that", "may cause harm,",  "interference,",
     "or unauthorized", "access to",       "systems or data.",
 };
 
 static const general_menu_t about_credits_menu = {
     .menu_items = about_credits_text,
-    .menu_count = 14,
+    .menu_count = 20,
     .menu_level = GENERAL_TREE_APP_INFORMATION,
 };
 
@@ -55,8 +60,8 @@ void about_module_display_legal_menu() {
 }
 
 void about_module_display_version() {
-  general_screen_display_card_information_handler(
-      "Minino", CONFIG_PROJECT_VERSION, menus_module_exit_app, NULL);
+  general_screen_display_card_information_handler("EKO badge", "2024",
+                                                  menus_module_exit_app, NULL);
 }
 void about_module_display_license() {
   general_screen_display_card_information_handler("License", "GNU GPL 3.0",
