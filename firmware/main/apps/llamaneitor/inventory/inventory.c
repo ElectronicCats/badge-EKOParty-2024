@@ -31,7 +31,5 @@ void inventory_drop_item(uint8_t item) {
 }
 
 bool inventory_is_unlocked_item(uint8_t item) {
-  char str[10];
-  sprintf(str, "item%d\n", item);
-  return preferences_get_bool(str, false);
+  return cat_items[item].unlocked;
 }

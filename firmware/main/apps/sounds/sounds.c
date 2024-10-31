@@ -292,29 +292,27 @@ void play_azul() {
   int notes = sizeof(azul_melody) / sizeof(azul_melody[0] / 2);
   int wholenote = (60000 * 4) / 114;
   int divider = 0, noteDuration = 0;
-  while (is_playing) {
-    for (int i = 0; i < notes * 2; i += 2) {
-      if (!is_playing) {
-        break;
-      }
-      divider = azul_melody[i + 1];
-      if (divider == 0) {
-        vTaskDelay(wholenote / portTICK_PERIOD_MS);
-        continue;
-      }
-      if (divider > 0) {
-        noteDuration = (wholenote) / divider;
-      } else if (divider < 0) {
-        noteDuration = (wholenote) / abs(divider);
-        noteDuration *= 1.5;
-      }
-      if (azul_melody[i] <= 13) {
-        continue;
-      }
-      buzzer_set_freq(azul_melody[i]);
-      buzzer_play_for(noteDuration * 0.9);
-      vTaskDelay(noteDuration / portTICK_PERIOD_MS);
+  for (int i = 0; i < notes * 2; i += 2) {
+    if (!is_playing) {
+      break;
     }
+    divider = azul_melody[i + 1];
+    if (divider == 0) {
+      vTaskDelay(wholenote / portTICK_PERIOD_MS);
+      continue;
+    }
+    if (divider > 0) {
+      noteDuration = (wholenote) / divider;
+    } else if (divider < 0) {
+      noteDuration = (wholenote) / abs(divider);
+      noteDuration *= 1.5;
+    }
+    if (azul_melody[i] <= 13) {
+      continue;
+    }
+    buzzer_set_freq(azul_melody[i]);
+    buzzer_play_for(noteDuration * 0.9);
+    vTaskDelay(noteDuration / portTICK_PERIOD_MS);
   }
   is_playing = false;
   vTaskDelete(NULL);

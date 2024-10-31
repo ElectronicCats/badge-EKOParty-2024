@@ -210,5 +210,5 @@ almanac_village_t almanac[] = {{.name = EKOPARTY_V_STR,
                                 .found = false}};
 
 void almanac_load_items();
-void almanac_unlock_item(villages_e village);
+bool almanac_unlock_item(villages_e village);
 bool almanac_is_first_completed();
