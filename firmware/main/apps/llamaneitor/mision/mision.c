@@ -25,6 +25,7 @@ static uint8_t code_gato_1[CODE_LEN]   = {1, 3, 3, 7};
 static uint8_t code_gato_2[CODE_LEN]   = {4, 5, 6, 7};
 static uint8_t code_gato_3[CODE_LEN]   = {8, 9, 0, 1};
 static uint8_t code_cautin[CODE_LEN]   = {1, 0, 0, 0};
+static uint8_t code_mission_2[CODE_LEN] = {1, 2, 3, 4};
 static uint8_t code_selected[CODE_LEN] = {0, 0, 0, 0};
 
 static uint8_t current_mision = 0;
@@ -88,10 +89,19 @@ void show_mission_screen(uint8_t village_idx){
     if(cat_items[GM_CAT_1].unlocked == false){
       mission_one_begin(village_idx);
     }
-  }else if(village_idx == YWE_HACK || village_idx == EC){
+  }else if(village_idx == YWE_HACK){
     if(cat_items[GM_CAT_2].unlocked == false){
       mission_two_begin(village_idx);
     }
+  }else if(village_idx == EC){
+    uint8_t is_unlocked_mission_one = preferences_get_int(FMISSION_1, 0);
+    if(is_unlocked_mission_one == 0){
+      if(cat_items[GM_CAT_2].unlocked == false){
+        mission_two_begin(village_idx);
+      }
+    }
+  }else if(village_idx == BLUE_SPACE){
+    mission_two_unhack_animation();
   }else if(village_idx == THE_BOSS_1 || village_idx == THE_BOSS_2){
     sounds_play_soundtrack(play_godfather);
   }else if(village_idx == RED_TEAM){
@@ -124,6 +134,13 @@ static void llamaneitor_unlock_cat(uint8_t item_index){
   oled_screen_display_text("Gato", 40, 1, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("Liberado", 40, 3, OLED_DISPLAY_NORMAL);
   oled_screen_display_text(cat_items[item_index].name, 40, 2, OLED_DISPLAY_NORMAL);
+  vTaskDelay(pdMS_TO_TICKS(3000));
+}
+
+static void llamaneitor_unlock_mission_two(){
+  oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
+  oled_screen_display_text("Add-On", 40, 1, OLED_DISPLAY_NORMAL);
+  oled_screen_display_text("Liberado", 40, 2, OLED_DISPLAY_NORMAL);
   vTaskDelay(pdMS_TO_TICKS(3000));
 }
 
@@ -217,6 +234,14 @@ static void module_validate_code() {
       }
     }else{
       llamaneitor_mission_first();
+    }
+  }else if(memcmp(code_selected, code_mission_2, CODE_LEN) == 0){
+    uint8_t is_unlocked_mission = preferences_get_int("mission_2", 0);
+    if(is_unlocked_mission == 1){
+      preferences_put_int(MISSION_TWO_YWHACK_COMPLETE, 1);
+      llamaneitor_unlock_mission_two();
+    }else{
+      llamaneitor_error_trick();
     }
   }else{
     oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32,

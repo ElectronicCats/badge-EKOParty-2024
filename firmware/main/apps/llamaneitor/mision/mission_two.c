@@ -59,6 +59,19 @@ static const general_menu_t mission_two_description_menu = {
     .menu_level = GENERAL_TREE_APP_INFORMATION,
 };
 
+static const general_menu_t mission_two_ec_beacon_hacked_menu = {
+    .menu_items = mission_two_ec_beacon_hacked,
+    .menu_count = MISSION_TWO_EC_HACKED_BEACON,
+    .menu_level = GENERAL_TREE_APP_INFORMATION,
+};
+
+static const general_menu_t mission_two_ec_beacon_menu = {
+    .menu_items = mission_two_ec_beacon,
+    .menu_count = MISSION_TWO_EC_BEACON,
+    .menu_level = GENERAL_TREE_APP_INFORMATION,
+};
+
+
 static void module_cb_code_register_event(uint8_t button_name, uint8_t button_event){
   if (button_event != BUTTON_PRESS_DOWN) {
     return;
@@ -137,6 +150,8 @@ static void mission_follow_history(){
     case MISSION_TWO_YWH_IDLE:
       break;
     case MISSION_TWO_RED_HACKED:
+      oled_screen_display_bitmap(bitmap_michi, 32, 0, 32, 32, OLED_DISPLAY_NORMAL);
+      vTaskDelay(pdMS_TO_TICKS(3000));
       llamaneitor_scenes_main_menu();
       break;
     case MISSION_TWO_CAR_BEACON_IDLE:
@@ -148,6 +163,10 @@ static void mission_follow_history(){
       mission_one_reset_history();
       break;
     case MISSION_TWO_SHOW_MISSION:
+      llamaneitor_scenes_main_menu();
+      break;
+    case MISSION_TWO_EC_BEACON_IDLE:
+      ESP_LOGI("MISSION", "EC beacon");
       llamaneitor_scenes_main_menu();
       break;
     default:
@@ -178,6 +197,22 @@ static void mission_beacon_dissector(uint8_t village_idx){
     }
     current_state = MISSION_TWO_SHOW_MISSION;
   }
+  if(village_idx == EC){
+    uint8_t is_unlocked_mission_two_ywh = preferences_get_int(MISSION_TWO_YWHACK_COMPLETE, 0);
+    if(is_unlocked_mission_two == 0){
+      ESP_LOGI("MISSION", "Start with EC beacon");
+    }else{
+      // Started with car hacking or YWH
+      if(is_unlocked_mission_two_ywh == 1){
+        if(is_hacked == 1){
+          current_history = mission_two_ec_beacon_hacked_menu;
+        }else{
+          current_history = mission_two_ec_beacon_menu;
+        }
+        current_state = MISSION_TWO_EC_BEACON_IDLE;
+      }
+    }
+  }
   mission_one_reset_history();
 }
 
@@ -197,14 +232,17 @@ static void mission_two_hacked_animation(){
   vTaskDelay(pdMS_TO_TICKS(2000));
   sounds_stop_music();
   vTaskDelay(pdMS_TO_TICKS(2000));
-  sounds_play_soundtrack(play_nggyup);
+  // sounds_play_soundtrack(play_nggyup);
   preferences_put_int(MISSION_TWO_HACKED, 1);
   current_history = mission_two_red_beacon_hacked_menu;
   current_state = MISSION_TWO_RED_HACKED;
   mission_one_reset_history();
 }
 
-static void mission_two_unhack_animation(){
+void mission_two_unhack_animation(){
+  if(mission_hacked_active() == 0){
+    return;
+  }
   screen_saver_stop();
   oled_screen_clear();
   oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
@@ -212,11 +250,6 @@ static void mission_two_unhack_animation(){
   oled_screen_display_text("Recuperado", 40, 1, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("Mas cuidado", 40, 2, OLED_DISPLAY_NORMAL);
   vTaskDelay(pdMS_TO_TICKS(3000));
-  oled_screen_clear();
-  oled_screen_display_text("Completa la", 0, 0, OLED_DISPLAY_NORMAL);
-  oled_screen_display_text("Mision 2 si", 0, 1, OLED_DISPLAY_NORMAL);
-  oled_screen_display_text("No quieres ", 0, 2, OLED_DISPLAY_NORMAL);
-  oled_screen_display_text("Ser hackeado ", 0, 2, OLED_DISPLAY_NORMAL);
   oled_screen_clear();
   preferences_put_int(MISSION_TWO_HACKED, 0);
   current_state = MISSION_TWO_YWH_IDLE;

@@ -11,7 +11,7 @@
 #define MISION1_COUNT 29
 #define MISION1_PREAMBLE 50
 #define MISION1_PATAGON 42
-#define MISION2_COUNT 21
+#define MISION2_COUNT 23
 
 typedef enum {
   MISION_1,
@@ -266,18 +266,21 @@ char* mision_2[MISION2_COUNT] = {
   "no?",
   "Tal vez decirlo",
   "nos otorgue",
-  "poderes o addons",
+  "poderes",
+  "o addons",
   "             ",
   "             ",
   "             ",
   "             ",
   "     Espera!    ",
   "Oh los gatos!",
-  "a los gatos les",
-  "gustan los addons",
-  "si tienes uno",
-  "tal vez les",
-  "guste verlo"
+  "a los gatos",
+  "les gustan",
+  "los addons",
+  "si tienes",
+  "uno tal vez"
+  "les guste",
+  "verlo"
 };
 
 

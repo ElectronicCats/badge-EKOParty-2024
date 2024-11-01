@@ -232,7 +232,7 @@ static void module_cb_event(uint8_t button_name, uint8_t button_event) {
 game_ctx_t *llamaneitor_get_game_ctx() { return &player_ctx; }
 
 void llamaneitor_begin() {
-  sounds_play_soundtrack(play_zelda);
+  // sounds_play_soundtrack(play_zelda);
   neopixels_events_set_animation(neopixel_llamaneitor_init);
   oled_screen_clear();
   oled_screen_fadeout();

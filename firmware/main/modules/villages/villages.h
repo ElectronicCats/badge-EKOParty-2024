@@ -7,7 +7,7 @@
 #define EKOPARTY_STR "EkoParty"
 #define HW_HACK_STR "`Hardware_Hacking'"
 #define BIT_CANA_STR "`A_1_bit_de_ir_en_cana'"
-#define BLUE_SPACE_STR "`Blu_Space'"
+#define BLUE_SPACE_STR "`Blue_Space'"
 #define RED_TEAM_STR "`Red_Team'"
 #define CYB_FIN_STR "`Cyber_Finance'"
 #define HAMPING_STR "`Hamping'"
@@ -23,7 +23,7 @@
 #define CHICHES_ASADO_STR "`Has_llegado_al_asado'"
 #define THE_BOSS_1_STR " ES EL BOSS!!!"
 #define THE_BOSS_2_STR " ES EL BOSS!!!"
-#define YWE_HACK_STR "YES WE HACK!!"
+#define YWE_HACK_STR "Yes_We_Hack!!"
 
 #define HW_HACK_ID                                                             \
   {                                                                            \
