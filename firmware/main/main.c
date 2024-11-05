@@ -36,7 +36,7 @@ void app_main() {
 #endif
   preferences_begin();
   if (preferences_get_int("dp_select", 0) == 0) {
-    preferences_put_int("dp_select", 5);
+    preferences_put_int("dp_select", 6);
   }
   flash_fs_begin(flash_fs_screens_handler);
   sd_card_begin();
@@ -53,7 +53,7 @@ void app_main() {
   villages_begin();
   lora_module_begin();
   buzzer_enable();
-  buzzer_begin(11);
+  buzzer_begin(2);
   // This to show the history on first boot and until the user completes the
   // history
   if (!preferences_get_int("flogin", 0)) {

@@ -2,18 +2,20 @@
 
 #include <string.h>
 
+#include "almanac.h"
 #include "esp_log.h"
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "ibeacon_scann.h"
+#include "inventory.h"
 #include "llamaneitor_scenes.c"
 #include "lora_manager.h"
+#include "mision.h"
 #include "neopixels_events.h"
 #include "neopixels_module.h"
-#include "sounds.h"
 #include "preferences.h"
-#include "mision.h"
+#include "sounds.h"
 
 #define VILLAGE_RSSI_FILTER -70
 #define VILLAGES_TIMEOUT_S 10
@@ -38,9 +40,9 @@ static void on_villages_timeout() {
 static void set_village_color() {
   // ESP_LOGI(VILLAGE_TAG, "Village color: %d\n", village_ctx.idx);
   village_t *village = &villages[village_ctx.idx];
-  uint8_t red   = village->R * 0.5;
+  uint8_t red = village->R * 0.5;
   uint8_t green = village->G * 0.5;
-  uint8_t blue  = village->B * 0.5;
+  uint8_t blue = village->B * 0.5;
   neopixels_set_pixels(MAX_LED_NUMBER, red, green, blue);
   neopixels_refresh();
   vTaskDelay(pdMS_TO_TICKS(200));
@@ -50,23 +52,36 @@ static void set_village_color() {
 }
 
 static void show_village_screen() {
-  if (llamaneitor_scenes_get_scene()) {
-    return;
-  }
+  // if (llamaneitor_scenes_get_scene()) {
+  //   return;
+  // }
   village_t *village = &villages[village_ctx.idx];
-  if (village->idx >= CHICHES_ASADO) {
+  if (village->idx == CHICHES_ASADO) {
+    sounds_play_soundtrack(play_azul);
+    flame_feed_flame(120);
+    if (almanac_unlock_item(village->idx)) {
+      return;
+    }
+    lora_manager_alert_scrolling(village->name);
+  } else if (village->idx > CHICHES_ASADO) {
+    flame_waken_flame(30);
+    if (almanac_unlock_item(village->idx)) {
+      return;
+    }
     lora_manager_alert_scrolling(village->name);
   } else {
+    flame_feed_flame(120);
+    if (almanac_unlock_item(village->idx)) {
+      return;
+    }
     char str[100];
     sprintf(str, "Has_llegado_a:_%s", village->name);
     lora_manager_alert_scrolling(str);
   }
-
-  show_mission_screen(village->idx);
 }
 
 static void on_village_detected() {
-  if(!mission_get_state()){
+  if (!mission_get_state()) {
     show_village_screen();
     // ESP_LOGI("VILLAGE", "Village detected: %d\n", village_ctx.idx);
     neopixels_events_set_animation(set_village_color);
@@ -114,6 +129,9 @@ village_t *villages_get_current_village() { return &villages[village_ctx.idx]; }
 void villages_begin() {
   ibeacon_scann_set_on_ibeacon_cb(on_ibeacon_cb);
   ibeacon_scann_begin();
+
+  inventory_load_items();
+  almanac_load_items();
 
   esp_timer_create_args_t villages_timer_args = {
       .arg = NULL, .callback = on_villages_timeout};

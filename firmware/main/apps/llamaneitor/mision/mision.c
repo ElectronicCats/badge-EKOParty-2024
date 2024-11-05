@@ -8,10 +8,10 @@
 #include "inventory.h"
 #include "items.h"
 #include "llamaneitor.h"
+#include "lora_manager.h"
 #include "menus_module.h"
 #include "oled_screen.h"
 #include "preferences.h"
-#include "villages.h"
 #include "sounds.h"
 #include "lora_manager.h"
 #include "mission_one.h"
@@ -46,12 +46,12 @@ static void module_exit_missions_app();
 static void module_display_code_selector();
 static void module_validate_code();
 
-static void module_update_mision(){
+static void module_update_mision() {
   char menu_item[16];
   char mission_item[16];
 
-  for(int i=0; i<MISION_COUNT; i++){
-    sprintf(menu_item, "mission_%d", i+1);
+  for (int i = 0; i < MISION_COUNT; i++) {
+    sprintf(menu_item, "mission_%d", i + 1);
     uint8_t show_mission = preferences_get_int(menu_item, 0);
     if(show_mission == 1){
       if(cat_items[i].unlocked == false){
@@ -65,9 +65,9 @@ static void module_update_mision(){
     }
   }
   general_menu_t mision_menu = {
-    .menu_items = list_mision,
-    .menu_count = MISION_COUNT,
-    .menu_level = GENERAL_TREE_APP_INFORMATION,
+      .menu_items = list_mision,
+      .menu_count = MISION_COUNT,
+      .menu_level = GENERAL_TREE_APP_INFORMATION,
   };
 
   general_register_menu(&mision_menu);
@@ -126,14 +126,14 @@ void show_mission_screen(uint8_t village_idx){
   block_notification = false;
 }
 
-static void llamaneitor_show_need_mission(){
+static void llamaneitor_show_need_mission() {
   oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("Te faltan", 40, 1, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("misiones", 40, 2, OLED_DISPLAY_NORMAL);
   vTaskDelay(pdMS_TO_TICKS(3000));
 }
 
-static void llamaneitor_unlock_cat(uint8_t item_index){
+void llamaneitor_unlock_cat(uint8_t item_index) {
   oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("Gato", 40, 1, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("Liberado", 40, 3, OLED_DISPLAY_NORMAL);
@@ -167,7 +167,7 @@ static void llamaneitor_unlock_cautin(){
   vTaskDelay(pdMS_TO_TICKS(3000));
 }
 
-static void llamaneitor_error_trick(){
+static void llamaneitor_error_trick() {
   oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("El truco", 40, 0, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("solo funciona", 40, 1, OLED_DISPLAY_NORMAL);
@@ -175,7 +175,7 @@ static void llamaneitor_error_trick(){
   vTaskDelay(pdMS_TO_TICKS(3000));
 }
 
-static void llamaneitor_mission_first(){
+static void llamaneitor_mission_first() {
   oled_screen_display_bitmap(llamaneitor_1, 0, 0, 32, 32, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("La mision", 40, 1, OLED_DISPLAY_NORMAL);
   oled_screen_display_text("es primero", 40, 2, OLED_DISPLAY_NORMAL);
@@ -197,11 +197,11 @@ static void module_validate_code() {
   }
   oled_screen_clear();
 
-  if(memcmp(code_selected, code_gato_1, CODE_LEN) == 0){
+  if (memcmp(code_selected, code_gato_1, CODE_LEN) == 0) {
     uint8_t is_unlocked_mission = preferences_get_int("mission_1", 0);
-    if(is_unlocked_mission){
-      if(!inventory_is_unlocked_item(GM_CAT_1)){
-        if(inventory_is_unlocked_item(GM_SOLDERING_IRON)){
+    if (is_unlocked_mission) {
+      if (!inventory_is_unlocked_item(GM_CAT_1)) {
+        if (inventory_is_unlocked_item(GM_SOLDERING_IRON)) {
           inventory_unlock_item(GM_CAT_1);
           llamaneitor_unlock_cat(GM_CAT_1);
           mission_one_show_mission_done();
@@ -209,47 +209,47 @@ static void module_validate_code() {
         }else{
           llamaneitor_show_need_mission();
         }
-      }else{
+      } else {
         llamaneitor_error_trick();
       }
-    }else{
+    } else {
       llamaneitor_mission_first();
     }
-  }else if(memcmp(code_selected, code_gato_2, CODE_LEN) == 0){
-   uint8_t is_unlocked_mission = preferences_get_int("mission_2", 0);
-    if(is_unlocked_mission){
-      if(!inventory_is_unlocked_item(GM_CAT_2)){
+  } else if (memcmp(code_selected, code_gato_2, CODE_LEN) == 0) {
+    uint8_t is_unlocked_mission = preferences_get_int("mission_2", 0);
+    if (is_unlocked_mission) {
+      if (!inventory_is_unlocked_item(GM_CAT_2)) {
         inventory_unlock_item(GM_CAT_2);
         llamaneitor_unlock_cat(GM_CAT_2);
-      }else{
+      } else {
         llamaneitor_error_trick();
       }
-    }else{
+    } else {
       llamaneitor_mission_first();
     }
-  }else if(memcmp(code_selected, code_gato_3, CODE_LEN) == 0){
+  } else if (memcmp(code_selected, code_gato_3, CODE_LEN) == 0) {
     uint8_t is_unlocked_mission = preferences_get_int("mission_3", 0);
-    if(is_unlocked_mission){
-      if(!inventory_is_unlocked_item(GM_CAT_3)){
+    if (is_unlocked_mission) {
+      if (!inventory_is_unlocked_item(GM_CAT_3)) {
         inventory_unlock_item(GM_CAT_3);
         llamaneitor_unlock_cat(GM_CAT_3);
-      }else{
+      } else {
         llamaneitor_error_trick();
       }
-    }else{
+    } else {
       llamaneitor_mission_first();
     }
-  }else if(memcmp(code_selected, code_cautin, CODE_LEN) == 0){
+  } else if (memcmp(code_selected, code_cautin, CODE_LEN) == 0) {
     uint8_t is_unlocked_mission = preferences_get_int("mission_1", 0);
-    if(is_unlocked_mission){
-      if(!inventory_is_unlocked_item(GM_SOLDERING_IRON)){
+    if (is_unlocked_mission) {
+      if (!inventory_is_unlocked_item(GM_SOLDERING_IRON)) {
         inventory_unlock_item(GM_SOLDERING_IRON);
         llamaneitor_unlock_cautin();
         
       }else{
         llamaneitor_error_trick();
       }
-    }else{
+    } else {
       llamaneitor_mission_first();
     }
   }else if(memcmp(code_selected, code_mission_2, CODE_LEN) == 0){
@@ -427,12 +427,12 @@ static void module_cb_code_register_event(uint8_t button_name,
     break;
   case BUTTON_LEFT:
     current_x_pos--;
-    if(current_x_pos == 255){
+    if (current_x_pos == 255) {
       current_x_pos = 0;
       if (exit_cb != NULL) {
         ((void (*)(void))exit_cb)();
       }
-    }else{
+    } else {
       current_y_pos = code_selected[current_x_pos];
       module_display_code_selector();
     }
@@ -449,12 +449,9 @@ void mision_register_cb_exit(void *cb) { exit_cb = cb; }
 void mision_begin() {
   menus_module_set_app_state(true, module_cb_event);
   module_update_mision();
-  
 }
 
-bool mission_get_state(){
-  return block_notification;
-}
+bool mission_get_state() { return block_notification; }
 
 void mision_enter_code() {
   menus_module_set_app_state(true, module_cb_code_register_event);

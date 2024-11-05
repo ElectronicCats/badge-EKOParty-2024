@@ -1,7 +1,10 @@
 #include "llamaneitor_scenes.h"
+#include "almanac.h"
 #include "bitmaps_general.h"
 #include "character.h"
 #include "flame.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "general_submenu.h"
 #include "inventory.h"
 #include "items.h"
@@ -13,6 +16,7 @@
 
 static llamaneitor_scenes_t current_scene = 0;
 static uint8_t item = 0;
+static uint8_t almanac_idx = 0;
 
 static void open_item();
 static void show_item_desc();
@@ -20,6 +24,7 @@ static void show_item_desc();
 void llamaneitor_scenes_main_menu();
 void llamaneitor_scenes_inventory();
 void llamaneitor_scenes_flame_menu();
+void llamaneitor_scenes_almanac();
 
 llamaneitor_scenes_t llamaneitor_scenes_get_scene() { return current_scene; }
 
@@ -49,10 +54,11 @@ typedef enum {
   MISSIONS_OPTION,
   INVENTORY_OPTION,
   MATRIX_OPTION,
-  FLAME_OPTION
+  FLAME_OPTION,
+  ALMANAC_OPTION
 } llamaneitor_main_menu_options;
-const char *llamaneitor_main_menu_items[] = {"Personaje", "Misiones",
-                                             "Inventario", "Matrix", "Llama"};
+const char *llamaneitor_main_menu_items[] = {
+    "Personaje", "Misiones", "Inventario", "Matrix", "Llama", "Almanaque"};
 
 static void main_menu_selection_handler(uint8_t selection) {
   switch (selection) {
@@ -73,6 +79,12 @@ static void main_menu_selection_handler(uint8_t selection) {
     break;
   case FLAME_OPTION:
     llamaneitor_scenes_flame_menu();
+    break;
+  case ALMANAC_OPTION:
+    if (almanac_is_first_completed()) {
+      break;
+    }
+    llamaneitor_scenes_almanac();
     break;
   default:
     break;
@@ -211,4 +223,70 @@ void llamaneitor_scenes_flame_menu() {
   flame_refresh(0);
   current_scene = LLAMANEITOR_FLAME_SCENE;
   menus_module_set_app_state(true, llama_input_cb);
+}
+
+//////////////////////////////////// Almanac Menu
+///////////////////////////////////
+
+static char **almanac_names = NULL;
+
+static void free_almanac_names() {
+  if (almanac_names) {
+    free(almanac_names);
+  }
+  almanac_names = NULL;
+}
+
+static char **get_almanac_names() {
+  uint8_t items_count = sizeof(almanac) / sizeof(almanac_village_t);
+  char **names = malloc(sizeof(char *) * items_count);
+  for (uint8_t i = 0; i < items_count; i++) {
+    names[i] = almanac[i].found ? almanac[i].name : almanac[i].name_hint;
+  }
+  return names;
+}
+
+static void almanac_details_exit() { llamaneitor_scenes_almanac(); }
+
+static void show_almanac_desc() {
+  static general_menu_t item_menu;
+  item_menu.menu_items = almanac[almanac_idx].found
+                             ? almanac[almanac_idx].details
+                             : village_not_found;
+  item_menu.menu_count =
+      almanac[almanac_idx].found ? almanac[almanac_idx].details_len : 5;
+  item_menu.menu_level = GENERAL_TREE_APP_INFORMATION;
+  general_register_scrolling_menu(&item_menu);
+  general_screen_display_scrolling_text_handler(almanac_details_exit);
+}
+
+static void almanac_selection_handler(uint8_t selection) {
+  almanac_idx = selection;
+  show_almanac_desc();
+  free_almanac_names();
+}
+
+static void almanac_exit() {
+  llamaneitor_scenes_main_menu();
+  free_almanac_names();
+}
+
+static void almanac_task() {
+  free_almanac_names();
+  almanac_load_items();
+  current_scene = LLAMANEITOR_ALMANAC_SCENE;
+  uint8_t items_count = sizeof(almanac) / sizeof(almanac_village_t);
+  almanac_names = get_almanac_names();
+
+  general_submenu_menu_t almanac_menu;
+  almanac_menu.options = almanac_names;
+  almanac_menu.options_count = items_count;
+  almanac_menu.select_cb = almanac_selection_handler;
+  almanac_menu.exit_cb = almanac_exit;
+  general_submenu(almanac_menu);
+  vTaskDelete(NULL);
+}
+
+void llamaneitor_scenes_almanac() {
+  xTaskCreate(almanac_task, "almanac_task", 10 * 1024, NULL, 10, NULL);
 }

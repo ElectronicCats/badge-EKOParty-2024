@@ -289,3 +289,4 @@ void mision_begin();
 void mision_enter_code();
 void show_mission_screen(uint8_t village_idx);
 bool mission_get_state();
+void llamaneitor_unlock_cat(uint8_t item_index);
