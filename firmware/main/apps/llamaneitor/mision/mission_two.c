@@ -53,6 +53,13 @@ static const general_menu_t mission_two_ywhack_beacon_menu = {
     .menu_level = GENERAL_TREE_APP_INFORMATION,
 };
 
+static const general_menu_t mission_two_ywhack_beacon_description_menu = {
+    .menu_items = mission_two_ywhack_beacon_description,
+    .menu_count = MISSION_TWO_YWHACK_DESCR,
+    .menu_level = GENERAL_TREE_APP_INFORMATION,
+};
+
+
 static const general_menu_t mission_two_description_menu = {
     .menu_items = mission_two_description,
     .menu_count = MISSION_TWO_DESCRIPTION,
@@ -71,6 +78,35 @@ static const general_menu_t mission_two_ec_beacon_menu = {
     .menu_level = GENERAL_TREE_APP_INFORMATION,
 };
 
+static const general_menu_t mission_two_asado_beacon_hacked_menu = {
+    .menu_items = mission_two_asado_beacon_hacked,
+    .menu_count = MISSION_TWO_EC_ASA_BEACON_HACKED,
+    .menu_level = GENERAL_TREE_APP_INFORMATION,
+};
+
+static const general_menu_t mission_two_asado_beacon_menu = {
+    .menu_items = mission_two_asado_beacon,
+    .menu_count = MISSION_TWO_EC_ASA_BEACON,
+    .menu_level = GENERAL_TREE_APP_INFORMATION,
+};
+
+static const general_menu_t mission_two_ec_beacon_start_menu = {
+    .menu_items = mission_two_ec_beacon_start,
+    .menu_count = MISSION_TWO_EC_MISSION_AS,
+    .menu_level = GENERAL_TREE_APP_INFORMATION,
+};
+
+static const general_menu_t mission_two_ec_description_menu = {
+    .menu_items = mission_two_ec_description,
+    .menu_count = MISSION_TWO_EC_DESCRIPTION,
+    .menu_level = GENERAL_TREE_APP_INFORMATION,
+};
+
+static const general_menu_t mission_two_ec_beacon_complete_menu = {
+    .menu_items = mission_two_ec_beacon_complete,
+    .menu_count = MISSION_TWO_EC_ASA_DESCR,
+    .menu_level = GENERAL_TREE_APP_INFORMATION,
+};
 
 static void module_cb_code_register_event(uint8_t button_name, uint8_t button_event){
   if (button_event != BUTTON_PRESS_DOWN) {
@@ -167,8 +203,26 @@ static void mission_follow_history(){
       break;
     case MISSION_TWO_EC_BEACON_IDLE:
       ESP_LOGI("MISSION", "EC beacon");
+      // preferences_put_int(FMISSION_2, 1);
+      // preferences_put_int(MISSION_TWO_EC_COMPLETE, 1);
+      // preferences_put_int(MISSION_TWO_YWHACK_COMPLETE, 1);
       llamaneitor_scenes_main_menu();
       break;
+    case MISSION_TWO_EC_BEACON_START:
+      ESP_LOGI("MISSION", "EC beacon start");
+      current_history = mission_two_ec_description_menu;
+      current_state = MISSION_TWO_EC_BEACON_IDLE;
+      preferences_put_int(FSAVE_STATE_TWO, current_state);
+      preferences_put_int(FMISSION_2, 1);
+      show_downloading_bar_mission();
+      mission_one_reset_history();
+      break;
+    case MISSION_TWO_ASA_BEACON_IDLE:
+      ESP_LOGI("MISSION", "Asado beacon");
+      llamaneitor_scenes_main_menu();
+      break;
+    case MISSION_TWO_ASA_EC_BEACON_COMPLETE:
+      llamaneitor_scenes_main_menu();
     default:
     break;
   }
@@ -186,21 +240,51 @@ static void mission_beacon_dissector(uint8_t village_idx){
     }
   }
   if(village_idx == YWE_HACK){
+    // if(preferences_get_int(FMISSION_TYPE, 0) == 0){
+    //   ESP_LOGI("MISSION", "Start with EC");
+    //   return;
+    // }
     if(is_unlocked_mission_two == 0){
+      ESP_LOGI("MISSION", "Not mission 2");
       preferences_put_int(FMISSION_2, 1);
+      preferences_put_int(FMISSION_TYPE, 1);
     }
-    if(is_hacked == 1){
-      current_history = mission_two_ywhack_beacon_hacked_menu;
-      
+    uint8_t is_unlocked_mission_two = preferences_get_int(MISSION_TWO_YWHACK_COMPLETE, 0);
+    if(is_unlocked_mission_two == 0){
+      if(is_hacked == 1){
+        current_history = mission_two_ywhack_beacon_hacked_menu;
+        
+      }else{
+        current_history = mission_two_ywhack_beacon_menu;
+      }
+      ESP_LOGI("MISSION", "Not mission 2 YWHACK");
+      current_state = MISSION_TWO_SHOW_MISSION;
     }else{
-      current_history = mission_two_ywhack_beacon_menu;
+      ESP_LOGI("MISSION", "Return from YWHACK");
+      if(is_hacked == 1){
+        current_history = mission_two_ywhack_beacon_hacked_menu;
+        
+      }else{
+        current_history = mission_two_ywhack_beacon_menu;
+      }
+      current_state = MISSION_TWO_SHOW_MISSION;
     }
-    current_state = MISSION_TWO_SHOW_MISSION;
   }
   if(village_idx == EC){
     uint8_t is_unlocked_mission_two_ywh = preferences_get_int(MISSION_TWO_YWHACK_COMPLETE, 0);
     if(is_unlocked_mission_two == 0){
-      ESP_LOGI("MISSION", "Start with EC beacon");
+      // Started with EC
+      if(preferences_get_int(FMISSION_2, 0) == 0){
+        ESP_LOGI("MISSION", "Start with EC beacon");
+        current_state = MISSION_TWO_EC_BEACON_START;
+        current_history = mission_two_ec_beacon_start_menu;
+        preferences_put_int(FMISSION_TYPE, 0);
+      }else{
+        ESP_LOGI("MISSION", "Return from Chiche");
+        current_state = MISSION_TWO_EC_BEACON_IDLE;
+        current_history = mission_two_ec_beacon_complete_menu;
+        return;
+      }
     }else{
       // Started with car hacking or YWH
       if(is_unlocked_mission_two_ywh == 1){
@@ -209,8 +293,32 @@ static void mission_beacon_dissector(uint8_t village_idx){
         }else{
           current_history = mission_two_ec_beacon_menu;
         }
-        current_state = MISSION_TWO_EC_BEACON_IDLE;
+        if(preferences_get_int(FMISSION_TYPE, 0) == 1){
+          current_state = MISSION_TWO_EC_BEACON_IDLE;
+        }
+      }else{
+        // Started with EC
+        ESP_LOGI("MISSION", "Return from Chiche");
+        current_state = MISSION_TWO_ASA_EC_BEACON_COMPLETE;
+        current_history = mission_two_ec_beacon_complete_menu;
       }
+    }
+  }
+  if(village_idx == CHICHES_ASADO){
+    uint8_t is_unlocked_mission_two_ywh = preferences_get_int(MISSION_TWO_YWHACK_COMPLETE, 0);
+    if(is_unlocked_mission_two == 1){
+      if(preferences_get_int(MISSION_TWO_EC_COMPLETE, 0) == 0){
+        current_state = MISSION_TWO_ASA_BEACON_IDLE;
+        if(is_hacked == 1){
+          current_history = mission_two_asado_beacon_hacked_menu;
+        }else{
+          current_history = mission_two_asado_beacon_menu;
+        }
+      }else{
+        return;
+      }
+    }else{
+      return;
     }
   }
   mission_one_reset_history();
@@ -255,6 +363,16 @@ void mission_two_unhack_animation(){
   current_state = MISSION_TWO_YWH_IDLE;
   llamaneitor_scenes_main_menu();
 }
+
+void mission_two_show_mission_details(void *exit_cb){
+  if(preferences_get_int(FMISSION_TYPE, 0) == 0){
+    general_register_scrolling_menu(&mission_two_ec_description_menu);
+  }else{
+    general_register_scrolling_menu(&mission_two_ywhack_beacon_description_menu);
+  }
+  general_screen_display_scrolling_text_handler(exit_cb);
+}
+
 
 void mission_two_hacked_begin(uint8_t village_idx){
   if(mission_hacked_active() == 1){
