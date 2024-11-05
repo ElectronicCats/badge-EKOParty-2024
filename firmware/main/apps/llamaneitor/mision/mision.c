@@ -16,6 +16,7 @@
 #include "lora_manager.h"
 #include "mission_one.h"
 #include "mission_two.h"
+#include "villages.h"
 
 #define CODE_LEN 4
 #define ITEMOFFSET 1
