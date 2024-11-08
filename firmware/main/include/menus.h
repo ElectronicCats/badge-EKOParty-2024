@@ -6,7 +6,7 @@
 #include "z_switch_module.h"
 #include <stdbool.h>
 #include <stdio.h>
-
+#include "adv_scan_module.h"
 #include "badge_link_module.h"
 #include "badge_link_screens_module.h"
 #include "catdos_module.h"
@@ -22,7 +22,6 @@
 #include "settings_module.h"
 #include "stealth_mode.h"
 #include "web_file_browser_module.h"
-#include "wifi_module.h"
 #include "wifi_settings.h"
 #include "zigbee_module.h"
 
@@ -58,6 +57,7 @@ typedef enum {
   MENU_BLUETOOTH_TRAKERS_SCAN,
   MENU_BLUETOOTH_SPAM,
   MENU_BLUETOOTH_HID,
+MENU_BLUETOOTH_ADV,
   /* Zigbee applications */
   MENU_ZIGBEE_SPOOFING,
   MENU_ZIGBEE_SWITCH,
@@ -288,6 +288,15 @@ menu_t menus[] = { //////////////////////////////////
      .on_exit_cb = NULL,
      .is_visible = true},
 #endif
+  #ifdef CONFIG_BLUETOOTH_APP_ADV
+    {.display_name = "ADV Scanner",
+     .menu_idx = MENU_BLUETOOTH_ADV,
+     .parent_idx = MENU_BLUETOOTH_APPS,
+     .last_selected_submenu = 0,
+     .on_enter_cb = adv_scanner_module_begin,
+     .on_exit_cb = NULL,
+     .is_visible = true},
+  #endif
 #endif
 #ifdef CONFIG_ZIGBEE_APPS_ENABLE
     {.display_name = "Zigbee",

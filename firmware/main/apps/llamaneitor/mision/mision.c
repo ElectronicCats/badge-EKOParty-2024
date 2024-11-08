@@ -26,7 +26,7 @@ static uint8_t code_gato_1[CODE_LEN]   = {1, 3, 3, 7};
 static uint8_t code_gato_2[CODE_LEN]   = {4, 5, 6, 7};
 static uint8_t code_gato_3[CODE_LEN]   = {8, 9, 0, 1};
 static uint8_t code_cautin[CODE_LEN]   = {1, 0, 0, 0};
-static uint8_t code_mission_2[CODE_LEN] = {1, 2, 3, 4};
+static uint8_t code_mission_2[CODE_LEN] = {1, 3, 3, 4};
 static uint8_t code_mission_2_chiche[CODE_LEN] = {0, 1, 0, 1};
 static uint8_t code_selected[CODE_LEN] = {0, 0, 0, 0};
 
@@ -73,9 +73,6 @@ static void module_update_mision() {
 
   general_register_menu(&mision_menu);
   general_screen_display_menu(current_mision);
-  for(int i=0; i<MISION_COUNT; i++){
-    free(list_mision[i]);
-  }
 }
 
 
@@ -85,7 +82,7 @@ void show_mission_screen(uint8_t village_idx){
   inventory_load_items();
   
   // Unlock mission 1
-  if(village_idx == PAT_SPACE || village_idx == HW_HACK){
+  if(village_idx == CYB_FIN || village_idx == HW_HACK){
     if(cat_items[GM_CAT_1].unlocked == false){
       mission_one_begin(village_idx);
     }

@@ -191,7 +191,7 @@ static void mission_beacon_dissector(uint8_t village_idx){
   uint8_t mission_one_unlocked = preferences_get_int(FMISSION_1, 0);
   bool is_item_unlocked = cat_items[GM_SOLDERING_IRON].unlocked;
   // First part of the mission
-  if(village_idx == PAT_SPACE){
+  if(village_idx == CYB_FIN){
     if(mission_one_unlocked == 0){
       current_history = m_one_patagon_beacon_menu;
     }else{

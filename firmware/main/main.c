@@ -25,6 +25,7 @@
 #include "web_file_browser.h"
 #include "wifi_app.h"
 #include "mission_two.h"
+#include "adv_scan_module.h"
 
 #include "villages.h"
 
@@ -53,7 +54,7 @@ void app_main() {
   villages_begin();
   lora_module_begin();
   buzzer_enable();
-  buzzer_begin(2);
+  buzzer_begin(11);
   // This to show the history on first boot and until the user completes the
   // history
   if (!preferences_get_int("flogin", 0)) {
@@ -61,6 +62,7 @@ void app_main() {
   }
   toast_begin();
   flame_task_begin();
+  // adv_scanner_module_begin();
   // Always start the console at the end
   // cat_console_begin();
   // play_artu();
