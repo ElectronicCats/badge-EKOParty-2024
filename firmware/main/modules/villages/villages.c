@@ -78,6 +78,8 @@ static void show_village_screen() {
     sprintf(str, "Has_llegado_a:_%s", village->name);
     lora_manager_alert_scrolling(str);
   }
+
+  show_mission_screen(village->idx);
 }
 
 static void on_village_detected() {

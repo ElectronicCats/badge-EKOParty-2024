@@ -118,6 +118,10 @@ static void lora_command_handler() {
     }
   } else if (strcmp(command, "STOP") == 0) {
     sounds_stop_music();
+  } else if (strcmp(command, "VOLVER") == 0){
+    screen_saver_stop();
+    neopixel_volatil_notification();
+    sounds_play_soundtrack(play_volver);
   } else if (strcmp(command, "NOTIFY") == 0) {
     char *notification_str = strtok(NULL, ":");
     if(notification_str != NULL){
