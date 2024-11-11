@@ -340,7 +340,7 @@ static void mission_two_hacked_animation(){
   vTaskDelay(pdMS_TO_TICKS(2000));
   sounds_stop_music();
   vTaskDelay(pdMS_TO_TICKS(2000));
-  // sounds_play_soundtrack(play_nggyup);
+  sounds_play_soundtrack(play_nggyup);
   preferences_put_int(MISSION_TWO_HACKED, 1);
   current_history = mission_two_red_beacon_hacked_menu;
   current_state = MISSION_TWO_RED_HACKED;

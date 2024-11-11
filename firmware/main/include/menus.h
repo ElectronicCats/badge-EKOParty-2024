@@ -24,6 +24,7 @@
 #include "web_file_browser_module.h"
 #include "wifi_settings.h"
 #include "zigbee_module.h"
+#include "wifi_module.h"
 
 typedef enum {
   MENU_MAIN = 0,
