@@ -5,7 +5,7 @@ set(all_src_files "")
 foreach(file ${MININO_SOURCE_FILES})
     get_filename_component(extension ${file} EXT)
     # Exclude main.c from Minino
-    if(NOT extension STREQUAL "" AND NOT ${file} MATCHES "main.c")
+    if(NOT extension STREQUAL "" AND (NOT ${file} MATCHES "main.c" AND NOT ${file} MATCHES "about_module.c"))
         list(APPEND all_src_files ${file})
     endif()
 endforeach()

@@ -18,7 +18,8 @@
         "__node_handle": "c",
         "regex": "c",
         "freertos.h": "c",
-        "llamaneitor.h": "c"
+        "llamaneitor.h": "c",
+        "typeinfo": "c"
     },
-    "cmake.sourceDirectory": "/Users/seecwinter/Documents/Electronic_cats/Minino/firmware/components/buzzer"
+    "cmake.sourceDirectory": "/Users/seecwinter/Documents/Electronic_cats/Minino/firmware/**"
 }

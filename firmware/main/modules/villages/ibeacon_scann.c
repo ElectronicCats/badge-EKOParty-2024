@@ -89,7 +89,7 @@ static void esp_gap_cb(esp_gap_ble_cb_event_t event,
                                     scan_result->scan_rst.adv_data_len)) {
         esp_ble_ibeacon_t *ibeacon_data =
             (esp_ble_ibeacon_t *)(scan_result->scan_rst.ble_adv);
-        ESP_LOGI(DEMO_TAG, "----------iBeacon Found----------");
+        // ESP_LOGI(DEMO_TAG, "----------iBeacon Found----------");
         on_ibeacon(ibeacon_data, scan_result);
         // ESP_LOG_BUFFER_HEX("IBEACON_DEMO: Device address:",
                           //  scan_result->scan_rst.bda, ESP_BD_ADDR_LEN);

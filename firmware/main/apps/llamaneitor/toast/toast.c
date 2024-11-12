@@ -35,8 +35,8 @@ static void ctx_init() {
 
 static void lets_toast() {
   // printf("BRINDIS\n");
-  sounds_play_music();
-  flame_feed_flame();
+  sounds_play_soundtrack(play_volver);
+  flame_feed_flame(600);
   ctx->cooldown_time = COOLDOWN_TIME_S;
   xTaskCreate(cooldown_task, "cooldown_task", 2048, NULL, 10, NULL);
   toast_exit();

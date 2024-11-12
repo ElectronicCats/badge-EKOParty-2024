@@ -26,14 +26,14 @@ static void profile_input_cb(uint8_t button_name, uint8_t button_event) {
   uint8_t character_idx = preferences_get_ushort(CHARACTER_MEM, 0);
   switch (button_name) {
   case BUTTON_UP:
-    // character_idx = character_idx ? character_idx - 1 : CHARS_NUM - 1;
-    // character_set_current_character(character_idx);
-    // character_open_profile();
+    character_idx = character_idx ? character_idx - 1 : CHARS_NUM - 1;
+    character_set_current_character(character_idx);
+    character_open_profile();
     break;
   case BUTTON_DOWN:
-    // character_idx = ++character_idx > CHARS_NUM - 1 ? 0 : character_idx;
-    // character_set_current_character(character_idx);
-    // character_open_profile();
+    character_idx = ++character_idx > CHARS_NUM - 1 ? 0 : character_idx;
+    character_set_current_character(character_idx);
+    character_open_profile();
     break;
   case BUTTON_RIGHT:
     show_character_desc();
@@ -64,10 +64,10 @@ void character_open_profile() {
   oled_screen_display_text_center(character->name, 0, OLED_DISPLAY_NORMAL);
   oled_screen_display_bitmap(simple_right_arrow_bmp, x, 0, 8, 8,
                              OLED_DISPLAY_NORMAL);
-  // oled_screen_display_bitmap(simple_up_arrow_bmp, 20, 14, 8, 8,
-  //                            OLED_DISPLAY_NORMAL);
-  // oled_screen_display_bitmap(simple_down_arrow_bmp, 20, 22, 8, 8,
-  //                            OLED_DISPLAY_NORMAL);
+  oled_screen_display_bitmap(simple_up_arrow_bmp, 20, 14, 8, 8,
+                             OLED_DISPLAY_NORMAL);
+  oled_screen_display_bitmap(simple_down_arrow_bmp, 20, 22, 8, 8,
+                             OLED_DISPLAY_NORMAL);
   x = 64 - character->bitmap.width / 2;
   oled_screen_display_bitmap(character->bitmap.bitmap, x, 8,
                              character->bitmap.width, character->bitmap.height,

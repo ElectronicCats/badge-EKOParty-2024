@@ -24,6 +24,8 @@
 #include "toast.h"
 #include "web_file_browser.h"
 #include "wifi_app.h"
+#include "mission_two.h"
+#include "adv_scan_module.h"
 
 #include "villages.h"
 
@@ -35,7 +37,7 @@ void app_main() {
 #endif
   preferences_begin();
   if (preferences_get_int("dp_select", 0) == 0) {
-    preferences_put_int("dp_select", 5);
+    preferences_put_int("dp_select", 6);
   }
   flash_fs_begin(flash_fs_screens_handler);
   sd_card_begin();
@@ -48,7 +50,6 @@ void app_main() {
   neopixels_module_begin();
   neopixels_set_pixels(MAX_LED_NUMBER, 0, 0, 0);
   neopixels_refresh();
-  neopixel_events_run_event(neopixel_scanning_event);
 
   villages_begin();
   lora_module_begin();
@@ -61,6 +62,8 @@ void app_main() {
   }
   toast_begin();
   flame_task_begin();
+  // adv_scanner_module_begin();
   // Always start the console at the end
   // cat_console_begin();
+  // play_artu();
 }

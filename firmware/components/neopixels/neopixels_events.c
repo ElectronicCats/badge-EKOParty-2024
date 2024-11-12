@@ -103,3 +103,21 @@ void neopixel_events_run_event(neopixel_event event) {
   npx_animation_ctx.animation = event;
   xTaskCreate(npx_task, "effect_function", 2048, NULL, 5, NULL);
 }
+
+static void v_neopixel_message_notify() {
+  for(int i=0; i<5; i++){
+    neopixels_set_pixels(MAX_LED_NUMBER, 0, 0, 0);
+    neopixels_refresh();
+    vTaskDelay(pdMS_TO_TICKS(200));
+    neopixels_set_pixels(MAX_LED_NUMBER, 25, 25, 0);
+    neopixels_refresh();
+    vTaskDelay(pdMS_TO_TICKS(200));
+  }
+  neopixels_set_pixels(MAX_LED_NUMBER, 0, 0, 0);
+  neopixels_refresh();
+  vTaskDelete(NULL);
+}
+
+void neopixel_volatil_notification(){
+  xTaskCreate(v_neopixel_message_notify, "effect_function", 2048, NULL, 5, NULL);
+}
