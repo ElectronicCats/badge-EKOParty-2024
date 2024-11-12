@@ -1,0 +1,133 @@
+dependencies:
+  OTA:
+    dependencies: []
+    source:
+      path: /Users/seecwinter/Documents/Electronic_cats/Minino/firmware/components/OTA
+      type: local
+    version: '*'
+  ble_hid:
+    dependencies: []
+    source:
+      path: /Users/seecwinter/Documents/Electronic_cats/Minino/firmware/components/ble_hid
+      type: local
+    version: '*'
+  espressif/button:
+    component_hash: c3ee3ba339a3848977496d0157008ae574a24fc59f54d27c93ab51b14446a2fb
+    dependencies:
+    - name: espressif/cmake_utilities
+      registry_url: https://components.espressif.com/
+      require: private
+      version: 0.*
+    - name: idf
+      require: private
+      version: '>=4.0'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 3.3.1
+  espressif/cmake_utilities:
+    component_hash: 351350613ceafba240b761b4ea991e0f231ac7a9f59a9ee901f751bddc0bb18f
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=4.1'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 0.5.3
+  espressif/esp-now:
+    component_hash: 56f902e978ec0b70528ad30a45265b56bf2b91653d13e0badc78159f39f41ece
+    dependencies:
+    - name: espressif/cmake_utilities
+      registry_url: https://components.espressif.com/
+      require: private
+      version: 0.*
+    - name: idf
+      require: private
+      version: '>=4.4'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 2.5.2
+  espressif/esp-zboss-lib:
+    component_hash: ceb89aaab088a3bc037c608bb7b7925e7116b0a7dda7c3476f44d9b06ff66c0a
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=5.0'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 1.5.0
+  espressif/esp-zigbee-lib:
+    component_hash: 238c29955025d3e4f430fd7243ad7f9f038b97775746032478f34532ad5979aa
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=5.0'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 1.5.0
+  espressif/iperf:
+    component_hash: d2612130967a5384fe517cc41c27bae8cf71a16a91df98a3610b48e6888ec359
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=4.3'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 0.1.3
+  espressif/led_strip:
+    component_hash: 28c6509a727ef74925b372ed404772aeedf11cce10b78c3f69b3c66799095e2d
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=4.4'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 2.5.5
+  espressif/pcap:
+    component_hash: 0c7b9f33628e4f2e6c0906207df0b666198bc90127c04002fc9c5b2f010ce949
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=4.4'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 1.0.2
+  idf:
+    source:
+      type: idf
+    version: 5.3.1
+  ieee802154:
+    dependencies: []
+    source:
+      path: /Users/seecwinter/Documents/Electronic_cats/Minino/firmware/components/ieee802154
+      type: local
+    version: '*'
+  openthread:
+    dependencies: []
+    source:
+      path: /Users/seecwinter/Documents/Electronic_cats/Minino/firmware/components/openthread
+      type: local
+    version: '*'
+direct_dependencies:
+- OTA
+- ble_hid
+- espressif/button
+- espressif/esp-now
+- espressif/esp-zboss-lib
+- espressif/esp-zigbee-lib
+- espressif/iperf
+- espressif/led_strip
+- espressif/pcap
+- idf
+- ieee802154
+- openthread
+manifest_hash: fe863cafd94cafcb6c073da9f3b47653172c69226d29ff2fb5d6b37eaca65fc9
+target: esp32c6
+version: 2.0.0

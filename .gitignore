@@ -29,3 +29,14 @@ hardware/Template-KiCAD-Project-CI-backups/
 hardware/eko-badge-2024/eko-badge-2024-backups/
 
 *.zip
+
+build/
+.DS_Store
+/**/managed_components/
+.vscode/c_cpp_properties.json
+firmware/sdkconfig
+.vscode/settings.json
+firmware/dependencies.lock
+firmware/sdkconfig.old
+.vscode/**
+*.kicad_sch.lck
