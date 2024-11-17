@@ -1,6 +1,6 @@
 
 # Badge EKO Party 2024
-
+Badge Oficial de EKOPARTY 2024
 
 ## Getting started
 
@@ -11,9 +11,15 @@
 ## Tecnologia
 
 - ESP32C6
-- LEDs
+- LEDs neopixel
 - USB
 - LoRa
+- Buzzer
+- OLED
+
+## How to build the firmware
+
+Check the [Developer guide](./firmware/README.md) to learn how to build the firmware from scratch.
 
 ## Gratitude
 Do you want to say thank you? Tag these companies on social networks and show them your badge, thanks to them it is possible
