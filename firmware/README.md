@@ -80,7 +80,20 @@ export MININO_PATH=/Users/user/Minino/firmware
 
 > **Note:** Replace `/Users/user/Minino/firmware` with the path to your Minino firmware directory, not the root directory of the Minino repository.
 
-7. Setup the project environment:
+7. Go to the Minino firmware directory and change to the `eko` branch:
+
+```bash
+cd $MININO_PATH
+git checkout eko
+```
+
+8. Go back to this project directory:
+
+```bash
+cd -
+```
+
+9. Setup the project environment:
 
 ```bash
 make setup
